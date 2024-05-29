@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   str_arr.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:29:19 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 12:53:55 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/05/29 14:26:14 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/05/31 10:20:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STR_ARR_H
+# define STR_ARR_H
 
-char	*ft_strjoin(char const *s1, char const *s2)
+# include <libft.h>
+# include <stdio.h>
+# include <stdlib.h>
+
+typedef struct s_str_arr
 {
-	char	*res;
-	size_t	len1;
-	size_t	len2;
+	char	**arr;
+	void	(*print)(struct s_str_arr *self);
+	void	(*delete)(struct s_str_arr *self);
+}			t_str_arr;
 
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	res = ft_calloc(len1 + len2 + 1, 1);
-	if (res)
-	{
-		ft_strlcpy(res, s1, len1 + 1);
-		ft_strlcpy(res + len1, s2, len2 + 1);
-	}
-	return (res);
-}
+t_str_arr	*new_str_arr(char **arr);
+
+#endif

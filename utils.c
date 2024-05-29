@@ -6,11 +6,32 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/29 12:34:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:09:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "utils.h"
+
+int	ends_with_char(char *str, char c)
+{
+	return (str && *str && str[ft_strlen(str) - 1] == c);
+}
+
+void	ft_path_join(char **path, char *bin_name)
+{
+	char	*temp;
+	char	*full_path;
+
+	if (!ends_with_char(*path, '/'))
+	{
+		temp = ft_strjoin(*path, "/");
+		free(*path);
+		*path = temp;
+	}
+	full_path = ft_strjoin(*path, bin_name);
+	free(*path);
+	*path = full_path;
+}
 
 char	*ft_strndup(char *str, int n)
 {
@@ -29,10 +50,9 @@ char	*ft_strndup(char *str, int n)
 	return (ret);
 }
 
-
 char	*found_variable(int name_len, char *line)
 {
-	int		line_len;
+	int	line_len;
 
 	line_len = ft_strlen(line);
 	if (line_len == name_len)
@@ -44,8 +64,8 @@ char	*found_variable(int name_len, char *line)
 
 char	*get_env_variable(char *var_name, char **env)
 {
-	int		i;
-	int		name_len;
+	int	i;
+	int	name_len;
 
 	i = -1;
 	name_len = ft_strlen((const char *)var_name);
@@ -57,11 +77,26 @@ char	*get_env_variable(char *var_name, char **env)
 	return (NULL);
 }
 
-void print_array(char **arr)
+void	set_error(char *text, int err_code)
 {
-	int		i;
-	i = -1;
-	while (arr && arr[++i])
-		printf("%s\n", arr[i]);
-	
+	// TODO: set last errorcode to err_code
+	(void)err_code;
+	ft_printf(2, "minishell: %s: ", text);
+	perror(NULL);
+}
+
+int	path_exists(char *path)
+{
+	int	res;
+
+	res = access(path, F_OK);
+	return (!res);
+}
+
+int	path_is_executable(char *path)
+{
+	int	res;
+
+	res = access(path, X_OK);
+	return (!res);
 }

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:29:19 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 12:53:55 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/05/31 17:08:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*res;
-	size_t	len1;
-	size_t	len2;
+# include "minishell.h"
 
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	res = ft_calloc(len1 + len2 + 1, 1);
-	if (res)
-	{
-		ft_strlcpy(res, s1, len1 + 1);
-		ft_strlcpy(res + len1, s2, len2 + 1);
-	}
-	return (res);
-}
+char	*get_env_variable(char *var_name, char **env);
+void	print_array(char **arr);
+void	ft_free(void **ptr);
+void	ft_path_join(char **path, char *bin_name);
+int		path_exists(char *path);
+int		path_is_executable(char *path);
+void	set_error(char *text, int err_code);
+
+#endif

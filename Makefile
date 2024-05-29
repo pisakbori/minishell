@@ -1,11 +1,11 @@
 CC				= cc 
 CFLAGS			= -Wall -Werror -Wextra
-HDR_FLAGS		= -I./libft
+HDR_FLAGS		= -I./libft -I./structs
 LFLAGS			= -Llibft -lreadline
 RM				= rm -rf
 NAME			= microshell
 LIBFT			= libft/libft.a
-FILES			= main utils
+FILES			= main utils ./structs/str_arr
 SRC				=  $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
 
@@ -29,5 +29,8 @@ clean:
 fclean: clean
 	make fclean -C libft
 	rm -rf $(NAME)
+
+re: fclean
+	make all
 
 .PHONY: all clean bonus re fclean

@@ -6,11 +6,26 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:56:28 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/04/08 17:22:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:00:13 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int	*get_printf_fd(void)
+{
+	static int	fd;
+
+	return (&fd);
+}
+
+static void	set_fd(int val)
+{
+	int	*fd;
+
+	fd = get_printf_fd();
+	*fd = val;
+}
 
 int	ft_print_arg(const char conversion, va_list arg, int *counter)
 {
@@ -40,13 +55,14 @@ int	ft_print_arg(const char conversion, va_list arg, int *counter)
 	return (0);
 }
 
-int	ft_printf(const char *format_str, ...)
+int	ft_printf(int fd, const char *format_str, ...)
 {
-	char		*iter;
-	va_list		arg;
-	int			counter;
+	char	*iter;
+	va_list	arg;
+	int		counter;
 
 	counter = 0;
+	set_fd(fd);
 	va_start(arg, format_str);
 	iter = (char *)format_str;
 	while (*iter)

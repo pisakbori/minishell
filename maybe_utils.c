@@ -6,12 +6,12 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:20 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/29 12:21:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 10:20:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "maybe_utils.h"
+#include "minishell.h"
 
 t_env_var	*get_name_value(char *env_line)
 {
