@@ -6,11 +6,16 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 17:09:25 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:04:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+int	starts_with(char *str, char *start)
+{
+	return (!ft_strncmp(str, start, ft_strlen(start)));
+}
 
 int	ends_with_char(char *str, char c)
 {
@@ -93,10 +98,12 @@ int	path_exists(char *path)
 	return (!res);
 }
 
-int	path_is_executable(char *path)
+int	is_exec(char *path)
 {
 	int	res;
 
+	if (!path_exists(path))
+		return (0);
 	res = access(path, X_OK);
 	return (!res);
 }
