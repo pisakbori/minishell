@@ -6,15 +6,12 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:41:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:06:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:16:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// ./microshell /bin/ls
-// ./microshell /bin/ls "|" /usr/bin/grep microshell ";"
-//	/bin/echo i love my microshell
 char	*get_cmd_path(char *bin_name, char **env)
 {
 	char		*paths;
@@ -27,12 +24,7 @@ char	*get_cmd_path(char *bin_name, char **env)
 	ft_free((void **)&paths);
 	i = -1;
 	res = NULL;
-	if (starts_with(bin_name, "./"))
-	{
-		if (is_exec(bin_name))
-			res = ft_strdup(bin_name);
-	}
-	else
+	if (!path_exists(bin_name))
 	{
 		while (p->arr[++i])
 		{
@@ -41,6 +33,8 @@ char	*get_cmd_path(char *bin_name, char **env)
 				res = ft_strdup(p->arr[i]);
 		}
 	}
+	else if (is_exec(bin_name))
+		res = ft_strdup(bin_name);
 	if (!res)
 		set_error(bin_name, errno);
 	p->delete (p);
