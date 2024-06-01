@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:26:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 10:20:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:07:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ typedef struct s_str_arr
 }			t_str_arr;
 
 t_str_arr	*new_str_arr(char **arr);
+char		**clone_until(char **arr, char *delim);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:04:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:08:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	ft_path_join(char **path, char *bin_name);
 int		path_exists(char *path);
 int		is_exec(char *path);
 void	set_error(char *text, int err_code);
-int		starts_with(char *str, char *start);
+int		ends_with_char(char *str, char c);
+char	*get_cmd_path(char *bin_name, char **env);
+int		str_equal(char *str1, char *str2);
 
 #endif

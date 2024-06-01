@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:28:23 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 10:20:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 21:07:24 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,40 @@ void	print(t_str_arr *self)
 	i = -1;
 	while (self->arr && self->arr[++i])
 		printf("%s\n", self->arr[i]);
+}
+
+int	first_index(char **arr, char *delim)
+{
+	int	res;
+	int	i;
+
+	res = -1;
+	i = 0;
+	while (arr && arr[i] && !ft_strncmp(arr[i], delim, ft_strlen(arr[i])))
+	{
+		res = i;
+		i++;
+	}
+	return (res);
+}
+
+char	**clone_until(char **arr, char *delim)
+{
+	int		i;
+	int		size;
+	char	**new;
+
+	if (!delim)
+		size = ft_arr_len(arr);
+	else
+		size = first_index(arr, delim);
+	i = -1;
+	new = ft_calloc(size + 1, sizeof(char *));
+	if (!new)
+		exit(EXIT_FAILURE);
+	while (arr && arr[++i] && i < size)
+		new[i] = ft_strdup(arr[i]);
+	return (new);
 }
 
 void	delete_str_arr(t_str_arr *p)

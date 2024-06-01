@@ -6,36 +6,15 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:04:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:07:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	starts_with(char *str, char *start)
-{
-	return (!ft_strncmp(str, start, ft_strlen(start)));
-}
-
 int	ends_with_char(char *str, char c)
 {
 	return (str && *str && str[ft_strlen(str) - 1] == c);
-}
-
-void	ft_path_join(char **path, char *bin_name)
-{
-	char	*temp;
-	char	*full_path;
-
-	if (!ends_with_char(*path, '/'))
-	{
-		temp = ft_strjoin(*path, "/");
-		free(*path);
-		*path = temp;
-	}
-	full_path = ft_strjoin(*path, bin_name);
-	free(*path);
-	*path = full_path;
 }
 
 char	*ft_strndup(char *str, int n)
@@ -53,6 +32,20 @@ char	*ft_strndup(char *str, int n)
 		ret[i] = str[i];
 	ret[i] = 0;
 	return (ret);
+}
+
+int	str_equal(char *str1, char *str2)
+{
+	int	len1;
+	int	len2;
+
+	if (!str1 && !str2)
+		return (1);
+	len1 = ft_strlen(str1);
+	len2 = ft_strlen(str2);
+	if (len1 != len2)
+		return (0);
+	return (!ft_strncmp(str1, str2, len1));
 }
 
 char	*found_variable(int name_len, char *line)
@@ -88,22 +81,4 @@ void	set_error(char *text, int err_code)
 	(void)err_code;
 	ft_printf(2, "minishell: %s: ", text);
 	perror(NULL);
-}
-
-int	path_exists(char *path)
-{
-	int	res;
-
-	res = access(path, F_OK);
-	return (!res);
-}
-
-int	is_exec(char *path)
-{
-	int	res;
-
-	if (!path_exists(path))
-		return (0);
-	res = access(path, X_OK);
-	return (!res);
 }

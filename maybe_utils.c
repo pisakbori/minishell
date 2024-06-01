@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:20 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 10:20:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:21:42 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,9 @@ t_env_var	*get_name_value(char *env_line)
 		res->value = sndup(eq + 1, ft_strlen(env_line) - eq_index - 1);
 	}
 	return (res);
+}
+
+int	starts_with(char *str, char *start)
+{
+	return (!ft_strncmp(str, start, ft_strlen(start)));
 }

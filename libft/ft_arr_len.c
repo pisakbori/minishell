@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_arr_len.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 13:08:16 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:56:47 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/05/31 20:35:32 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/05/31 20:38:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_arr_len(char **arr)
 {
-	char	*res;
-	size_t	i;
-	size_t	total_size;
+	int	res;
+	int	i;
 
-	i = 0;
-	total_size = count * size;
-	res = malloc(total_size);
-	if (!res)
-		return (NULL);
-	while (i < total_size)
-	{
-		res[i] = 0;
-		i++;
-	}
+	res = 0;
+	i = -1;
+	while (arr && arr[++i])
+		res++;
 	return (res);
 }

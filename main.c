@@ -6,48 +6,61 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:41:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:16:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:45:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_cmd_path(char *bin_name, char **env)
+void	free_split_arr(char **res)
 {
-	char		*paths;
-	t_str_arr	*p;
-	int			i;
-	char		*res;
+	int	i;
 
-	paths = get_env_variable("PATH", env);
-	p = new_str_arr(ft_split(paths, ':'));
-	ft_free((void **)&paths);
+	i = ft_arr_len(res) + 1;
+	while (--i >= 0)
+		free(*(res + i));
+	free(res);
+}
+
+void	print_arr(char **arr)
+{
+	int	i;
+
 	i = -1;
-	res = NULL;
-	if (!path_exists(bin_name))
-	{
-		while (p->arr[++i])
-		{
-			ft_path_join(&(p->arr[i]), bin_name);
-			if (is_exec(p->arr[i]))
-				res = ft_strdup(p->arr[i]);
-		}
-	}
-	else if (is_exec(bin_name))
-		res = ft_strdup(bin_name);
-	if (!res)
-		set_error(bin_name, errno);
-	p->delete (p);
-	return (res);
+	while (arr && arr[++i])
+		printf("%s\n", arr[i]);
+}
+void	execute_command(char **argv, char **env)
+{
+	char	*cmd;
+
+	cmd = get_cmd_path(argv[0], env);
+	if (cmd)
+		execve(cmd, argv, env);
+	free(cmd);
 }
 
 int	main(int argc, char *argv[], char **env)
 {
-	char	*cmd;
+	char	**cmd_set;
+	char	***cmds_set;
+	int		i;
 
-	cmd = "/bin/ls";
-	if (argc >= 2)
-		cmd = get_cmd_path(argv[1], env);
-	execve(cmd, argv + 1, env);
+	if (argc != 2)
+		return (0);
+	cmd_set = ft_split(argv[1], '|');
+	i = -1;
+	cmds_set = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
+	while (cmd_set[++i])
+	{
+		cmds_set[i] = ft_split(cmd_set[i], ' ');
+		// print_arr(cmds_set[i]);
+	}
+	free_split_arr(cmd_set);
+	i = -1;
+	while (cmds_set[++i])
+	{
+		execute_command(cmds_set[i], env);
+	}
 	return (0);
 }
