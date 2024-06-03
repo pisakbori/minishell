@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:41:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/01 15:17:58 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:11:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,55 +50,75 @@ int	error_code(int ext)
 		return (ext);
 }
 
+void	execute_cmd(char **argv, t_pipe *pipe, char **env)
+{
+	close(pipe->write);
+	if (dup2(pipe->read, 0) == -1)
+		set_error("dup2", 0);
+	close(pipe->read);
+	execute_command(argv, env);
+}
+
+// void	execute_cmd_pair(char **cmd1, char **cmd2, char **env)
+// {
+// 	int		fd[2];
+// 	int		pid0;
+// 	int		pid1;
+// 	int		exit;
+// 	t_pipe	p;
+
+// 	if (pipe(fd) < 0)
+// 		set_error("pipe", 0);
+// 	p = (t_pipe){.read = fd[0], .write = fd[1]};
+// 	pid0 = fork();
+// 	if (!pid0)
+// 		execute_cmd(cmd1, &p, env);
+// 	pid1 = fork();
+// 	if (!pid1)
+// 	{
+// 		close(fd[1]);
+// 		if (dup2(fd[0], 0) == -1)
+// 			set_error("dup2", 0);
+// 		close(fd[0]);
+// 		execute_command(cmd2, env);
+// 	}
+// 	close(fd[0]);
+// 	close(fd[1]);
+// 	waitpid(pid0, &exit, 0);
+// 	waitpid(pid1, &exit, 0);
+// }
+
+//TODO: 2 level split. ex: a1 a2 a3 | b1 b2 ; c1 c2 | d1 | e1
+// a1 a2 a3 0
+// | 0
+// b1 b2 0
+// ; 0
+// c1 c2 0
+// | 0
+// d1 0
+// | 0
+// e1 0
+
 int	main(int argc, char *argv[], char **env)
 {
 	char	**cmd_set;
 	char	***cmds_set;
 	int		i;
-	int		fd[2];
-	int		pid0;
-	int		pid1;
-	int		exit;
 
 	if (argc != 2)
 		return (0);
-	cmd_set = ft_split(argv[1], '|');
+	cmd_set = ft_split_and_keep(argv[1], "|;");
 	i = -1;
 	cmds_set = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
 	while (cmd_set[++i])
 	{
 		cmds_set[i] = ft_split(cmd_set[i], ' ');
-		// print_arr(cmds_set[i]);
+		print_arr(cmds_set[i]);
 	}
 	free_split_arr(cmd_set);
-	i = -1;
-	if (pipe(fd) < 0)
-		set_error("pipe", 0);
-	pid0 = fork();
-	if (!pid0)
-	{
-		close(fd[0]);
-		if (dup2(fd[1], 1) == -1)
-			set_error("dup2", 0);
-		close(fd[1]);
-		execute_command(cmds_set[0], env);
-	}
-	pid1 = fork();
-	if (!pid1)
-	{
-		close(fd[1]);
-		if (dup2(fd[0], 0) == -1)
-			set_error("dup2", 0);
-		close(fd[0]);
-		execute_command(cmds_set[1], env);
-	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid0, &exit, 0);
-	waitpid(pid1, &exit, 0);
-	// while (cmds_set[++i])
-	// {
-	// 	execute_command(cmds_set[i], env);
-	// }
+	i = 0;
+	(void)env;
+	// while (cmds_set)
+	// execute_cmd_pair(cmds_set[i], cmds_set[i + 1], env);
 	return (0);
 }

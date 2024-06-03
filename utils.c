@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/01 12:07:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:22:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,102 @@ void	set_error(char *text, int err_code)
 	(void)err_code;
 	ft_printf(2, "minishell: %s: ", text);
 	perror(NULL);
+}
+
+int	is_delim(char const *s, char *delim)
+{
+	return (ft_strchr(delim, *s) != NULL);
+}
+
+static int	is_start_of_word(int i, char const *s, char *delim)
+{
+	if (i == 0)
+		return (!is_delim(s, delim));
+	else
+		return (!is_delim(s, delim) && is_delim(s - 1, delim));
+}
+
+static int	count_words(char *s, char *delim)
+{
+	int	num_words;
+	int	i;
+
+	i = 0;
+	num_words = 0;
+	while (*(s + i))
+	{
+		if (is_start_of_word(i, s + i, delim))
+			num_words++;
+		else if (is_delim(s + i, delim))
+			num_words++;
+		i++;
+	}
+	return (num_words);
+}
+
+static char	*dup_word(char const *s, char *c)
+{
+	char	*end;
+	char	*start;
+	char	*word;
+
+	start = (char *)s;
+	while (*s && !is_delim(s, c))
+		s++;
+	end = (char *)s;
+	word = ft_substr(start, 0, end - start);
+	return (word);
+}
+
+static char	**split_collect_garbage(char **res, int i)
+{
+	while (i >= 0)
+	{
+		free(*(res + i));
+		i--;
+	}
+	free(res);
+	return (NULL);
+}
+
+char	**ft_split_and_keep(char const *s, char *delim)
+{
+	int		num_words;
+	char	**res;
+	char	**iter;
+	int		i;
+
+	i = 0;
+	num_words = count_words((char *)s, delim);
+	res = (char **)malloc(sizeof(char *) * (num_words + 1));
+	if (!res)
+		return (NULL);
+	*(res + num_words) = 0;
+	iter = res;
+	while (*(s + i))
+	{
+		if (is_start_of_word(i, s + i, delim))
+		{
+			*iter = dup_word(s + i, delim);
+			if (!*iter)
+				return (split_collect_garbage(res, iter - res));
+			iter++;
+		}
+		else if (s[i] == '|')
+		{
+			*iter = ft_strdup("|");
+			if (!*iter)
+				return (split_collect_garbage(res, iter - res));
+			iter++;
+		}
+		else if (s[i] == ';')
+		{
+			*iter = ft_strdup(";");
+			if (!*iter)
+				return (split_collect_garbage(res, iter - res));
+			iter++;
+		}
+		i++;
+	}
+	return (res);
 }
