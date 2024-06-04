@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/03 11:22:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:09:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,16 @@ static char	**split_collect_garbage(char **res, int i)
 	return (NULL);
 }
 
+//TODO: 2 level split. ex: a1 a2 a3 | b1 b2 ; c1 c2 | d1 | e1
+// a1 a2 a3 0
+// | 0
+// b1 b2 0
+// ; 0
+// c1 c2 0
+// | 0
+// d1 0
+// | 0
+// e1 0
 char	**ft_split_and_keep(char const *s, char *delim)
 {
 	int		num_words;
