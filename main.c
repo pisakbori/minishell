@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 12:41:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/03 18:13:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:17:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ void	free_split_arr(char **res)
 	i = ft_arr_len(res) + 1;
 	while (--i >= 0)
 		free(*(res + i));
+	free(res);
+}
+
+void	free_2d_split_arr(char ***res)
+{
+	int	i;
+
+	i = -1;
+	while (res[++i])
+		free_split_arr(res[i]);
 	free(res);
 }
 
@@ -35,11 +45,15 @@ int	execute_command(char **argv, char **env)
 	char	*cmd;
 	int		res;
 
-	res = 0;
 	cmd = get_cmd_path(argv[0], env);
 	if (cmd)
 		res = execve(cmd, argv, env);
-	free(cmd);
+	else
+	{
+		ft_printf(2, "%s: command not found\n", argv[0]);
+		res = 127;
+	}
+	free(cmd); //TODO: when?????
 	return (res);
 }
 
@@ -57,7 +71,6 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env)
 {
 	int	res;
 
-	res = 0;
 	if (right_p)
 	{
 		close(right_p->read);
@@ -72,7 +85,7 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env)
 			set_error("dup2 left", 0);
 		close(left_p->read);
 	}
-	execute_command(argv, env);
+	res = execute_command(argv, env);
 	exit(res);
 }
 
@@ -124,9 +137,7 @@ int	execute_commands(char ***cmds_set, char **env, t_pipe *left_p)
 			waitpid(pid1, &temp, 0);
 		}
 	}
-	if (!cmds_set[0])
-		return (error_code(exit));
-	return (0);
+	return (error_code(exit));
 }
 
 int	main(int argc, char *argv[], char **env)
@@ -148,6 +159,7 @@ int	main(int argc, char *argv[], char **env)
 	}
 	free_split_arr(cmd_set);
 	res = execute_commands(cmds_set, env, NULL);
+	free_2d_split_arr(cmds_set);
 	printf("$? = %d\n", res);
 	return (0);
 }

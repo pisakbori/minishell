@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/03 12:09:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:49:56 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	set_error(char *text, int err_code)
 {
 	// TODO: set last errorcode to err_code
 	(void)err_code;
-	ft_printf(2, "minishell: %s: ", text);
+	ft_printf(2, "%s: ", text);
 	perror(NULL);
 }
 

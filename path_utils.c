@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/01 12:44:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:53:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ char	*get_cmd_path(char *bin_name, char **env)
 	}
 	else if (is_exec(bin_name))
 		res = ft_strdup(bin_name);
-	if (!res)
-		set_error(bin_name, errno);
+	// if (!res)
+	// 	set_error(bin_name, errno);
 	p->delete (p);
 	return (res);
 }
