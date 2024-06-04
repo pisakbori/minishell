@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/03 11:09:50 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:26:59 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ char	*get_cmd_path(char *bin_name, char **env);
 int		str_equal(char *str1, char *str2);
 char	**ft_split_and_keep(char const *s, char *delim);
 
-typedef struct s_pipe
-{
-	int	read;
-	int	write;
-}		t_pipe;
+// free_utils
+void	free_split_arr(char **res);
+void	free_2d_split_arr(char ***res);
 
 #endif

@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maybe_utils.h                                      :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 12:17:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 11:26:26 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/06/04 11:22:00 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAYBE_UTILS_H
-# define MAYBE_UTILS_H
+#include "minishell.h"
 
-# include "minishell.h"
-
-typedef struct s_env_var
+void	free_split_arr(char **res)
 {
-	char	*name;
-	char	*value;
-}			t_env_var;
+	int	i;
 
-void		print_arr(char **arr);
+	i = ft_arr_len(res) + 1;
+	while (--i >= 0)
+		free(*(res + i));
+	free(res);
+}
 
-#endif
+void	free_2d_split_arr(char ***res)
+{
+	int i;
+
+	i = -1;
+	while (res[++i])
+		free_split_arr(res[i]);
+	free(res);
+}

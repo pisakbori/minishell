@@ -5,7 +5,7 @@ LFLAGS			= -Llibft -lreadline
 RM				= rm -rf
 NAME			= minishell
 LIBFT			= libft/libft.a
-FILES			= main utils path_utils ./structs/str_arr
+FILES			= main utils path_utils free_utils ./structs/str_arr execution
 SRC				=  $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
 
