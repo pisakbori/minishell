@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:13:47 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 20:38:47 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:21:58 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int					ft_printf(int fd, const char *c, ...);
 void				ft_free(void **ptr);
 int					*get_printf_fd(void);
 int					ft_arr_len(char **arr);
+int					ft_arr_3d_len(char ***arr);
 
 #endif

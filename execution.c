@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 11:27:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:05:16 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,54 +60,62 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env)
 	res = execute_command(argv, env);
 	exit(res);
 }
-
-int	execute_commands(char ***cmds_set, char **env, t_pipe *left_p)
+void	close_pipe(t_pipe *p)
+{
+	if (p)
+	{
+		close(p->read);
+		close(p->write);
+	}
+}
+void	execute_rightmost(int *exit, char **cmd, t_pipe *left_p, char **env)
 {
 	t_pipe	right_p;
 	int		fd[2];
 	int		pid1;
-	int		exit;
-	int		temp;
 
-	if (cmds_set[0] && !cmds_set[1])
-	{
-		if (pipe(fd) < 0)
-			set_error("pipe", 0);
-		right_p = (t_pipe){.read = fd[0], .write = fd[1]};
-		pid1 = fork();
-		right_p.read = dup(0);
-		right_p.write = dup(1);
-		if (!pid1)
-			execute_cmd(cmds_set[0], left_p, &right_p, env);
-		if (left_p)
-		{
-			close(left_p->read);
-			close(left_p->write);
-		}
-		close(right_p.read);
-		close(right_p.write);
-		waitpid(pid1, &exit, 0);
-	}
-	else if (cmds_set[2])
+	if (pipe(fd) < 0)
+		set_error("pipe", 0);
+	right_p = (t_pipe){.read = fd[0], .write = fd[1]};
+	pid1 = fork();
+	right_p.read = dup(0);
+	right_p.write = dup(1);
+	if (!pid1)
+		execute_cmd(cmd, left_p, &right_p, env);
+	close_pipe(left_p);
+	close_pipe(&right_p);
+	waitpid(pid1, exit, 0);
+	*exit = error_code(*exit);
+}
+void	execute_with_pipe(char ***cmds_set, char **env, t_pipe *left_p,
+		int *exit)
+{
+	int		temp;
+	t_pipe	right_p;
+	int		fd[2];
+	int		pid1;
+
+	if (pipe(fd) < 0)
+		set_error("pipe", 0);
+	right_p = (t_pipe){.read = fd[0], .write = fd[1]};
+	pid1 = fork();
+	if (!pid1)
+		execute_cmd(*cmds_set, left_p, &right_p, env);
+	close_pipe(left_p);
+	execute_commands(cmds_set + 2, env, &right_p, exit);
+	close_pipe(&right_p);
+	waitpid(pid1, &temp, 0);
+}
+
+// TODO: handle semicolon
+void	execute_commands(char ***cmds_set, char **env, t_pipe *left_p,
+		int *exit)
+{
+	if (ft_arr_3d_len(cmds_set) > 2)
 	{
 		if (str_equal(cmds_set[1][0], "|"))
-		{
-			if (pipe(fd) < 0)
-				set_error("pipe", 0);
-			right_p = (t_pipe){.read = fd[0], .write = fd[1]};
-			pid1 = fork();
-			if (!pid1)
-				execute_cmd(*cmds_set, left_p, &right_p, env);
-			if (left_p)
-			{
-				close(left_p->read);
-				close(left_p->write);
-			}
-			execute_commands(cmds_set + 2, env, &right_p);
-			close(right_p.read);
-			close(right_p.write);
-			waitpid(pid1, &temp, 0);
-		}
+			execute_with_pipe(cmds_set, env, left_p, exit);
 	}
-	return (error_code(exit));
+	else
+		execute_rightmost(exit, cmds_set[0], left_p, env);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 11:59:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:59:01 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ typedef struct s_pipe
 // execution
 int		execute_command(char **argv, char **env);
 void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env);
-int		execute_commands(char ***cmds_set, char **env, t_pipe *left_p);
+void	execute_commands(char ***cmds_set, char **env, t_pipe *left_p,
+			int *exit);
 #endif
