@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 13:53:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:15:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,12 @@ int	main(int argc, char const *argv[], char **env)
 			cmds_set = parse_line(line);
 			execute_commands(cmds_set, env, NULL, &res);
 			free_2d_split_arr(cmds_set);
-			// exec_builtin(*cmd_args);
 			add_history(line);
+		}
+		// TODO:
+		else
+		{
+			exit(0);
 		}
 		free(line);
 	}

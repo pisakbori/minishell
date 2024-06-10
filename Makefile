@@ -1,11 +1,13 @@
 CC				= cc 
 CFLAGS			= -Wall -Werror -Wextra
-HDR_FLAGS		= -I./libft -I./structs
+HDR_FLAGS		= -I./libft -I./structs -I./builtin -I./
 LFLAGS			= -Llibft -lreadline
 RM				= rm -rf
 NAME			= minishell
 LIBFT			= libft/libft.a
-FILES			= utils path_utils free_utils ./structs/str_arr execution prompt
+BLTIN_NAMES		= builtin_exec exit utils #cd pwd env export echo unset 
+BUILTINS		= $(patsubst %, builtin/%, $(BLTIN_NAMES))
+FILES			= utils path_utils free_utils ./structs/str_arr execution prompt $(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
 

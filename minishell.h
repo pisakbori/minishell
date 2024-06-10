@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 12:52:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:31:00 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "maybe_utils.h"
 # include "structs.h"
 # include "utils.h"
+# include <builtins.h>
 # include <errno.h>
 # include <libft.h>
 # include <readline/history.h>

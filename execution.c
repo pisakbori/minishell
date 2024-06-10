@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/08 15:05:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:56:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ int	error_code(int ext)
 		return (WEXITSTATUS(ext));
 	else
 		return (ext);
+}
+int	is_builtin(char *cmd)
+{
+	int	is_bltn;
+
+	is_bltn = 0;
+	is_bltn = str_equal(cmd, "exit");
+	return (is_bltn);
 }
 
 int	execute_command(char **argv, char **env)
@@ -107,7 +115,6 @@ void	execute_with_pipe(char ***cmds_set, char **env, t_pipe *left_p,
 	waitpid(pid1, &temp, 0);
 }
 
-// TODO: handle semicolon
 void	execute_commands(char ***cmds_set, char **env, t_pipe *left_p,
 		int *exit)
 {
