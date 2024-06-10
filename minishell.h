@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/08 14:59:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:52:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@
 # include "utils.h"
 # include <errno.h>
 # include <libft.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/stat.h>
+# include <string.h>   //for strerror
+# include <sys/stat.h> //for stat, for dirs
 # include <sys/wait.h>
 # include <unistd.h>
 
