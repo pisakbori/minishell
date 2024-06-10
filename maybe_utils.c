@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:20 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 11:25:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:18:04 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,4 @@ t_env_var	*get_name_value(char *env_line)
 int	starts_with(char *str, char *start)
 {
 	return (!ft_strncmp(str, start, ft_strlen(start)));
-}
-
-void	print_arr(char **arr)
-{
-	int i;
-
-	i = -1;
-	while (arr && arr[++i])
-		printf("%s\n", arr[i]);
 }

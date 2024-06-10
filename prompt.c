@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 16:15:14 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:20:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	***parse_line(char *line)
 	while (cmd_set[++i])
 	{
 		cmds_set[i] = ft_split(cmd_set[i], ' ');
-		// print_arr(cmds_set[i]);
+		printf(">>>%d ", i);
+		print_array(cmds_set[i]);
 	}
 	free_split_arr(cmd_set);
 	// printf("$? = %d\n", res);

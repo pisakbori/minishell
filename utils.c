@@ -6,11 +6,20 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 12:27:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:18:38 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+void	print_array(char **arr)
+{
+	int	i;
+
+	i = -1;
+	while (arr && arr[++i])
+		printf("%s\n", arr[i]);
+}
 
 int	ends_with_char(char *str, char c)
 {
