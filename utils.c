@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 10:49:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:27:21 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,44 +149,28 @@ static char	**split_collect_garbage(char **res, int i)
 // d1 0
 // | 0
 // e1 0
+// everything enclosed in double quotes is one unit.
 char	**ft_split_and_keep(char const *s, char *delim)
 {
 	int		num_words;
 	char	**res;
-	char	**iter;
 	int		i;
+	int		j;
 
-	i = 0;
 	num_words = count_words((char *)s, delim);
-	res = (char **)malloc(sizeof(char *) * (num_words + 1));
+	res = (char **)ft_calloc(num_words + 1, sizeof(char *));
 	if (!res)
 		return (NULL);
-	*(res + num_words) = 0;
-	iter = res;
-	while (*(s + i))
+	i = -1;
+	j = -1;
+	while (s[++i])
 	{
 		if (is_start_of_word(i, s + i, delim))
-		{
-			*iter = dup_word(s + i, delim);
-			if (!*iter)
-				return (split_collect_garbage(res, iter - res));
-			iter++;
-		}
+			res[++j] = dup_word(s + i, delim);
 		else if (s[i] == '|')
-		{
-			*iter = ft_strdup("|");
-			if (!*iter)
-				return (split_collect_garbage(res, iter - res));
-			iter++;
-		}
-		else if (s[i] == ';')
-		{
-			*iter = ft_strdup(";");
-			if (!*iter)
-				return (split_collect_garbage(res, iter - res));
-			iter++;
-		}
-		i++;
+			res[++j] = ft_strdup("|");
+		if (!res[j])
+			return (split_collect_garbage(res, j));
 	}
 	return (res);
 }
