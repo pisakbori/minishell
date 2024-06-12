@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 11:41:58 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:35:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	***parse_line(char *line)
 	if (!line || !*line)
 		return (0);
 	cmd_set = ft_split2(line, "|");
+	if (!cmd_set)
+		return (NULL);
 	i = -1;
 	cmds_set = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
 	while (cmd_set[++i])
@@ -59,6 +61,8 @@ int	main(int argc, char const *argv[], char **env)
 	// (void)env;
 	// char **res = ft_split2("    ls    cat    ", " ");
 	// print_array(res);
+	// char *str = ft_strdup("");
+	// printf("%s>>%d\n", str, is_valid_syntax(str));
 	char *line;
 	char ***cmds_set;
 	int res;
@@ -72,9 +76,12 @@ int	main(int argc, char const *argv[], char **env)
 		line = readline("minishell$ ");
 		if (line && line[0])
 		{
-			cmds_set = parse_line(line);
-			execute_commands(cmds_set, env, NULL, &res);
-			free_2d_split_arr(cmds_set);
+			if (is_valid_syntax(line))
+			{
+				cmds_set = parse_line(line);
+				execute_commands(cmds_set, env, NULL, &res);
+				free_2d_split_arr(cmds_set);
+			}
 			add_history(line);
 		}
 		// TODO:

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 10:20:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:23:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	execute_command(char **argv, char **env)
 	char	*cmd;
 	int		res;
 
+	if (!argv)
+	{
+		ft_printf(2, "Syntax error");
+		return (2);
+	}
 	cmd = get_cmd_path(argv[0], env);
 	if (cmd)
 		res = execve(cmd, argv, env);
@@ -118,6 +123,8 @@ void	execute_with_pipe(char ***cmds_set, char **env, t_pipe *left_p,
 void	execute_commands(char ***cmds_set, char **env, t_pipe *left_p,
 		int *exit)
 {
+	if (!cmds_set)
+		return ;
 	if (ft_arr_3d_len(cmds_set) > 1)
 	{
 		execute_with_pipe(cmds_set, env, left_p, exit);

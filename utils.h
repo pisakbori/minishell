@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 10:15:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:29:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void	free_split_arr(char **res);
 void	free_2d_split_arr(char ***res);
 
 char	**ft_split2(char *s, char *delim);
-
+int		is_valid_syntax(char *str);
 #endif
