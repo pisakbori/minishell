@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 10:12:43 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:41:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	set_zeros(char *s, char *delim, int *num_words)
 		if (*s == '"')
 		{
 			next_quote = ft_strchr(s + 1, '"') + 1;
-			if (next_quote - 2 == s)
-			{
-				*s = 0;
-				*(s + 1) = 0;
-			}
+			// if (next_quote - 2 == s)
+			// {
+			// 	*s = 0;
+			// 	*(s + 1) = 0;
+			// }
 			s = next_quote;
 		}
 		if (is_delim(*s, delim))
@@ -57,25 +57,41 @@ void	set_zeros(char *s, char *delim, int *num_words)
 		*num_words += 1;
 }
 
+int	is_empty_word(char *s)
+{
+	if (s[0] == ('"') && s[1] == ('"') && !s[2])
+		return (1);
+	else
+		return (0);
+}
+
 char	**ft_split2(char *s, char *delim)
 {
-	int len;
-	char *clone;
-	char **res;
-	int num_words;
-	int i;
+	char	*clone;
+	char	**res;
+	int		i;
+	int		j;
+	int		len;
 
-	len = ft_strlen(s);
 	clone = ft_strdup(s);
-	set_zeros(clone, delim, &num_words);
-	res = ft_calloc(num_words + 1, sizeof(char *));
+	len = ft_strlen(clone);
+	set_zeros(clone, delim, &i);
+	res = ft_calloc(i + 1, sizeof(char *));
 	i = -1;
-	while (++i < num_words)
+	j = 0;
+	while (j < len)
 	{
-		res[i] = ft_strdup(clone);
-		if (!res[i])
-			return (split_collect_garbage(res, i));
-		clone += ft_strlen(res[i]) + 1;
+		while (!clone[j])
+			j++;
+		if (j < len - 1 && !is_empty_word(clone + j))
+		{
+			res[++i] = ft_strdup(clone + j);
+			if (!res[i])
+				return (split_collect_garbage(res, i));
+			j += ft_strlen(res[i]) + 1;
+		}
+		else
+			j += 3;
 	}
 	return (res);
 }

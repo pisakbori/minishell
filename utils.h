@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 10:12:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 10:15:06 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	set_error(char *text, int err_code);
 int		ends_with_char(char *str, char c);
 char	*get_cmd_path(char *bin_name, char **env);
 int		str_equal(char *str1, char *str2);
-char	**ft_split_and_keep(char const *s, char *delim);
 
 // free_utils
 void	free_split_arr(char **res);
