@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 15:28:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 20:21:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	execute_rightmost(char **cmd, t_pipe *left_p)
 	int		pid1;
 	int		exit;
 
+	if (is_builtin(cmd[0]))
+	{
+		exec_builtin(cmd);
+		return ;
+	}
 	exit = get_state()->exit_code;
 	if (pipe(fd) < 0)
 		set_error("pipe", 0);

@@ -6,17 +6,16 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:40:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 14:39:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 20:18:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	exec_builtin(char **argv, char **env)
+int	exec_builtin(char **argv)
 {
 	t_exec	e;
 
-	(void)env;
 	e = (t_exec){.argc = ft_arr_len(argv), .argv = argv};
 	if (!ft_strlen(e.argv[0]))
 		return (0);
