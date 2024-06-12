@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/10 14:54:04 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:10:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	on_exit_b(t_exec e)
 	else if (e.argc > 2)
 	{
 		ft_printf(2, "exit: too many arguments\n");
-		// set_exit_code(1);
+		set_exit_code(1);
 	}
 	else if (!is_valid_int(e.argv[1]))
 	{
 		ft_printf(2, "exit: %s: numeric argument required\n", e.argv[0]);
-		// set_exit_code(2);
+		set_exit_code(2);
 	}
 	else
 	{
 		exit_code = ft_atoi(e.argv[1]);
-		// set_exit_code(exit_code);
+		set_exit_code(exit_code);
 		if (exit_code)
 			ft_printf(2, "exit\n");
 		else
