@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 15:14:10 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 20:08:43 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "maybe_utils.h"
-# include "structs.h"
 # include "utils.h"
 # include <builtins.h>
 # include <errno.h>
@@ -39,6 +38,7 @@ typedef struct s_state
 {
 	int		exit_code;
 	char	**env;
+	char	**path;
 }			t_state;
 // execution
 int			execute_command(char **argv);

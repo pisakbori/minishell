@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 15:07:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:33:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,29 @@ void	ft_path_join(char **path, char *bin_name)
 
 char	*get_cmd_path(char *bin_name)
 {
-	char		*paths;
-	t_str_arr	*p;
-	int			i;
-	char		*res;
+	char	*paths;
+	char	**p;
+	int		i;
+	char	*res;
 
 	paths = get_env_variable("PATH");
-	p = new_str_arr(ft_split(paths, ':'));
+	p = ft_split(paths, ':');
 	ft_free((void **)&paths);
 	i = -1;
 	res = NULL;
 	if (!path_exists(bin_name))
 	{
-		while (p->arr[++i])
+		while (p[++i])
 		{
-			ft_path_join(&(p->arr[i]), bin_name);
-			if (is_exec(p->arr[i]))
-				res = ft_strdup(p->arr[i]);
+			ft_path_join(&(p[i]), bin_name);
+			if (is_exec(p[i]))
+				res = ft_strdup(p[i]);
 		}
 	}
 	else if (is_exec(bin_name))
 		res = ft_strdup(bin_name);
 	// if (!res)
 	// 	set_error(bin_name, errno);
-	p->delete (p);
+	free_split_arr(p);
 	return (res);
 }
