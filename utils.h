@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 13:29:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:06:49 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-char	*get_env_variable(char *var_name, char **env);
+char	*get_env_variable(char *var_name);
 void	print_array(char **arr);
 void	ft_free(void **ptr);
 void	ft_path_join(char **path, char *bin_name);
@@ -23,7 +23,7 @@ int		path_exists(char *path);
 int		is_exec(char *path);
 void	set_error(char *text, int err_code);
 int		ends_with_char(char *str, char c);
-char	*get_cmd_path(char *bin_name, char **env);
+char	*get_cmd_path(char *bin_name);
 int		str_equal(char *str1, char *str2);
 
 // free_utils

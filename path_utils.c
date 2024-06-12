@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 10:53:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:07:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ void	ft_path_join(char **path, char *bin_name)
 	*path = full_path;
 }
 
-char	*get_cmd_path(char *bin_name, char **env)
+char	*get_cmd_path(char *bin_name)
 {
-	char *paths;
-	t_str_arr *p;
-	int i;
-	char *res;
+	char		*paths;
+	t_str_arr	*p;
+	int			i;
+	char		*res;
 
-	paths = get_env_variable("PATH", env);
+	paths = get_env_variable("PATH");
 	p = new_str_arr(ft_split(paths, ':'));
 	ft_free((void **)&paths);
 	i = -1;

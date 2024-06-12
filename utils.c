@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 10:13:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:06:28 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,13 @@ char	*found_variable(int name_len, char *line)
 	return (NULL);
 }
 
-char	*get_env_variable(char *var_name, char **env)
+char	*get_env_variable(char *var_name)
 {
-	int	i;
-	int	name_len;
+	int		i;
+	int		name_len;
+	char	**env;
 
+	env = get_state()->env;
 	i = -1;
 	name_len = ft_strlen((const char *)var_name);
 	while (env[++i])

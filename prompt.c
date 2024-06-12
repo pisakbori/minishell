@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 13:35:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:03:44 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ void	reset_prompt(int signum)
 	rl_redisplay();
 	rl_replace_line("", 1);
 	rl_redisplay();
+}
+
+void	init_state(char **env)
+{
+	t_state	*state;
+
+	state = ft_calloc(1, sizeof(t_state));
+	state->exit_code = 0;
+	state->env = env;
+	set_state(state);
 }
 
 // TODO:
@@ -68,6 +78,7 @@ int	main(int argc, char const *argv[], char **env)
 	int res;
 
 	init_signals();
+	init_state(env);
 	(void)argc;
 	(void)argv;
 	using_history();
@@ -79,7 +90,7 @@ int	main(int argc, char const *argv[], char **env)
 			if (is_valid_syntax(line))
 			{
 				cmds_set = parse_line(line);
-				execute_commands(cmds_set, env, NULL, &res);
+				execute_commands(cmds_set, NULL, &res);
 				free_2d_split_arr(cmds_set);
 			}
 			add_history(line);

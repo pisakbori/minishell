@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 13:23:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:08:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,19 @@ int	is_builtin(char *cmd)
 	return (is_bltn);
 }
 
-int	execute_command(char **argv, char **env)
+int	execute_command(char **argv)
 {
 	char	*cmd;
 	int		res;
+	char	**env;
 
+	env = get_state()->env;
 	if (!argv)
 	{
 		ft_printf(2, "Syntax error");
 		return (2);
 	}
-	cmd = get_cmd_path(argv[0], env);
+	cmd = get_cmd_path(argv[0]);
 	if (cmd)
 		res = execve(cmd, argv, env);
 	else
@@ -52,7 +54,7 @@ int	execute_command(char **argv, char **env)
 	return (res);
 }
 
-void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env)
+void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p)
 {
 	int	res;
 
@@ -70,7 +72,7 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, char **env)
 			set_error("dup2 left", 0);
 		close(left_p->read);
 	}
-	res = execute_command(argv, env);
+	res = execute_command(argv);
 	exit(res);
 }
 void	close_pipe(t_pipe *p)
@@ -81,7 +83,7 @@ void	close_pipe(t_pipe *p)
 		close(p->write);
 	}
 }
-void	execute_rightmost(int *exit, char **cmd, t_pipe *left_p, char **env)
+void	execute_rightmost(int *exit, char **cmd, t_pipe *left_p)
 {
 	t_pipe	right_p;
 	int		fd[2];
@@ -94,14 +96,13 @@ void	execute_rightmost(int *exit, char **cmd, t_pipe *left_p, char **env)
 	right_p.read = dup(0);
 	right_p.write = dup(1);
 	if (!pid1)
-		execute_cmd(cmd, left_p, &right_p, env);
+		execute_cmd(cmd, left_p, &right_p);
 	close_pipe(left_p);
 	close_pipe(&right_p);
 	waitpid(pid1, exit, 0);
 	*exit = error_code(*exit);
 }
-void	execute_with_pipe(char ***cmds_set, char **env, t_pipe *left_p,
-		int *exit)
+void	execute_with_pipe(char ***cmds_set, t_pipe *left_p, int *exit)
 {
 	int		temp;
 	t_pipe	right_p;
@@ -113,22 +114,21 @@ void	execute_with_pipe(char ***cmds_set, char **env, t_pipe *left_p,
 	right_p = (t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
 	if (!pid1)
-		execute_cmd(*cmds_set, left_p, &right_p, env);
+		execute_cmd(*cmds_set, left_p, &right_p);
 	close_pipe(left_p);
-	execute_commands(cmds_set + 1, env, &right_p, exit);
+	execute_commands(cmds_set + 1, &right_p, exit);
 	close_pipe(&right_p);
 	waitpid(pid1, &temp, 0);
 }
 
-void	execute_commands(char ***cmds_set, char **env, t_pipe *left_p,
-		int *exit)
+void	execute_commands(char ***cmds_set, t_pipe *left_p, int *exit)
 {
 	if (!cmds_set)
 		return ;
 	if (ft_arr_3d_len(cmds_set) > 1)
 	{
-		execute_with_pipe(cmds_set, env, left_p, exit);
+		execute_with_pipe(cmds_set, left_p, exit);
 	}
 	else
-		execute_rightmost(exit, cmds_set[0], left_p, env);
+		execute_rightmost(exit, cmds_set[0], left_p);
 }
