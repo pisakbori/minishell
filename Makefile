@@ -7,12 +7,13 @@ NAME			= minishell
 LIBFT			= libft/libft.a
 BLTIN_NAMES		= builtin_exec exit utils #cd pwd env export echo unset 
 BUILTINS		= $(patsubst %, builtin/%, $(BLTIN_NAMES))
-FILES			= utils path_utils free_utils ./structs/str_arr execution prompt $(BUILTINS)
+FILES			= utils path_utils free_utils split_utils ./structs/str_arr execution prompt $(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
 
 
 all: $(NAME)
+	./minishell
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(HDR_FLAGS) -c $< -o $@
