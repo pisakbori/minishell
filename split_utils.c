@@ -6,13 +6,13 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 11:41:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:57:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-static char	**split_collect_garbage(char **res, int i)
+int	split_collect_garbage(char **res, int i)
 {
 	while (i >= 0)
 	{
@@ -20,7 +20,7 @@ static char	**split_collect_garbage(char **res, int i)
 		i--;
 	}
 	free(res);
-	return (NULL);
+	return (0);
 }
 
 static int	is_delim(char s, char *delim)
@@ -40,11 +40,6 @@ void	set_zeros(char *s, char *delim, int *num_words)
 		if (*s == '"')
 		{
 			next_quote = ft_strchr(s + 1, '"') + 1;
-			// if (next_quote - 2 == s)
-			// {
-			// 	*s = 0;
-			// 	*(s + 1) = 0;
-			// }
 			s = next_quote;
 		}
 		if (is_delim(*s, delim))
@@ -65,6 +60,24 @@ int	is_empty_word(char *s)
 		return (0);
 }
 
+int	add_new_word(char **res, int index, char *word, int *j)
+{
+	res[index] = ft_strdup(word);
+	if (!res[index])
+	{
+		free(word);
+		return (split_collect_garbage(res, index));
+	}
+	*j += ft_strlen(res[index]) + 1;
+	return (1);
+}
+
+void	skip_delimiters(char *str, int *j)
+{
+	while (!str[*j])
+		*j += 1;
+}
+
 char	**ft_split2(char *s, char *delim)
 {
 	char	*clone;
@@ -81,17 +94,15 @@ char	**ft_split2(char *s, char *delim)
 	j = 0;
 	while (j < len)
 	{
-		while (!clone[j])
-			j++;
+		skip_delimiters(clone, &j);
 		if (j < len - 1 && !is_empty_word(clone + j))
 		{
-			res[++i] = ft_strdup(clone + j);
-			if (!res[i])
-				return (split_collect_garbage(res, i));
-			j += ft_strlen(res[i]) + 1;
+			if (!add_new_word(res, ++i, clone + j, &j))
+				return (NULL);
 		}
 		else
 			j += 3;
 	}
+	free(clone);
 	return (res);
 }
