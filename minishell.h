@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:08:43 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 21:57:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ typedef struct s_state
 	int		exit_code;
 	char	**env;
 	char	**path;
+	char	*last_arg;
+	char	*oldcwd;
+	char	*cwd;
 }			t_state;
 // execution
 int			execute_command(char **argv);
@@ -49,4 +52,7 @@ void		set_exit_code(int exit_code);
 void		set_state(t_state *val);
 t_state		*get_state(void);
 void		set_env(char **env);
+
+void		print_prompt(void);
+
 #endif

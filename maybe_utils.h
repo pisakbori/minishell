@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:17:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/04 11:26:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 12:55:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,5 @@ typedef struct s_env_var
 	char	*name;
 	char	*value;
 }			t_env_var;
-
-void		print_arr(char **arr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 15:06:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 22:05:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,27 +69,44 @@ char	*found_variable(int name_len, char *line)
 	return (NULL);
 }
 
-char	*get_env_variable(char *var_name)
-{
-	int		i;
-	int		name_len;
-	char	**env;
-
-	env = get_state()->env;
-	i = -1;
-	name_len = ft_strlen((const char *)var_name);
-	while (env[++i])
-	{
-		if (!ft_strncmp(var_name, env[i], name_len))
-			return (found_variable(name_len, env[i]));
-	}
-	return (NULL);
-}
-
 void	set_error(char *text, int err_code)
 {
 	// TODO: set last errorcode to err_code
 	(void)err_code;
 	ft_printf(2, "%s: ", text);
 	perror(NULL);
+}
+
+int	starts_with(char *str, char *start)
+{
+	return (!ft_strncmp(str, start, ft_strlen(start)));
+}
+
+void	swap(char *s1, char *s2)
+{
+	char	*temp;
+
+	temp = s1;
+	s1 = s2;
+	s2 = temp;
+}
+
+void	ft_sort_alph(char **arr)
+{
+	int	i;
+	int	len;
+	int	j;
+
+	i = -1;
+	len = ft_arr_len(arr);
+	while (++i < len - 1)
+	{
+		j = 0;
+		while (j < i - 1)
+		{
+			if (ft_strncmp(arr[j], arr[j + 1], ft_strlen(arr[i]) + 1) > 0)
+				swap(arr[j], arr[j + 1]);
+			j++;
+		}
+	}
 }

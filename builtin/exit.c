@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:25:47 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 20:26:42 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	on_exit_b(t_exec e)
 {
 	int	exit_code;
 
-	// TODO: exit with last exitcode;
 	if (e.argc == 1)
 	{
 		ft_printf(1, "exit\n");

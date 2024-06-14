@@ -6,11 +6,16 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:08:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 12:45:17 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_prompt(void)
+{
+	ft_printf(1, "minishell: ");
+}
 
 void	reset_prompt(int signum)
 {
@@ -29,7 +34,7 @@ void	init_state(char **env)
 
 	state = ft_calloc(1, sizeof(t_state));
 	state->exit_code = 0;
-	state->env = env;
+	state->env = clone_str_arr(env);
 	set_state(state);
 }
 

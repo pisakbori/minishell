@@ -5,9 +5,9 @@ LFLAGS			= -Llibft -lreadline
 RM				= rm -rf
 NAME			= minishell
 LIBFT			= libft/libft.a
-BLTIN_NAMES		= builtin_exec exit utils #cd pwd env export echo unset 
+BLTIN_NAMES		= builtin_exec exit utils export unset env #cd pwd echo 
 BUILTINS		= $(patsubst %, builtin/%, $(BLTIN_NAMES))
-FILES			= utils state path_utils free_utils split_utils syntax_check execution prompt $(BUILTINS)
+FILES			= utils state path_utils free_utils split_utils syntax_check execution prompt env_utils $(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
 

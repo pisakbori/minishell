@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:40:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:18:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:53:38 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	exec_builtin(char **argv)
 	// 	on_cd(e);
 	// if (!scmp(e.argv[0], "pwd"))
 	// 	on_pwd(e);
-	// if (!scmp(e.argv[0], "env"))
-	// 	on_env(e);
-	// if (!scmp(e.argv[0], "export"))
-	// 	on_export(e);
+	if (str_equal(e.argv[0], "env"))
+		on_env(e);
+	if (str_equal(e.argv[0], "export"))
+		on_export(e);
 	// if (!scmp(e.argv[0], "echo"))
 	// 	on_echo(e);
-	// if (!scmp(e.argv[0], "unset"))
-	// 	on_unset(e);
+	if (str_equal(e.argv[0], "unset"))
+		on_unset(e);
 	return (0);
 }

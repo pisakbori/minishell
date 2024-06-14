@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 13:23:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:15:28 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	free_split_arr(char **res)
 {
 	int	i;
 
-	i = ft_arr_len(res) + 1;
-	while (--i >= 0)
-		free(*(res + i));
+	i = -1;
+	while (res && res[++i])
+		free(res[i]);
 	free(res);
 }
 

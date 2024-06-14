@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/21 13:27:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/12 22:06:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	export_arg(char *arg)
 	return (1);
 }
 
-
 void	print_all_exported(void)
 {
 	char		**env;
@@ -35,31 +34,31 @@ void	print_all_exported(void)
 	int			len;
 	t_env_var	*env_var;
 
-	env = get_env()->env;
+	env = get_state()->env;
 	i = -1;
 	len = ft_arr_len(env);
 	copy = ft_calloc(len + 1, sizeof(char *));
 	while (env[++i])
 		copy[i] = env[i];
 	copy[i] = 0;
-	ft_sort_ascii(copy);
+	ft_sort_alph(copy);
 	i = -1;
 	while (copy[++i])
 	{
 		env_var = get_name_value(copy[i]);
-		ft_printf("declare -x %s=\"%s\"\n", env_var->name, env_var->value);
+		ft_printf(1, "declare -x %s=\"%s\"\n", env_var->name, env_var->value);
 	}
-	free_split(copy);
+	free_split_arr(copy);
 }
 
-// If no names are supplied, a list of names of 
-// all exported variables is displayed. 
-// The return status is zero unless --- one of 
+// If no names are supplied, a list of names of
+// all exported variables is displayed.
+// The return status is zero unless --- one of
 // the names is not a valid shell variable name
 void	on_export(t_exec e)
 {
-	int		i;
-	int		all_correct;
+	int	i;
+	int	all_correct;
 
 	(void)e;
 	if (e.argc == 1)
@@ -71,7 +70,7 @@ void	on_export(t_exec e)
 		if (!export_arg(e.argv[i]))
 		{
 			print_prompt();
-			ft_printf("export: `%s': not a valid identifier\n", e.argv[i]);
+			ft_printf(2, "export: `%s': not a valid identifier\n", e.argv[i]);
 			all_correct = 0;
 		}
 	}

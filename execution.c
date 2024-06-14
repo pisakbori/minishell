@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:21:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:55:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	is_builtin(char *cmd)
 
 	is_bltn = 0;
 	is_bltn = str_equal(cmd, "exit");
+	is_bltn = is_bltn || str_equal(cmd, "export");
+	is_bltn = is_bltn || str_equal(cmd, "unset");
+	is_bltn = is_bltn || str_equal(cmd, "env");
 	return (is_bltn);
 }
 
