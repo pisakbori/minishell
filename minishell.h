@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 13:45:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:14:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void		execute_commands(char ***cmds_set, t_pipe *left_p);
 void		set_exit_code(int exit_code);
 void		set_state(t_state *val);
 t_state		*get_state(void);
+t_state		**get_state_ptr(void);
 void		set_env(char **env);
 void		set_last_arg(char *arg);
 

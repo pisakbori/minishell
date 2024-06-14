@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 12:45:17 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:20:01 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,8 @@ int	main(int argc, char const *argv[], char **env)
 			}
 			add_history(line);
 		}
-		// TODO:
 		else
-		{
-			exit(0);
-		}
+			free_and_exit();
 		free(line);
 	}
 	return (0);

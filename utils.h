@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 15:18:11 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:04:49 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int			starts_with(char *str, char *start);
 void		ft_sort_alph(char **arr);
 
 // free_utils
+void		free_and_exit(void);
 void		free_split_arr(char **res);
 void		free_2d_split_arr(char ***res);
 

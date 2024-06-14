@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 13:19:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:14:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	set_zeros(char *s, char *delim, int *num_words)
 	{
 		if (*s == '"')
 		{
-			// printf("here >%c<\n", *(s + 1));
 			if (!*(s + 1))
 				break ;
 			next_quote = ft_strchr(s + 1, '"');

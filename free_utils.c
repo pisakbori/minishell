@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 13:15:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:23:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_split_arr(char **res)
 
 void	free_2d_split_arr(char ***res)
 {
-	int i;
+	int	i;
 
 	if (!res)
 		return ;
@@ -32,4 +32,22 @@ void	free_2d_split_arr(char ***res)
 	while (res[++i])
 		free_split_arr(res[i]);
 	free(res);
+}
+
+void	free_and_exit(void)
+{
+	t_state *state;
+	int exit_code;
+
+	state = get_state();
+	exit_code = state->exit_code;
+	if (state->cwd)
+		free(state->cwd);
+	if (state->oldcwd)
+		free(state->oldcwd);
+	if (state->last_arg)
+		free(state->last_arg);
+	free_split_arr(state->env);
+	free(state);
+	exit(exit_code);
 }

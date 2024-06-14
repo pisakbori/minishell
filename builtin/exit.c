@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:26:42 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:06:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	on_exit_b(t_exec e)
 	if (e.argc == 1)
 	{
 		ft_printf(1, "exit\n");
-		exit(get_state()->exit_code);
+		free_and_exit();
 	}
 	else if (e.argc > 2)
 	{
@@ -46,6 +46,6 @@ void	on_exit_b(t_exec e)
 			ft_printf(2, "exit\n");
 		else
 			ft_printf(1, "exit\n");
+		free_and_exit();
 	}
-	// free_exit(0);
 }
