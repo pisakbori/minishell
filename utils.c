@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 22:05:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:03:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_array(char **arr)
 
 	i = -1;
 	while (arr && arr[++i])
-		printf("%s\n", arr[i]);
+		ft_printf(1, "%s\n", arr[i]);
 }
 
 int	ends_with_char(char *str, char c)

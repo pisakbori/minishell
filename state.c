@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:08:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:47:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ void	set_env(char **env)
 
 	state = get_state();
 	state->env = env;
+}
+
+void	set_last_arg(char *arg)
+{
+	t_state	*state;
+
+	state = get_state();
+	// free(state->last_arg);
+	state->last_arg = ft_strdup(arg);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 12:48:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:18:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ void		free_2d_split_arr(char ***res);
 char		**ft_split2(char *s, char *delim);
 int			is_valid_syntax(char *str);
 
+// env
 t_env_var	*get_name_value(char *env_line);
 void		set_env_variable(char *var_name, char *var_value);
 void		delete_value(char *var_name);
 void		add_value(char *rule);
 char		**clone_str_arr(char **arr);
+int			is_variable(char *var_name);
 
 #endif

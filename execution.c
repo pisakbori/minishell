@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 10:55:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:19:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,9 @@ void	execute_rightmost(char **cmd, t_pipe *left_p)
 	close_pipe(&right_p);
 	waitpid(pid1, &exit, 0);
 	set_exit_code(error_code(exit));
+	set_last_arg(cmd[ft_arr_len(cmd) - 1]);
 }
+
 void	execute_with_pipe(char ***cmds_set, t_pipe *left_p)
 {
 	int		temp;
@@ -136,9 +138,7 @@ void	execute_commands(char ***cmds_set, t_pipe *left_p)
 	if (!cmds_set)
 		return ;
 	if (ft_arr_3d_len(cmds_set) > 1)
-	{
 		execute_with_pipe(cmds_set, left_p);
-	}
 	else
 		execute_rightmost(cmds_set[0], left_p);
 }
