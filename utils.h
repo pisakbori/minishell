@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 10:26:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 22:11:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		free_and_exit(void);
 void		free_split_arr(char **res);
 void		free_2d_split_arr(char ***res);
 
-char		**ft_split2(char *s, char *delim);
+char		**ft_split2(char *s, char *delim, char mode);
 int			is_valid_syntax(char *str);
 
 // env
@@ -45,5 +45,12 @@ char		**clone_str_arr(char **arr);
 int			is_variable(char *var_name);
 
 char		*expand_variables(char *str);
-
+typedef enum
+{
+	TERMINATOR,
+	SKIP,
+	KEEP,
+	VAR_NAME
+}			status;
+char		*skip_quote(char quote_type, char *s);
 #endif
