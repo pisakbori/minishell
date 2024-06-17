@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:27:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/17 18:03:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 10:23:16 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_n_flag(char *option)
 {
 	int	i;
 
-	if (option[0]!='-')
+	if (option[0] != '-')
 		return (0);
 	i = 1;
 	while (option[i] == 'n')
@@ -34,10 +34,10 @@ int	is_n_flag(char *option)
 
 void	print_arg(char *arg)
 {
-	if (scmp(arg, "~"))
-		ft_printf("%s", arg);
-	else
-		ft_printf("%s", get_env()->home);
+	// if (scmp(arg, "~"))
+	ft_printf(1, "%s", arg);
+	// else
+	// 	ft_printf("%s", get_state()->home);
 }
 
 void	on_echo(t_exec e)
@@ -47,7 +47,7 @@ void	on_echo(t_exec e)
 
 	skip_nl = 0;
 	if (e.argc == 1)
-		ft_printf("\n");
+		ft_printf(1, "\n");
 	else
 	{
 		i = 1;
@@ -60,10 +60,10 @@ void	on_echo(t_exec e)
 		{
 			print_arg(e.argv[i++]);
 			if (i < e.argc)
-				ft_printf(" ");
+				ft_printf(1, " ");
 		}
 		if (!skip_nl)
-			ft_printf("\n");
+			ft_printf(1, "\n");
 	}
 	set_exit_code(0);
 }
