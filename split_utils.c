@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 17:14:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:29:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,26 @@ static int	is_delim(char s, char *delim)
 	return (ft_strchr(delim, s) != NULL);
 }
 
-int	set_zeros(char *s, char *delim, int *num_words)
+int	skip_quote(char quote_type, char **s)
 {
 	char	*next_quote;
+
+	if (**s == quote_type)
+	{
+		if (!*(*s + 1))
+			return (1);
+		next_quote = ft_strchr(*s + 1, quote_type);
+		if (!next_quote)
+			return (0);
+		*s = next_quote;
+	}
+	return (-1);
+}
+
+int	set_zeros(char *s, char *delim, int *num_words)
+{
+	char	res_double;
+	char	res_single;
 
 	*num_words = 0;
 	if (!s)
@@ -39,15 +56,16 @@ int	set_zeros(char *s, char *delim, int *num_words)
 		return (1);
 	while (*s)
 	{
-		if (*s == '"')
-		{
-			if (!*(s + 1))
-				break ;
-			next_quote = ft_strchr(s + 1, '"');
-			if (!next_quote)
-				return (0);
-			s = next_quote;
-		}
+		res_double = skip_quote('"', &s);
+		if (res_double == 1)
+			break ;
+		else if (!res_double)
+			return (0);
+		res_single = skip_quote('\'', &s);
+		if (res_single == 1)
+			break ;
+		else if (!res_single)
+			return (0);
 		if (is_delim(*s, delim))
 			*s = 0;
 		if (!*s && *(s - 1))
@@ -98,7 +116,7 @@ char	**ft_split2(char *s, char *delim)
 	if (!set_zeros(clone, delim, &i))
 	{
 		ft_printf(2, "Syntax error!!!\n");
-		// set error to 2
+		//TODO: set error to 2
 		return (NULL);
 	}
 	if (!i)
@@ -109,7 +127,7 @@ char	**ft_split2(char *s, char *delim)
 	while (j < len)
 	{
 		skip_delimiters(clone, &j);
-		if (!add_new_word(res, ++i, clone + j, &j))
+		if (j < len && !add_new_word(res, ++i, clone + j, &j))
 			return (NULL);
 		j++;
 	}

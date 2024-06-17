@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 17:20:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:30:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,38 +71,40 @@ char	***parse_line(char *line)
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
-	// (void)argc;
-	// (void)argv;
-	// (void)env;
-	// char **res = ft_split2("    ls    cat    ", " ");
-	// print_array(res);
-	// char *str = ft_strdup("");
-	// printf("%s>>%d\n", str, is_valid_syntax(str));
-	char *line;
-	char ***cmds_set;
-
-	init_signals();
-	init_state(env);
 	(void)argc;
 	(void)argv;
-	using_history();
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (line)
-		{
-			if (is_valid_syntax(line))
-			{
-				cmds_set = parse_line(line);
-				execute_commands(cmds_set, NULL);
-				printf("exitcode: %d\n", get_state()->exit_code);
-				free_2d_split_arr(cmds_set);
-			}
-			add_history(line);
-		}
-		else
-			free_and_exit();
-		free(line);
-	}
+	(void)env;
+	char **res = ft_split2("  cat\' \" ls \"\'   \" cat \"  ", " ");
+	print_array(res);
+	printf("HERE\n");
+
+	char *str = ft_strdup("");
+	printf("%s>>%d\n", str, is_valid_syntax(str));
+	// char *line;
+	// char ***cmds_set;
+
+	// init_signals();
+	// init_state(env);
+	// (void)argc;
+	// (void)argv;
+	// using_history();
+	// while (1)
+	// {
+	// 	line = readline("minishell$ ");
+	// 	if (line)
+	// 	{
+	// 		if (is_valid_syntax(line))
+	// 		{
+	// 			cmds_set = parse_line(line);
+	// 			execute_commands(cmds_set, NULL);
+	// 			printf("exitcode: %d\n", get_state()->exit_code);
+	// 			free_2d_split_arr(cmds_set);
+	// 		}
+	// 		add_history(line);
+	// 	}
+	// 	else
+	// 		free_and_exit();
+	// 	free(line);
+	// }
 	return (0);
 }

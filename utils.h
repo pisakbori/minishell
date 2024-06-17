@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 17:04:49 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 10:26:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ void		delete_value(char *var_name);
 void		add_value(char *rule);
 char		**clone_str_arr(char **arr);
 int			is_variable(char *var_name);
+
+char		*expand_variables(char *str);
 
 #endif
