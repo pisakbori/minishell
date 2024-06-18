@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:17:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 20:37:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char const *argv[], char **env)
 			{
 				cmds_set = parse_line(line);
 				execute_commands(cmds_set, NULL);
-				printf("exitcode: %d\n", get_state()->exit_code);
+				// printf("exitcode: %d\n", get_state()->exit_code);
 				free_2d_split_arr(cmds_set);
 			}
 			add_history(line);

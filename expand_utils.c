@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:22:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 20:59:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*expand_env_var_name(char *until, char *str, int j)
 	*until = 0;
 	var_name = ft_strdup(str + j);
 	*until = temp;
+	if (str_equal(var_name, "?"))
+		return (ft_itoa(get_state()->exit_code));
 	value = get_env_variable(var_name);
 	return (value);
 }
@@ -58,18 +60,22 @@ char	*expand_env_var_name(char *until, char *str, int j)
 int	start_variable(char *str, char *map, int i)
 {
 	int	res;
+	int	is_variable_start;
 
 	res = 1;
+	is_variable_start = 0;
 	res = res && map[i] != '\'';
 	res = res && str[i] == '$';
-	res = res && str[i + 2];
-	res = res && (ft_isalnum(str[i + 2]) || str[i + 2] == '_');
+	// res = res && str[i + 2];
+	is_variable_start = is_variable_start || ft_isalnum(str[i + 2]);
+	is_variable_start = is_variable_start || str_contains(str[i + 2], "_?");
+	res = res && is_variable_start;
 	return (res);
 }
 
 char	*end_variable_name(char *str)
 {
-	if (ft_isdigit(*str))
+	if (ft_isdigit(*str) || (*str == '?'))
 		return (str + 1);
 	else
 		return (next_nonalpha(str + 1));

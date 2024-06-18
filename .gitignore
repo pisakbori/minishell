@@ -7,3 +7,5 @@ garbage
 # *.pdf
 # todo.txt
 test.sh
+minishell_tester
+minishell_test.log
