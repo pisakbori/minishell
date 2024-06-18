@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:26:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:16:00 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p)
 
 void	execute_rightmost(char **cmd, t_pipe *left_p)
 {
-	t_pipe	right_p;
+	t_pipe	*right_p;
 	int		fd[2];
 	int		pid1;
 	int		exit;
@@ -73,14 +73,14 @@ void	execute_rightmost(char **cmd, t_pipe *left_p)
 	exit = get_state()->exit_code;
 	if (pipe(fd) < 0)
 		set_error("pipe", 0);
-	right_p = (t_pipe){.read = fd[0], .write = fd[1]};
+	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
-	right_p.read = dup(0);
-	right_p.write = dup(1);
+	right_p->read = dup(0);
+	right_p->write = dup(1);
 	if (!pid1)
-		execute_cmd(cmd, left_p, &right_p);
+		execute_cmd(cmd, left_p, right_p);
 	close_pipe(left_p);
-	close_pipe(&right_p);
+	close_pipe(right_p);
 	waitpid(pid1, &exit, 0);
 	set_exit_code(error_code(exit));
 	set_last_arg(cmd[ft_arr_len(cmd) - 1]);
@@ -89,19 +89,19 @@ void	execute_rightmost(char **cmd, t_pipe *left_p)
 void	execute_with_pipe(char ***cmds_set, t_pipe *left_p)
 {
 	int		temp;
-	t_pipe	right_p;
+	t_pipe	*right_p;
 	int		fd[2];
 	int		pid1;
 
 	if (pipe(fd) < 0)
 		set_error("pipe", 0);
-	right_p = (t_pipe){.read = fd[0], .write = fd[1]};
+	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
 	if (!pid1)
-		execute_cmd(*cmds_set, left_p, &right_p);
+		execute_cmd(*cmds_set, left_p, right_p);
 	close_pipe(left_p);
-	execute_commands(cmds_set + 1, &right_p);
-	close_pipe(&right_p);
+	execute_commands(cmds_set + 1, right_p);
+	close_pipe(right_p);
 	waitpid(pid1, &temp, 0);
 }
 
