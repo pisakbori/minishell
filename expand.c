@@ -6,13 +6,13 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:22:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:56:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*operation_map(char *str)
+char	*operation_map(char *str, char *delim, char *skip)
 {
 	char	*res;
 	char	*next_q;
@@ -23,7 +23,7 @@ char	*operation_map(char *str)
 	res = ft_calloc(1, ft_strlen(str) + 1);
 	while (str[++i])
 	{
-		if (str[i] == '\'' || str[i] == '"')
+		if (ft_strchr(skip, str[i]))
 		{
 			res[i] = '-';
 			j = i;
@@ -33,8 +33,10 @@ char	*operation_map(char *str)
 				res[j] = *next_q;
 			res[j] = '-';
 		}
-		else
+		else if (!str_contains(str[i], delim))
 			res[i] = 'k';
+		else
+			res[i] = 'd';
 	}
 	return (res);
 }
@@ -120,7 +122,7 @@ char	*expand_variables(char *str)
 	int		j;
 	char	*buff;
 
-	map = operation_map(str);
+	map = operation_map(str, NULL, "\"\'");
 	i = 0;
 	j = 0;
 	res = NULL;
@@ -132,11 +134,69 @@ char	*expand_variables(char *str)
 			j = 0;
 			append_variable_value(&res, &buff, str, &i);
 		}
-		else if (map[i] != '-')
+		// else if (map[i] != '-')
+		// 	buff[j++] = str[i];
+		else
 			buff[j++] = str[i];
 		i++;
 	}
 	res = ft_str_append(res, buff);
 	buff = ft_calloc(1, ft_strlen(str) + 1);
 	return (res);
+}
+
+void	arr_expand_variables(char **cmd_set)
+{
+	char	*temp;
+
+	if (!cmd_set)
+		return ;
+	while (*cmd_set)
+	{
+		temp = *cmd_set;
+		*cmd_set = expand_variables(*cmd_set);
+		free(temp);
+		cmd_set++;
+	}
+}
+
+char	*remove_chars(char *str, char *skip)
+{
+	char	*map;
+	int		i;
+	int		j;
+	int		freq;
+	char	*res;
+
+	map = operation_map(str, NULL, skip);
+	i = -1;
+	freq = 0;
+	while (map[++i])
+		if (str_contains(map[i], "-"))
+			freq++;
+	res = ft_calloc(ft_strlen(map) - freq + 1, 1);
+	i = -1;
+	j = 0;
+	while (map[++i])
+	{
+		if (map[i] != '-')
+			res[j++] = str[i];
+	}
+	free(map);
+	return (res);
+}
+
+void	arr_remove_chars(char **cmd_set, char *skip)
+{
+	char	*temp;
+
+	if (!cmd_set)
+		return ;
+	while (*cmd_set)
+	{
+		temp = *cmd_set;
+		*cmd_set = remove_chars(*cmd_set, skip);
+		free(temp);
+		cmd_set++;
+	}
 }

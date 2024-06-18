@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:29:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:56:17 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void		free_and_exit(void);
 void		free_split_arr(char **res);
 void		free_2d_split_arr(char ***res);
 
-char		**ft_split2(char *s, char *delim, char mode);
+char		**ft_split2(char *s, char *delim, char *skip);
 int			is_valid_syntax(char *str);
+int			str_contains(char s, char *delim);
 
 // env
 t_env_var	*get_name_value(char *env_line);
@@ -47,5 +48,8 @@ int			is_variable(char *var_name);
 char		*expand_variables(char *str);
 
 char		*skip_quote(char quote_type, char *s);
-char		*operation_map(char *str);
+char		*operation_map(char *str, char *delim, char *skip);
+void		arr_expand_variables(char **cmd_set);
+char		*remove_chars(char *str, char *skip);
+void		arr_remove_chars(char **cmd_set, char *skip);
 #endif

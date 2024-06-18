@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:52:08 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/03/08 18:14:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 08:52:42 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	char	*first;
 
+	if (!s)
+		return (0);
 	first = (char *)s;
 	while (*first)
 	{

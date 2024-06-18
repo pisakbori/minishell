@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:11:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:51:20 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,17 @@ char	***parse_line(char *line)
 
 	if (!line || !*line)
 		return (0);
-	cmd_set = ft_split2(line, "|", 0);
+	cmd_set = ft_split2(line, "|", "\"\'");
+	// printf("array:\n");
 	if (!cmd_set)
 		return (NULL);
 	i = -1;
 	cmds_set = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
+	arr_expand_variables(cmd_set);
 	while (cmd_set[++i])
 	{
-		cmds_set[i] = ft_split2(cmd_set[i], " \t", 1);
+		cmds_set[i] = ft_split2(cmd_set[i], " \t", "\"\'");
+		arr_remove_chars(cmds_set[i], "\"\'");
 		// printf(">>>%d ", i);
 		// print_array(cmds_set[i]);
 	}
@@ -71,26 +74,23 @@ char	***parse_line(char *line)
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
+	// init_signals();
+	// init_state(env);
 	// (void)argc;
 	// (void)argv;
-	// // char **res = ft_split2("  cat\' \" ls \"\'   \" cat \"  ", " ");
-	// // print_array(res);
-	// // printf("HERE\n");
-
-	// init_state(env);
-	// char *str = ft_strdup("  $HEJA\"$HOME.\"$_szia$11 \'$HOME\'cat ");
-	// char *res = expand_variables(str);
-	// printf("%s\n", str);
-	// printf("%s\n", res);
-	// printf("%s>>%d\n", str, is_valid_syntax(str));
+	// using_history();
+	// line = ft_strdup("$HOME.szia   ' |   ja' | ls");
+	// cmds_set = parse_line(line);
+	// execute_commands(cmds_set, NULL);
+	// printf("exitcode: %d\n", get_state()->exit_code);
+	// free_2d_split_arr(cmds_set);
+	// -----------------
 	char *line;
 	char ***cmds_set;
-
-	init_signals();
-	init_state(env);
 	(void)argc;
 	(void)argv;
-	using_history();
+
+	init_state(env);
 	while (1)
 	{
 		line = readline("minishell$ ");
