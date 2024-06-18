@@ -6,11 +6,24 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 13:52:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:21:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**split_fail_free(char **res, int i, char *map, char *clone)
+{
+	free(clone);
+	free(map);
+	while (i >= 0)
+	{
+		free(*(res + i));
+		i--;
+	}
+	free(res);
+	return (NULL);
+}
 
 void	free_split_arr(char **res)
 {
@@ -36,8 +49,8 @@ void	free_2d_split_arr(char ***res)
 
 void	free_and_exit(void)
 {
-	t_state *state;
-	int exit_code;
+	t_state	*state;
+	int		exit_code;
 
 	state = get_state();
 	exit_code = state->exit_code;

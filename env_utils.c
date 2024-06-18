@@ -6,69 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 16:37:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:24:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-t_env_var	*get_name_value(char *env_line)
-{
-	char		*eq;
-	t_env_var	*res;
-	char		*dup;
-
-	dup = ft_strdup(env_line);
-	eq = ft_strchr(dup, '=');
-	if (eq)
-		*eq = 0;
-	res = ft_calloc(1, sizeof(t_env_var));
-	res->name = ft_strdup(dup);
-	if (!eq)
-		res->value = ft_strdup("");
-	else
-		res->value = ft_strdup(eq + 1);
-	free(dup);
-	return (res);
-}
-
-char	**clone_str_arr(char **arr)
-{
-	int		i;
-	int		size;
-	char	**new;
-
-	size = ft_arr_len(arr);
-	i = -1;
-	new = ft_calloc(size + 1, sizeof(char *));
-	if (!new)
-		exit(EXIT_FAILURE);
-	while (arr && arr[++i])
-	{
-		new[i] = ft_strdup(arr[i]);
-	}
-	return (new);
-}
-char	**append_to_str_arr(char **arr, char *str)
-{
-	int		i;
-	int		size;
-	char	**new;
-
-	size = ft_arr_len(arr) + 1;
-	new = ft_calloc(size + 1, sizeof(char *));
-	if (!new)
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (arr && arr[i])
-	{
-		new[i] = ft_strdup(arr[i]);
-		i++;
-	}
-	free_split_arr(arr);
-	new[i] = ft_strdup(str);
-	return (new);
-}
+#include "utils.h"
 
 void	add_value(char *rule)
 {
@@ -82,6 +24,7 @@ void	add_value(char *rule)
 	new = append_to_str_arr(env, rule);
 	state->env = new;
 }
+
 void	replace_value(char *var_name, char *rule)
 {
 	t_state	*state;
@@ -99,33 +42,6 @@ void	replace_value(char *var_name, char *rule)
 			free(state->env[i]);
 			state->env[i] = ft_strdup(rule);
 		}
-	}
-}
-
-void	delete_value(char *var_name)
-{
-	char	**env;
-	t_state	*state;
-	int		i;
-	int		j;
-	int		size;
-
-	if (!is_variable(var_name))
-		return ;
-	state = get_state();
-	env = clone_str_arr(state->env);
-	free_split_arr(state->env);
-	size = ft_arr_len(env) - 1;
-	i = -1;
-	state->env = ft_calloc(size + 1, sizeof(char *));
-	if (!state->env)
-		exit(EXIT_FAILURE);
-	j = 0;
-	while (++i <= size)
-	{
-		if (!(starts_with(env[i], var_name)
-				&& env[i][ft_strlen(var_name)] == '='))
-			state->env[j++] = env[i];
 	}
 }
 
@@ -188,25 +104,4 @@ int	is_variable(char *var_name)
 		free(clone);
 	}
 	return (0);
-}
-
-void	set_oldpwd(char *oldcwd)
-{
-	t_state	*state;
-
-	state = get_state();
-	set_env_variable("OLDPWD", oldcwd);
-	free(state->oldcwd);
-	state->oldcwd = ft_strdup(oldcwd);
-}
-
-void	set_cwd(char *cwd)
-{
-	t_state *state;
-
-	state = get_state();
-	set_oldpwd(state->cwd);
-	free(state->cwd);
-	state->cwd = ft_strdup(cwd);
-	set_env_variable("PWD", cwd);
 }

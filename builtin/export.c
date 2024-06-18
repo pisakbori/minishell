@@ -6,11 +6,31 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 15:58:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:24:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+t_env_var	*get_name_value(char *env_line)
+{
+	char		*eq;
+	t_env_var	*res;
+	char		*dup;
+
+	dup = ft_strdup(env_line);
+	eq = ft_strchr(dup, '=');
+	if (eq)
+		*eq = 0;
+	res = ft_calloc(1, sizeof(t_env_var));
+	res->name = ft_strdup(dup);
+	if (!eq)
+		res->value = ft_strdup("");
+	else
+		res->value = ft_strdup(eq + 1);
+	free(dup);
+	return (res);
+}
 
 int	export_arg(char *arg)
 {

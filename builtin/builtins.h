@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:39:48 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/12 20:19:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:01:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_exec
 }			t_exec;
 
 // builtins
+int			is_builtin(char *cmd);
 int			exec_builtin(char **argv);
 void		on_exit_b(t_exec e);
 void		on_cd(t_exec e);
@@ -31,5 +32,7 @@ void		on_export(t_exec e);
 void		on_echo(t_exec e);
 void		on_unset(t_exec e);
 int			is_valid_name(char *name);
+
+int			is_valid_path(char *path);
 
 #endif

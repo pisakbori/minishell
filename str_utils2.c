@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   str_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 16:57:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:24:49 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/06/18 14:53:54 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/06/18 15:21:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "utils.h"
 
-// A variable name must start with a character(A-Za-z) or an Underscore(_)
-// then there can be any number of characters, digits(0-9) or underscore.
-int	is_valid_name(char *name)
+int	ends_with_char(char *str, char c)
 {
-	if (!name)
-		return (0);
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	while (*name)
+	return (str && *str && str[ft_strlen(str) - 1] == c);
+}
+
+void	ft_replace_chars(char *str, char *map, int c)
+{
+	int	i;
+
+	i = -1;
+	if (!str || !map)
+		return ;
+	if (ft_strlen(map) != ft_strlen(str))
+		return ;
+	while (map[++i])
 	{
-		if (!ft_isalnum(*name) && *name != '_')
-			return (0);
-		name++;
+		if (map[i] == 'd')
+			str[i] = c;
 	}
-	return (1);
 }

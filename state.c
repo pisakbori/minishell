@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 17:31:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:30:20 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,12 @@ void	set_state(t_state *val)
 	*state = val;
 }
 
-void	set_exit_code(int exit_code)
+void	init_state(char **env)
 {
 	t_state	*state;
 
-	state = get_state();
-	state->exit_code = exit_code;
-}
-
-void	set_env(char **env)
-{
-	t_state	*state;
-
-	state = get_state();
-	state->env = env;
-}
-
-void	set_last_arg(char *arg)
-{
-	t_state	*state;
-
-	state = get_state();
-	free(state->last_arg);
-	state->last_arg = ft_strdup(arg);
+	state = ft_calloc(1, sizeof(t_state));
+	state->exit_code = 0;
+	state->env = clone_str_arr(env);
+	set_state(state);
 }

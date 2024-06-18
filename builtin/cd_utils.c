@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 16:57:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:24:49 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/06/18 14:25:58 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/06/18 14:34:44 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-// A variable name must start with a character(A-Za-z) or an Underscore(_)
-// then there can be any number of characters, digits(0-9) or underscore.
-int	is_valid_name(char *name)
+int	is_valid_path(char *path)
 {
-	if (!name)
-		return (0);
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	while (*name)
+	int			y;
+	struct stat	buf;
+
+	y = stat(path, &buf);
+	if (y)
 	{
-		if (!ft_isalnum(*name) && *name != '_')
-			return (0);
-		name++;
+		print_prompt();
+		ft_printf(2, "cd: %s: No such file or directory\n", path);
+		set_exit_code(1);
+		return (0);
 	}
-	return (1);
+	else if (!S_ISDIR(buf.st_mode))
+	{
+		print_prompt();
+		ft_printf(2, "cd: %s: Not a directory\n", path);
+		set_exit_code(1);
+		return (0);
+	}
+	else
+		return (1);
 }

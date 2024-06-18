@@ -6,11 +6,24 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:40:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 10:20:45 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:16:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+int	is_builtin(char *cmd)
+{
+	int	is_bltn;
+
+	is_bltn = 0;
+	is_bltn = str_equal(cmd, "exit");
+	is_bltn = is_bltn || str_equal(cmd, "export");
+	is_bltn = is_bltn || str_equal(cmd, "unset");
+	is_bltn = is_bltn || str_equal(cmd, "env");
+	is_bltn = is_bltn || str_equal(cmd, "echo");
+	return (is_bltn);
+}
 
 int	exec_builtin(char **argv)
 {

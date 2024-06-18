@@ -6,29 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:19:25 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:16:16 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-static char	**split_collect_garbage(char **res, int i, char *map, char *clone)
-{
-	free(clone);
-	free(map);
-	while (i >= 0)
-	{
-		free(*(res + i));
-		i--;
-	}
-	free(res);
-	return (NULL);
-}
-
-int	str_contains(char c, char *str)
-{
-	return (ft_strchr(str, c) != NULL);
-}
 
 char	*skip_quote(char quote_type, char *s)
 {
@@ -42,30 +24,6 @@ char	*skip_quote(char quote_type, char *s)
 		return (next_quote);
 	}
 	return (s);
-}
-
-int	is_empty_word(char *s)
-{
-	if (s[0] == ('"') && s[1] == ('"') && !s[2])
-		return (1);
-	else
-		return (0);
-}
-
-void	ft_replace_chars(char *str, char *map, int c)
-{
-	int	i;
-
-	i = -1;
-	if (!str || !map)
-		return ;
-	if (ft_strlen(map) != ft_strlen(str))
-		return ;
-	while (map[++i])
-	{
-		if (map[i] == 'd')
-			str[i] = c;
-	}
 }
 
 int	is_word_start(char *map, int i)
@@ -118,7 +76,7 @@ char	**ft_split2(char *s, char *delim, char *skip)
 		{
 			res[j++] = ft_strdup(clone + i);
 			if (!res[j - 1])
-				return (split_collect_garbage(res, j, map, clone));
+				return (split_fail_free(res, j, map, clone));
 		}
 	}
 	free(clone);

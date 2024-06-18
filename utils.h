@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 13:56:17 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:24:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,56 @@
 
 # include "minishell.h"
 
-char		*get_env_variable(char *var_name);
-void		print_array(char **arr);
-void		ft_free(void **ptr);
-void		ft_path_join(char **path, char *bin_name);
-int			path_exists(char *path);
-int			is_exec(char *path);
-void		set_error(char *text, int err_code);
-int			ends_with_char(char *str, char c);
-char		*get_cmd_path(char *bin_name);
-int			str_equal(char *str1, char *str2);
-int			starts_with(char *str, char *start);
-void		ft_sort_alph(char **arr);
+// str_array utils
+char	**append_to_str_arr(char **arr, char *str);
+void	ft_sort_alph(char **arr);
+void	print_array(char **arr);
+char	**clone_str_arr(char **arr);
+
+// str utils
+char	*ft_str_append(char *str1, char *str2);
+char	*next_nonalpha(char *s);
+int		starts_with(char *str, char *start);
+int		str_equal(char *str1, char *str2);
+int		str_contains(char s, char *delim);
+void	ft_replace_chars(char *str, char *map, int c);
+int		ends_with_char(char *str, char c);
+
+char	*get_env_variable(char *var_name);
+void	ft_free(void **ptr);
+void	ft_path_join(char **path, char *bin_name);
+int		path_exists(char *path);
+int		is_exec(char *path);
+void	set_error(char *text, int err_code);
+char	*get_cmd_path(char *bin_name);
 
 // free_utils
-void		free_and_exit(void);
-void		free_split_arr(char **res);
-void		free_2d_split_arr(char ***res);
+void	free_and_exit(void);
+void	free_split_arr(char **res);
+void	free_2d_split_arr(char ***res);
+char	**split_fail_free(char **res, int i, char *map, char *clone);
 
-char		**ft_split2(char *s, char *delim, char *skip);
-int			is_valid_syntax(char *str);
-int			str_contains(char s, char *delim);
+int		is_valid_syntax(char *str);
 
 // env
-t_env_var	*get_name_value(char *env_line);
-void		set_env_variable(char *var_name, char *var_value);
-void		delete_value(char *var_name);
-void		add_value(char *rule);
-char		**clone_str_arr(char **arr);
-int			is_variable(char *var_name);
+void	set_env_variable(char *var_name, char *var_value);
+void	add_value(char *rule);
 
-char		*expand_variables(char *str);
+int		is_variable(char *var_name);
 
-char		*skip_quote(char quote_type, char *s);
-char		*operation_map(char *str, char *delim, char *skip);
-void		arr_expand_variables(char **cmd_set);
-char		*remove_chars(char *str, char *skip);
-void		arr_remove_chars(char **cmd_set, char *skip);
+char	*expand_variables(char *str);
+
+char	*skip_quote(char quote_type, char *s);
+void	arr_expand_variables(char **cmd_set);
+char	*remove_chars(char *str, char *skip);
+void	arr_remove_chars(char **cmd_set, char *skip);
+
+// expand utils
+char	*operation_map(char *str, char *delim, char *skip);
+int		append_variable_value(char **res, char **buff, char *str, int *i);
+int		start_variable(char *str, char *map, int i);
+
+//split
+char	**ft_split2(char *s, char *delim, char *skip);
+
 #endif

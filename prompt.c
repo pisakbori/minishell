@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:09:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:17:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ void	reset_prompt(int signum)
 	rl_redisplay();
 	rl_replace_line("", 1);
 	rl_redisplay();
-}
-
-void	init_state(char **env)
-{
-	t_state	*state;
-
-	state = ft_calloc(1, sizeof(t_state));
-	state->exit_code = 0;
-	state->env = clone_str_arr(env);
-	set_state(state);
 }
 
 // TODO:

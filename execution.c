@@ -6,33 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 10:22:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:26:44 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	error_code(int ext)
-{
-	if (WIFSIGNALED(ext))
-		return (128 + WTERMSIG(ext));
-	else if (WIFEXITED(ext))
-		return (WEXITSTATUS(ext));
-	else
-		return (ext);
-}
-int	is_builtin(char *cmd)
-{
-	int	is_bltn;
-
-	is_bltn = 0;
-	is_bltn = str_equal(cmd, "exit");
-	is_bltn = is_bltn || str_equal(cmd, "export");
-	is_bltn = is_bltn || str_equal(cmd, "unset");
-	is_bltn = is_bltn || str_equal(cmd, "env");
-	is_bltn = is_bltn || str_equal(cmd, "echo");
-	return (is_bltn);
-}
 
 int	execute_command(char **argv)
 {
@@ -79,14 +57,7 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p)
 	res = execute_command(argv);
 	exit(res);
 }
-void	close_pipe(t_pipe *p)
-{
-	if (p)
-	{
-		close(p->read);
-		close(p->write);
-	}
-}
+
 void	execute_rightmost(char **cmd, t_pipe *left_p)
 {
 	t_pipe	right_p;

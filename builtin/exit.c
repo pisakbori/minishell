@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 17:06:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:28:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,21 @@ int	is_valid_int(char *str)
 	return (1);
 }
 
-void	on_exit_b(t_exec e)
+void	exit_with_code(t_exec e)
 {
 	int	exit_code;
 
+	exit_code = ft_atoi(e.argv[1]);
+	set_exit_code(exit_code);
+	if (exit_code)
+		ft_printf(2, "exit\n");
+	else
+		ft_printf(1, "exit\n");
+	free_and_exit();
+}
+
+void	on_exit_b(t_exec e)
+{
 	if (e.argc == 1)
 	{
 		ft_printf(1, "exit\n");
@@ -39,13 +50,5 @@ void	on_exit_b(t_exec e)
 		set_exit_code(2);
 	}
 	else
-	{
-		exit_code = ft_atoi(e.argv[1]);
-		set_exit_code(exit_code);
-		if (exit_code)
-			ft_printf(2, "exit\n");
-		else
-			ft_printf(1, "exit\n");
-		free_and_exit();
-	}
+		exit_with_code(e);
 }

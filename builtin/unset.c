@@ -6,11 +6,38 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 15:16:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:36:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+void	delete_value(char *var_name)
+{
+	char	**env;
+	t_state	*state;
+	int		i;
+	int		j;
+	int		size;
+
+	if (!is_variable(var_name))
+		return ;
+	state = get_state();
+	env = clone_str_arr(state->env);
+	free_split_arr(state->env);
+	size = ft_arr_len(env) - 1;
+	i = -1;
+	state->env = ft_calloc(size + 1, sizeof(char *));
+	if (!state->env)
+		exit(EXIT_FAILURE);
+	j = 0;
+	while (++i <= size)
+	{
+		if (!(starts_with(env[i], var_name)
+				&& env[i][ft_strlen(var_name)] == '='))
+			state->env[j++] = env[i];
+	}
+}
 
 void	on_unset(t_exec e)
 {
