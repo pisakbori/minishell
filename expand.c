@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 13:56:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:09:56 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,6 @@ char	*expand_variables(char *str)
 			j = 0;
 			append_variable_value(&res, &buff, str, &i);
 		}
-		// else if (map[i] != '-')
-		// 	buff[j++] = str[i];
 		else
 			buff[j++] = str[i];
 		i++;

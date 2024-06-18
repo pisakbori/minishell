@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 13:51:20 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:09:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	***parse_line(char *line)
 	if (!line || !*line)
 		return (0);
 	cmd_set = ft_split2(line, "|", "\"\'");
-	// printf("array:\n");
 	if (!cmd_set)
 		return (NULL);
 	i = -1;
@@ -63,33 +62,19 @@ char	***parse_line(char *line)
 	{
 		cmds_set[i] = ft_split2(cmd_set[i], " \t", "\"\'");
 		arr_remove_chars(cmds_set[i], "\"\'");
-		// printf(">>>%d ", i);
-		// print_array(cmds_set[i]);
 	}
 	free_split_arr(cmd_set);
-	// printf("$? = %d\n", res);
 	return (cmds_set);
 }
 
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
-	// init_signals();
-	// init_state(env);
-	// (void)argc;
-	// (void)argv;
-	// using_history();
-	// line = ft_strdup("$HOME.szia   ' |   ja' | ls");
-	// cmds_set = parse_line(line);
-	// execute_commands(cmds_set, NULL);
-	// printf("exitcode: %d\n", get_state()->exit_code);
-	// free_2d_split_arr(cmds_set);
-	// -----------------
-	char *line;
-	char ***cmds_set;
+	char	*line;
+	char	***cmds_set;
+
 	(void)argc;
 	(void)argv;
-
 	init_state(env);
 	while (1)
 	{

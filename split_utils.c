@@ -6,21 +6,23 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 12:55:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:19:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	split_collect_garbage(char **res, int i)
+static char	**split_collect_garbage(char **res, int i, char *map, char *clone)
 {
+	free(clone);
+	free(map);
 	while (i >= 0)
 	{
 		free(*(res + i));
 		i--;
 	}
 	free(res);
-	return (0);
+	return (NULL);
 }
 
 int	str_contains(char c, char *str)
@@ -50,12 +52,6 @@ int	is_empty_word(char *s)
 		return (0);
 }
 
-void	skip_delimiters(char *str, int *j)
-{
-	while (!str[*j])
-		*j += 1;
-}
-
 void	ft_replace_chars(char *str, char *map, int c)
 {
 	int	i;
@@ -77,6 +73,32 @@ int	is_word_start(char *map, int i)
 	return ((!i || map[i - 1] == 'd') && map[i] != 'd');
 }
 
+char	**init_words(char *map)
+{
+	int		words;
+	int		i;
+	char	**res;
+
+	words = 0;
+	i = -1;
+	while (map[++i])
+	{
+		if (is_word_start(map, i))
+			words++;
+	}
+	res = ft_calloc(words + 1, sizeof(char *));
+	return (res);
+}
+
+char	*set_delim_zeros(char *map, char *s)
+{
+	char	*clone;
+
+	clone = ft_strdup(s);
+	ft_replace_chars(clone, map, 0);
+	return (clone);
+}
+
 char	**ft_split2(char *s, char *delim, char *skip)
 {
 	char	*map;
@@ -84,20 +106,10 @@ char	**ft_split2(char *s, char *delim, char *skip)
 	int		j;
 	char	*clone;
 	char	**res;
-	int		words;
 
-	i = -1;
-	words = 0;
 	map = operation_map(s, delim, skip);
-	clone = ft_strdup(s);
-	ft_replace_chars(clone, map, 0);
-	// printf("%s\n%s\n", s, map);
-	while (map[++i])
-	{
-		if (is_word_start(map, i))
-			words++;
-	}
-	res = ft_calloc(words + 1, sizeof(char *));
+	clone = set_delim_zeros(map, s);
+	res = init_words(map);
 	i = -1;
 	j = 0;
 	while (map[++i])
@@ -106,10 +118,7 @@ char	**ft_split2(char *s, char *delim, char *skip)
 		{
 			res[j++] = ft_strdup(clone + i);
 			if (!res[j - 1])
-			{
-				split_collect_garbage(res, j);
-				break ;
-			}
+				return (split_collect_garbage(res, j, map, clone));
 		}
 	}
 	free(clone);
