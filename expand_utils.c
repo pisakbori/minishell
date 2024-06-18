@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 20:59:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:23:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	start_variable(char *str, char *map, int i)
 	is_variable_start = 0;
 	res = res && map[i] != '\'';
 	res = res && str[i] == '$';
-	// res = res && str[i + 2];
-	is_variable_start = is_variable_start || ft_isalnum(str[i + 2]);
-	is_variable_start = is_variable_start || str_contains(str[i + 2], "_?");
+	res = res && str[i + 1];
+	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
+	is_variable_start = is_variable_start || str_contains(str[i + 1], "_?");
 	res = res && is_variable_start;
 	return (res);
 }

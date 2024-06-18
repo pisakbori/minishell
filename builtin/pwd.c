@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:51:01 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/17 18:03:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:11:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	on_pwd(t_exec e)
 {
 	(void)e;
-	ft_printf("%s\n", get_env()->cwd);
+	ft_printf(1, "%s\n", get_state()->cwd);
 }

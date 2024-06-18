@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 16:43:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:12:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	init_state(char **env)
 	state = ft_calloc(1, sizeof(t_state));
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
+	state->cwd = getcwd(NULL, 0);
 	set_state(state);
 }

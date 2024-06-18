@@ -6,19 +6,17 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:26:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:09:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include <shared.h>
 
 void	navigate_to_path(char *path)
 {
-	int		res;
 	char	*cwd;
 
-	res = chdir(path);
+	chdir(path);
 	cwd = getcwd(NULL, 0);
 	set_cwd(cwd);
 	free(cwd);
@@ -33,12 +31,12 @@ void	navigate_to_oldpwd(void)
 	if (!dest_path[0])
 	{
 		print_prompt();
-		ft_printf("cd: OLDPWD not set\n");
+		ft_printf(2, "cd: OLDPWD not set\n");
 		set_exit_code(1);
 		return ;
 	}
 	else
-		ft_printf("%s\n", dest_path);
+		ft_printf(1, "%s\n", dest_path);
 	free(dest_path);
 }
 
@@ -70,7 +68,7 @@ void	on_cd(t_exec e)
 	if (e.argc > 2)
 	{
 		print_prompt();
-		ft_printf("cd: too many arguments\n");
+		ft_printf(2, "cd: too many arguments\n");
 		set_exit_code(1);
 		return ;
 	}
