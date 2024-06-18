@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:15:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 22:22:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ char	*operation_map(char *str)
 			j = i;
 			next_q = skip_quote(str[i], str + i);
 			i = next_q - str;
-			if (!next_q)
-				return (0);
-			else if (!*next_q)
-				break ;
 			while (++j < i)
 				res[j] = *next_q;
 			res[j] = '-';
@@ -87,6 +83,7 @@ char	*end_variable_name(char *str)
 	else
 		return (next_nonalpha(str + 1));
 }
+
 char	*ft_str_append(char *str1, char *str2)
 {
 	char	*res;

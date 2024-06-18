@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:11:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 22:29:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,7 @@ char		**clone_str_arr(char **arr);
 int			is_variable(char *var_name);
 
 char		*expand_variables(char *str);
-typedef enum
-{
-	TERMINATOR,
-	SKIP,
-	KEEP,
-	VAR_NAME
-}			status;
+
 char		*skip_quote(char quote_type, char *s);
+char		*operation_map(char *str);
 #endif

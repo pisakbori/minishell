@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/17 22:13:45 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/17 22:29:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	is_empty_word(char *s)
 
 int	add_new_word(char **res, int index, char *word, int *j, char mode)
 {
+	printf("new word >%s<\n", word);
 	if (mode)
 		res[index] = ft_strdup(word);
 	else
