@@ -71,6 +71,24 @@ void	add_unsplit_redir(char *redir, char *map, int j, int index)
 	(void)redir;
 	map[j] = '-';
 }
+char	**keep_nonredir_only(char *map, char **parts)
+{
+	int		len;
+	char	**res;
+	int		j;
+	int		i;
+
+	len = chars_freq(map, "k");
+	res = ft_calloc(len + 1, sizeof(char *));
+	i = -1;
+	j = 0;
+	while (map[++i])
+	{
+		if (map[i] == 'k')
+			res[j++] = ft_strdup(parts[i]);
+	}
+	return (res);
+}
 
 /// @brief splits str by spaces and remove everything related to redirection
 /// @param str
@@ -81,9 +99,7 @@ char	**parse_redir(char *str, int index)
 	char	*map;
 	char	**parts;
 	char	**res;
-	int		j;
 	int		i;
-	int		len;
 
 	i = -1;
 	parts = str_split(str, " \t", "\"\'");
@@ -100,15 +116,8 @@ char	**parse_redir(char *str, int index)
 		else
 			map[i] = 'k';
 	}
-	len = chars_freq(map, "k");
-	res = ft_calloc(len + 1, sizeof(char *));
-	i = -1;
-	j = 0;
-	while (map[++i])
-	{
-		if (map[i] == 'k')
-			res[j++] = parts[i];
-	}
+	res = keep_nonredir_only(map, parts);
 	free(map);
+	free_split_arr(parts);
 	return (res);
 }
