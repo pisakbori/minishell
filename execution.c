@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 16:16:00 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:44:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p)
 	{
 		close(right_p->read);
 		if (dup2(right_p->write, 1) == -1)
-			set_error("dup2 right", 0);
+			set_error("dup2 right", 0, NULL);
 		close(right_p->write);
 	}
 	if (left_p)
 	{
 		close(left_p->write);
 		if (dup2(left_p->read, 0) == -1)
-			set_error("dup2 left", 0);
+			set_error("dup2 left", 0, NULL);
 		close(left_p->read);
 	}
 	res = execute_command(argv);
@@ -72,7 +72,7 @@ void	execute_rightmost(char **cmd, t_pipe *left_p)
 	}
 	exit = get_state()->exit_code;
 	if (pipe(fd) < 0)
-		set_error("pipe", 0);
+		set_error("pipe", 0, NULL);
 	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
 	right_p->read = dup(0);
@@ -94,7 +94,7 @@ void	execute_with_pipe(char ***cmds_set, t_pipe *left_p)
 	int		pid1;
 
 	if (pipe(fd) < 0)
-		set_error("pipe", 0);
+		set_error("pipe", 0, NULL);
 	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
 	if (!pid1)

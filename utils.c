@@ -6,16 +6,16 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:03:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:57:39 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	set_error(char *text, int err_code)
+void	set_error(char *text, int err_code, char *msg)
 {
-	// TODO: set last errorcode to err_code
-	(void)err_code;
-	ft_printf(2, "%s: ", text);
-	perror(NULL);
+	get_state()->exit_code = err_code;
+	if (err_code == 2)
+		get_state()->syntax_valid = 0;
+	ft_printf(2, "%s: %s", text, msg);
 }

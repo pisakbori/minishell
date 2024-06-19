@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 15:49:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:58:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,15 @@ int	main(int argc, char const *argv[], char **env)
 	init_state(env);
 	while (1)
 	{
+		get_state()->syntax_valid = 1;
 		line = readline("minishell$ ");
 		if (line)
 		{
 			if (is_valid_syntax(line))
 			{
 				table_cmd_args = parse_line(line);
-				execute_commands(table_cmd_args, NULL);
+				if (get_state()->syntax_valid)
+					execute_commands(table_cmd_args, NULL);
 				// printf("exitcode: %d\n", get_state()->exit_code);
 				free_2d_split_arr(table_cmd_args);
 			}
