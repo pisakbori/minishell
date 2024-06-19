@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:12:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:31:06 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,7 @@ char	*remove_chars(char *str, char *skip)
 	char	*res;
 
 	map = operation_map(str, NULL, skip);
-	i = -1;
-	freq = 0;
-	while (map[++i])
-		if (str_contains(map[i], "-"))
-			freq++;
+	freq = chars_freq(map, "-");
 	res = ft_calloc(ft_strlen(map) - freq + 1, 1);
 	i = -1;
 	j = 0;

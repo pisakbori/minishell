@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:24:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:23:21 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ char	*ft_str_append(char *str1, char *str2);
 char	*next_nonalpha(char *s);
 int		starts_with(char *str, char *start);
 int		str_equal(char *str1, char *str2);
-int		str_contains(char s, char *delim);
+int		str_contains(char *str, char c);
 void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
+int		chars_freq(char *str, char *chars);
 
 char	*get_env_variable(char *var_name);
 void	ft_free(void **ptr);
@@ -54,7 +55,7 @@ int		is_variable(char *var_name);
 
 char	*expand_variables(char *str);
 
-char	*skip_quote(char quote_type, char *s);
+char	*skip_until(char quote_type, char *s);
 void	arr_expand_variables(char **cmd_set);
 char	*remove_chars(char *str, char *skip);
 void	arr_remove_chars(char **cmd_set, char *skip);
@@ -64,7 +65,9 @@ char	*operation_map(char *str, char *delim, char *skip);
 int		append_variable_value(char **res, char **buff, char *str, int *i);
 int		start_variable(char *str, char *map, int i);
 
-//split
-char	**ft_split2(char *s, char *delim, char *skip);
+// split
+char	**str_split(char *s, char *delim, char *skip);
 
+// redir
+char	**parse_redir(char *str, int index);
 #endif

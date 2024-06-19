@@ -6,25 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:16:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:21:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-char	*skip_quote(char quote_type, char *s)
-{
-	char	*next_quote;
-
-	if (*s == quote_type)
-	{
-		if (!*(s + 1))
-			return (s + 1);
-		next_quote = ft_strchr(s + 1, quote_type);
-		return (next_quote);
-	}
-	return (s);
-}
 
 int	is_word_start(char *map, int i)
 {
@@ -57,7 +43,7 @@ char	*set_delim_zeros(char *map, char *s)
 	return (clone);
 }
 
-char	**ft_split2(char *s, char *delim, char *skip)
+char	**str_split(char *s, char *delim, char *skip)
 {
 	char	*map;
 	int		i;

@@ -6,13 +6,13 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:31:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 14:56:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:11:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	str_contains(char c, char *str)
+int	str_contains(char *str, char c)
 {
 	return (ft_strchr(str, c) != NULL);
 }

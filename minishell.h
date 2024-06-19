@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 21:10:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:05:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct s_pipe
 	int		write;
 }			t_pipe;
 
+typedef struct s_redir
+{
+	char	**input;
+	char	**output;
+}			t_redir;
+
 typedef struct s_state
 {
 	int		exit_code;
@@ -42,6 +48,7 @@ typedef struct s_state
 	char	*last_arg;
 	char	*oldcwd;
 	char	*cwd;
+	t_redir	*redirs;
 }			t_state;
 // execution
 void		execute_commands(char ***cmds_set, t_pipe *left_p);
