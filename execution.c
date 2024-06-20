@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 10:45:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:46:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ int	execute_command(char **argv)
 	return (res);
 }
 
-void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, t_redir redir)
+void	execute_cmd(t_stage stage, t_pipe *left_p, t_pipe *right_p)
 {
 	int	res;
 
-	(void)redir;
+	// printf("%s in: %s\n", stage.argv[0], stage.redir.in);
+	// printf("%s out: %s\n", stage.argv[0], stage.redir.out);
 	if (right_p)
 	{
 		close(right_p->read);
@@ -55,21 +56,20 @@ void	execute_cmd(char **argv, t_pipe *left_p, t_pipe *right_p, t_redir redir)
 			set_error("dup2 left", 0, NULL);
 		close(left_p->read);
 	}
-	res = execute_command(argv);
+	res = execute_command(stage.argv);
 	exit(res);
 }
 
-void	execute_rightmost(char **cmd, t_pipe *left_p, t_redir redir)
+void	execute_rightmost(t_stage stage, t_pipe *left_p)
 {
 	t_pipe	*right_p;
 	int		fd[2];
 	int		pid1;
 	int		exit;
 
-	(void)redir;
-	if (is_builtin(cmd[0]))
+	if (is_builtin(stage.argv[0]))
 	{
-		exec_builtin(cmd);
+		exec_builtin(stage.argv);
 		return ;
 	}
 	exit = get_state()->exit_code;
@@ -80,15 +80,15 @@ void	execute_rightmost(char **cmd, t_pipe *left_p, t_redir redir)
 	right_p->read = dup(0);
 	right_p->write = dup(1);
 	if (!pid1)
-		execute_cmd(cmd, left_p, right_p, redir);
+		execute_cmd(stage, left_p, right_p);
 	close_pipe(left_p);
 	close_pipe(right_p);
 	waitpid(pid1, &exit, 0);
 	set_exit_code(error_code(exit));
-	set_last_arg(cmd[ft_arr_len(cmd) - 1]);
+	set_last_arg(stage.argv[ft_arr_len(stage.argv) - 1]);
 }
 
-void	execute_with_pipe(char ***cmds_set, t_pipe *left_p, t_redir *redirs)
+void	execute_with_pipe(t_stage *pipeline, t_pipe *left_p)
 {
 	int		temp;
 	t_pipe	*right_p;
@@ -100,19 +100,30 @@ void	execute_with_pipe(char ***cmds_set, t_pipe *left_p, t_redir *redirs)
 	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
 	pid1 = fork();
 	if (!pid1)
-		execute_cmd(*cmds_set, left_p, right_p, *redirs);
+		execute_cmd(*pipeline, left_p, right_p);
 	close_pipe(left_p);
-	execute_commands(cmds_set + 1, right_p, redirs + 1);
+	execute_commands(pipeline + 1, right_p);
 	close_pipe(right_p);
 	waitpid(pid1, &temp, 0);
 }
-
-void	execute_commands(char ***cmds_set, t_pipe *left_p, t_redir *redirs)
+int	pipeline_len(t_stage *pipeline)
 {
-	if (!cmds_set || !get_state()->syntax_valid)
+	int	len;
+
+	len = 0;
+	if (!pipeline)
+		return (0);
+	while (pipeline[len].argv)
+		len++;
+	return (len);
+}
+
+void	execute_commands(t_stage *pipeline, t_pipe *left_p)
+{
+	if (!pipeline || !get_state()->syntax_valid)
 		return ;
-	if (ft_arr_3d_len(cmds_set) > 1)
-		execute_with_pipe(cmds_set, left_p, redirs);
+	if (pipeline_len(pipeline) > 1)
+		execute_with_pipe(pipeline, left_p);
 	else
-		execute_rightmost(cmds_set[0], left_p, redirs[0]);
+		execute_rightmost(pipeline[0], left_p);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 11:55:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:27:47 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,15 @@ typedef struct s_redir
 	t_file_mode	out_mode;
 }				t_redir;
 
+typedef struct s_stage
+{
+	t_redir		redir;
+	char		**argv;
+}				t_stage;
+
 typedef struct s_state
 {
+	t_stage		*pipeline;
 	int			exit_code;
 	int			syntax_valid;
 	char		**env;
@@ -78,8 +85,7 @@ typedef struct s_state
 }				t_state;
 
 // execution
-void			execute_commands(char ***cmds_set, t_pipe *left_p,
-					t_redir *redirs);
+void			execute_commands(t_stage *pipeline, t_pipe *left_p);
 void			close_pipe(t_pipe *p);
 
 int				error_code(int ext);

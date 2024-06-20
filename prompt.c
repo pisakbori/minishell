@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 10:42:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:41:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,36 @@ void	init_signals(void)
 	signal(SIGINT, reset_prompt);
 }
 
-char	***parse_line(char *line)
+void	parse_line(char *line)
 {
 	char	**cmd_set;
-	char	***table_cmd_args;
 	int		i;
 
 	if (!line || !*line)
-		return (0);
+		return ;
 	cmd_set = str_split(line, "|", "\"\'");
+	// TODO:ERROR?
 	if (!cmd_set)
-		return (NULL);
+		return ;
 	i = -1;
-	table_cmd_args = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
+	// table_cmd_args = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
+	get_state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	arr_expand_variables(cmd_set);
-	get_state()->redirs = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_redir));
 	while (cmd_set[++i])
 	{
-		table_cmd_args[i] = parse_redir(cmd_set[i], i);
-		arr_remove_chars(table_cmd_args[i], "\"\'");
+		get_state()->pipeline[i].argv = parse_redir(cmd_set[i], i);
+		arr_remove_chars(get_state()->pipeline[i].argv, "\"\'");
 	}
 	free_split_arr(cmd_set);
-	return (table_cmd_args);
+	// return (table_cmd_args);
 }
 
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
-	char	***table_cmd_args;
 
+	// char	***table_cmd_args;
 	(void)argc;
 	(void)argv;
 	init_state(env);
@@ -75,9 +75,9 @@ int	main(int argc, char const *argv[], char **env)
 		{
 			if (is_valid_syntax(line))
 			{
-				table_cmd_args = parse_line(line);
-				execute_commands(table_cmd_args, NULL, get_state()->redirs);
-				free_2d_split_arr(table_cmd_args);
+				parse_line(line);
+				execute_commands(get_state()->pipeline, NULL);
+				// free_2d_split_arr(table_cmd_args);
 			}
 			add_history(line);
 		}

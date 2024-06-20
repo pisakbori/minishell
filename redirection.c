@@ -18,14 +18,13 @@ void	add_redir(int index, char mode, char *filename, char io)
 
 	if (io == IN)
 	{
-		get_state()->redirs[index].in_mode = mode;
-		get_state()->redirs[index].in = filename;
+		get_state()->pipeline[index].redir.in_mode = mode;
+		get_state()->pipeline[index].redir.in = filename;
 	}
 	if (io == OUT)
 	{
-		get_state()->redirs[index].out_mode = mode;
-		get_state()->redirs[index].out = filename;
-		printf("here1\n");
+		get_state()->pipeline[index].redir.out_mode = mode;
+		get_state()->pipeline[index].redir.out = filename;
 		if (mode == TRUNCATE)
 			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 		else if (mode == APPEND)
@@ -33,7 +32,6 @@ void	add_redir(int index, char mode, char *filename, char io)
 		if (fd == -1)
 			set_error(NULL, 1, "open");
 		close(fd);
-		printf("here2\n");
 	}
 }
 
@@ -47,8 +45,6 @@ void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 		add_redir(i, TRUNCATE, arg, OUT);
 	else if (str_equal(symbol, ">>"))
 		add_redir(i, APPEND, arg, OUT);
-	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
-	// 		get_state()->redirs[index].out);
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
@@ -67,8 +63,6 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 	else if (starts_with(str, ">"))
 		add_redir(index, TRUNCATE, arg, OUT);
 	map[j] = SKIP;
-	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
-	// 		get_state()->redirs[index].out);
 }
 
 char	**keep_nonredir_only(char *map, char **parts)
