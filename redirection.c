@@ -37,16 +37,16 @@ void	add_redir(int index, char mode, char *filename, char io)
 	}
 }
 
-void	add_separated_redir(char *symbol, char *arg, char *map, int index)
+void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
 	if (str_equal(symbol, "<"))
-		add_redir(index, TRUNCATE, arg, IN);
+		add_redir(i, TRUNCATE, arg, IN);
 	else if (str_equal(symbol, "<<"))
-		add_redir(index, APPEND, arg, IN);
+		add_redir(i, APPEND, arg, IN);
 	else if (str_equal(symbol, ">"))
-		add_redir(index, TRUNCATE, arg, OUT);
+		add_redir(i, TRUNCATE, arg, OUT);
 	else if (str_equal(symbol, ">>"))
-		add_redir(index, APPEND, arg, OUT);
+		add_redir(i, APPEND, arg, OUT);
 	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
 	// 		get_state()->redirs[index].out);
 	*map = SKIP;

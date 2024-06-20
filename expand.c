@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 14:31:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:04:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*remove_chars(char *str, char *skip)
 	j = 0;
 	while (map[++i])
 	{
-		if (map[i] != '-')
+		if (map[i] != SKIP)
 			res[j++] = str[i];
 	}
 	free(map);

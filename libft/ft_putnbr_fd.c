@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 17:58:09 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/03/12 10:53:53 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:09:50 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	ft_putnbr_fd(int n, int fd)
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		abs = (unsigned int) -n;
+		abs = (unsigned int)-n;
 	}
 	else
-		abs = (unsigned int) n;
+		abs = (unsigned int)n;
 	if (n == 0)
 	{
 		ft_putchar_fd('0', fd);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:49:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 11:50:34 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:05:50 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	is_unsplit_redir(char *str)
 	if (!str || !str[0] || !str[1])
 		return (0);
 	res = 1;
-	res = res && str_contains("><", str[0]);
-	err = res && (str[0] != str[1] && str_contains("><", str[1]));
-	err = err || (str_contains("><", str[1]) && str_contains("><", str[2]));
+	res = res && str_has("><", str[0]);
+	err = res && (str[0] != str[1] && str_has("><", str[1]));
+	err = err || (str_has("><", str[1]) && str_has("><", str[2]));
 	if (err)
 		set_error("minishell", 2, "syntax error near unexpected token\n");
-	res = res && (str[0] == str[1] || !str_contains("><", str[1]));
+	res = res && (str[0] == str[1] || !str_has("><", str[1]));
 	return (res);
 }
 
@@ -70,7 +70,7 @@ int	is_separated_redir(char *symbol, char *arg)
 
 char	*get_arg_name(char *str)
 {
-	while (str_contains("><", *str))
+	while (str_has("><", *str))
 		str++;
 	return (ft_strdup(str));
 }

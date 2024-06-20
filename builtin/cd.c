@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 21:09:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:04:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	on_cd(t_exec e)
 		dest_path = ft_strdup(home);
 	else if (e.argv[1][0] == '~')
 		navigate_relative_home(e.argv[1], home);
-	else if (e.argv[1][0] == '-' && ft_strlen(e.argv[1]) == 1)
+	else if (e.argv[1][0] == SKIP && ft_strlen(e.argv[1]) == 1)
 		return (navigate_to_oldpwd());
 	else
 	{

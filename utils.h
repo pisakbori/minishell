@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 11:54:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:05:50 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_str_append(char *str1, char *str2);
 char	*next_nonalpha(char *s);
 int		starts_with(char *str, char *start);
 int		str_equal(char *str1, char *str2);
-int		str_contains(char *str, char c);
+int		str_has(char *str, char c);
 void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
 int		chars_freq(char *str, char *chars);

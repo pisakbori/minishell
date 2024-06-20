@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 14:13:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:12:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /// @brief Creates a map corresponding to str used for split
 /// @param str original str, anything to be kept -> 'k'
 /// @param skip
-// characters in 				"skip"->'-',
+// characters in 				"skip"->SKIP,
 // anything between a pair of  "skip" -> the skipped char
-/// @param delim characters in 	delimiter	"delim"->'d',
+/// @param delim characters in 	delimiter	"delim"-> DELIMITER,
 /// @return map
 char	*operation_map(char *str, char *delim, char *skip)
 {
@@ -32,18 +32,18 @@ char	*operation_map(char *str, char *delim, char *skip)
 	{
 		if (ft_strchr(skip, str[i]))
 		{
-			res[i] = '-';
+			res[i] = SKIP;
 			j = i;
 			next = skip_until(str[i], str + i);
 			i = next - str;
 			while (++j < i)
 				res[j] = *next;
-			res[j] = '-';
+			res[j] = SKIP;
 		}
-		else if (!str_contains(delim, str[i]))
-			res[i] = 'k';
+		else if (!str_has(delim, str[i]))
+			res[i] = KEEP;
 		else
-			res[i] = 'd';
+			res[i] = DELIMITER;
 	}
 	return (res);
 }
@@ -75,7 +75,7 @@ int	start_variable(char *str, char *map, int i)
 	res = res && str[i] == '$';
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
-	is_variable_start = is_variable_start || str_contains("_?", str[i + 1]);
+	is_variable_start = is_variable_start || str_has("_?", str[i + 1]);
 	res = res && is_variable_start;
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 11:21:05 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:08:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	is_word_start(char *map, int i)
 {
-	return ((!i || map[i - 1] == 'd') && map[i] != 'd');
+	int	after_delim;
+
+	after_delim = !i || map[i - 1] == DELIMITER;
+	return (after_delim && map[i] != DELIMITER);
 }
 
 char	**init_words(char *map)

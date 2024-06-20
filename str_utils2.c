@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:53:54 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 11:46:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:06:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_replace_chars(char *str, char *map, int c)
 		return ;
 	while (map[++i])
 	{
-		if (map[i] == 'd')
+		if (map[i] == DELIMITER)
 			str[i] = c;
 	}
 }
@@ -57,7 +57,7 @@ int	chars_freq(char *str, char *chars)
 	freq = 0;
 	i = -1;
 	while (str[++i])
-		if (str_contains(chars, str[i]))
+		if (str_has(chars, str[i]))
 			freq++;
 	return (freq);
 }

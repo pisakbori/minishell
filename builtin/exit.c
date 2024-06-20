@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 14:12:19 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:05:50 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_valid_int(char *str)
 	int	i;
 
 	i = 0;
-	if (str_contains("-+", str[i]))
+	if (str_has("-+", str[i]))
 		i++;
 	while (str[i])
 	{

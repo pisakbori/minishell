@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 09:42:36 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/04/08 17:24:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:10:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	ft_dxprint(int n, int *counter, int base, char *digits)
 	if (n < 0 && base == 10)
 	{
 		ft_cprint('-', counter);
-		abs = (unsigned int) -n;
+		abs = (unsigned int)-n;
 		if (*counter == -1)
 			return (-1);
 	}
 	else
-		abs = (unsigned int) n;
+		abs = (unsigned int)n;
 	if (n == 0)
 		return (ft_cprint('0', counter));
 	reversed_len = 0;
