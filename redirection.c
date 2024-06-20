@@ -12,95 +12,45 @@
 
 #include "minishell.h"
 
-int	is_bracket(char *str)
+void	add_redir(int index, char mode, char *filename, char io)
 {
-	int	res;
+	int	fd;
 
-	if (!str)
-		return (0);
-	res = 0;
-	res = res || str_equal(str, ">");
-	res = res || str_equal(str, ">>");
-	res = res || str_equal(str, "<");
-	res = res || str_equal(str, "<<");
-	return (res);
+	if (io == IN)
+	{
+		get_state()->redirs[index].in_mode = mode;
+		get_state()->redirs[index].in = filename;
+	}
+	if (io == OUT)
+	{
+		get_state()->redirs[index].out_mode = mode;
+		get_state()->redirs[index].out = filename;
+		printf("here1\n");
+		if (mode == TRUNCATE)
+			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		else if (mode == APPEND)
+			fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		if (fd == -1)
+			set_error(NULL, 1, "open");
+		close(fd);
+		printf("here2\n");
+	}
 }
 
-int	is_redir_arg(char *str)
-{
-	int	res;
-
-	if (!str || !*str)
-		return (0);
-	res = 1;
-	res = res && !starts_with(str, ">");
-	res = res && !starts_with(str, "<");
-	return (res);
-}
-int	is_unsplit_redir(char *str)
-{
-	int	res;
-	int	err;
-
-	if (!str || !str[0] || !str[1])
-		return (0);
-	res = 1;
-	res = res && str_contains("><", str[0]);
-	err = res && (str[0] != str[1] && str_contains("><", str[1]));
-	err = err || (str_contains("><", str[1]) && str_contains("><", str[2]));
-	if (err)
-		set_error("minishell", 2, "syntax error near unexpected token\n");
-	res = res && (str[0] == str[1] || !str_contains("><", str[1]));
-	return (res);
-}
-
-int	is_separated_redir(char *symbol, char *arg)
-{
-	int	err;
-
-	err = 0;
-	err = err || (is_bracket(symbol) && !arg);
-	err = err || (is_bracket(symbol) && is_unsplit_redir(arg));
-	err = err || (is_bracket(symbol) && is_bracket(arg));
-	if (err)
-		set_error("minishell", 2, "syntax error near unexpected token\n");
-	return (is_bracket(symbol) && is_redir_arg(arg));
-}
-
-void	add_separated_redir(char *symbol, char *arg, char *map, int j,
-		int index)
+void	add_separated_redir(char *symbol, char *arg, char *map, int index)
 {
 	if (str_equal(symbol, "<"))
-	{
-		get_state()->redirs[index].in_mode = 0;
-		get_state()->redirs[index].in = arg;
-	}
+		add_redir(index, TRUNCATE, arg, IN);
 	else if (str_equal(symbol, "<<"))
-	{
-		get_state()->redirs[index].in_mode = 1;
-		get_state()->redirs[index].in = arg;
-	}
+		add_redir(index, APPEND, arg, IN);
 	else if (str_equal(symbol, ">"))
-	{
-		get_state()->redirs[index].out_mode = 0;
-		get_state()->redirs[index].out = arg;
-	}
+		add_redir(index, TRUNCATE, arg, OUT);
 	else if (str_equal(symbol, ">>"))
-	{
-		get_state()->redirs[index].out_mode = 1;
-		get_state()->redirs[index].out = arg;
-	}
+		add_redir(index, APPEND, arg, OUT);
 	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
 	// 		get_state()->redirs[index].out);
-	map[j] = '-';
-	map[j + 1] = '-';
-}
-
-char	*get_arg_name(char *str)
-{
-	while (str_contains("><", *str))
-		str++;
-	return (ft_strdup(str));
+	*map = SKIP;
+	*(map + 1) = SKIP;
 }
 
 void	add_unsplit_redir(char *str, char *map, int j, int index)
@@ -109,29 +59,18 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 
 	arg = get_arg_name(str);
 	if (starts_with(str, "<<"))
-	{
-		get_state()->redirs[index].in_mode = 1;
-		get_state()->redirs[index].in = arg;
-	}
+		add_redir(index, APPEND, arg, IN);
 	else if (starts_with(str, "<"))
-	{
-		get_state()->redirs[index].in_mode = 0;
-		get_state()->redirs[index].in = arg;
-	}
+		add_redir(index, TRUNCATE, arg, IN);
 	else if (starts_with(str, ">>"))
-	{
-		get_state()->redirs[index].out_mode = 1;
-		get_state()->redirs[index].out = arg;
-	}
+		add_redir(index, APPEND, arg, OUT);
 	else if (starts_with(str, ">"))
-	{
-		get_state()->redirs[index].out_mode = 0;
-		get_state()->redirs[index].out = arg;
-	}
-	map[j] = '-';
+		add_redir(index, TRUNCATE, arg, OUT);
+	map[j] = SKIP;
 	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
 	// 		get_state()->redirs[index].out);
 }
+
 char	**keep_nonredir_only(char *map, char **parts)
 {
 	int		len;
@@ -139,13 +78,13 @@ char	**keep_nonredir_only(char *map, char **parts)
 	int		j;
 	int		i;
 
-	len = chars_freq(map, "k");
+	len = char_freq(map, KEEP);
 	res = ft_calloc(len + 1, sizeof(char *));
 	i = -1;
 	j = 0;
 	while (map[++i])
 	{
-		if (map[i] == 'k')
+		if (map[i] == KEEP)
 			res[j++] = ft_strdup(parts[i]);
 	}
 	return (res);
@@ -161,7 +100,6 @@ char	**parse_redir(char *str, int index)
 	char	**parts;
 	char	**res;
 	int		i;
-	t_redir	*redirs;
 
 	i = -1;
 	parts = str_split(str, " \t", "\"\'");
@@ -170,24 +108,15 @@ char	**parse_redir(char *str, int index)
 	{
 		if (is_separated_redir(parts[i], parts[i + 1]))
 		{
-			add_separated_redir(parts[i], parts[i + 1], map, i, index);
+			add_separated_redir(parts[i], parts[i + 1], map + i, index);
 			i++;
 		}
 		else if (is_unsplit_redir(parts[i]))
 			add_unsplit_redir(parts[i], map, i, index);
 		else
-			map[i] = 'k';
+			map[i] = KEEP;
 	}
 	res = keep_nonredir_only(map, parts);
-	redirs = get_state()->redirs;
-	printf("%d : ", index);
-	if (redirs[index].in)
-		printf("[%s %s] ", !redirs[index].in_mode ? "<" : "<<",
-				redirs[index].in);
-	if (redirs[index].out)
-		printf("[%s %s]", !redirs[index].out_mode ? ">" : ">>",
-				redirs[index].out);
-	printf("\n");
 	free(map);
 	free_split_arr(parts);
 	return (res);

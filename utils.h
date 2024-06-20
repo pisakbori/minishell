@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 16:42:45 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:54:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		str_contains(char *str, char c);
 void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
 int		chars_freq(char *str, char *chars);
+int		char_freq(char *str, char c);
 
 char	*get_env_variable(char *var_name);
 void	ft_free(void **ptr);
@@ -70,4 +71,9 @@ char	**str_split(char *s, char *delim, char *skip);
 
 // redir
 char	**parse_redir(char *str, int index);
+int		is_separated_redir(char *symbol, char *arg);
+int		is_unsplit_redir(char *str);
+int		is_redir_arg(char *str);
+int		is_bracket(char *str);
+char	*get_arg_name(char *str);
 #endif

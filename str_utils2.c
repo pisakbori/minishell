@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:53:54 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 15:40:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:46:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,21 @@ int	chars_freq(char *str, char *chars)
 	i = -1;
 	while (str[++i])
 		if (str_contains(chars, str[i]))
+			freq++;
+	return (freq);
+}
+
+int	char_freq(char *str, char c)
+{
+	int	freq;
+	int	i;
+
+	if (!str || !c || !*str)
+		return (0);
+	freq = 0;
+	i = -1;
+	while (str[++i])
+		if (str[i] == c)
 			freq++;
 	return (freq);
 }
