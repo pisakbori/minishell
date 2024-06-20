@@ -70,18 +70,67 @@ int	is_separated_redir(char *symbol, char *arg)
 void	add_separated_redir(char *symbol, char *arg, char *map, int j,
 		int index)
 {
-	(void)symbol;
-	(void)arg;
-	(void)index;
+	if (str_equal(symbol, "<"))
+	{
+		get_state()->redirs[index].in_mode = 0;
+		get_state()->redirs[index].in = arg;
+	}
+	else if (str_equal(symbol, "<<"))
+	{
+		get_state()->redirs[index].in_mode = 1;
+		get_state()->redirs[index].in = arg;
+	}
+	else if (str_equal(symbol, ">"))
+	{
+		get_state()->redirs[index].out_mode = 0;
+		get_state()->redirs[index].out = arg;
+	}
+	else if (str_equal(symbol, ">>"))
+	{
+		get_state()->redirs[index].out_mode = 1;
+		get_state()->redirs[index].out = arg;
+	}
+	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
+	// 		get_state()->redirs[index].out);
 	map[j] = '-';
 	map[j + 1] = '-';
 }
 
-void	add_unsplit_redir(char *redir, char *map, int j, int index)
+char	*get_arg_name(char *str)
 {
-	(void)index;
-	(void)redir;
+	while (str_contains("><", *str))
+		str++;
+	return (ft_strdup(str));
+}
+
+void	add_unsplit_redir(char *str, char *map, int j, int index)
+{
+	char	*arg;
+
+	arg = get_arg_name(str);
+	if (starts_with(str, "<<"))
+	{
+		get_state()->redirs[index].in_mode = 1;
+		get_state()->redirs[index].in = arg;
+	}
+	else if (starts_with(str, "<"))
+	{
+		get_state()->redirs[index].in_mode = 0;
+		get_state()->redirs[index].in = arg;
+	}
+	else if (starts_with(str, ">>"))
+	{
+		get_state()->redirs[index].out_mode = 1;
+		get_state()->redirs[index].out = arg;
+	}
+	else if (starts_with(str, ">"))
+	{
+		get_state()->redirs[index].out_mode = 0;
+		get_state()->redirs[index].out = arg;
+	}
 	map[j] = '-';
+	// printf("here: %d, redir: %s %s \n", index, get_state()->redirs[index].in,
+	// 		get_state()->redirs[index].out);
 }
 char	**keep_nonredir_only(char *map, char **parts)
 {
@@ -112,6 +161,7 @@ char	**parse_redir(char *str, int index)
 	char	**parts;
 	char	**res;
 	int		i;
+	t_redir	*redirs;
 
 	i = -1;
 	parts = str_split(str, " \t", "\"\'");
@@ -129,6 +179,15 @@ char	**parse_redir(char *str, int index)
 			map[i] = 'k';
 	}
 	res = keep_nonredir_only(map, parts);
+	redirs = get_state()->redirs;
+	printf("%d : ", index);
+	if (redirs[index].in)
+		printf("[%s %s] ", !redirs[index].in_mode ? "<" : "<<",
+				redirs[index].in);
+	if (redirs[index].out)
+		printf("[%s %s]", !redirs[index].out_mode ? ">" : ">>",
+				redirs[index].out);
+	printf("\n");
 	free(map);
 	free_split_arr(parts);
 	return (res);
