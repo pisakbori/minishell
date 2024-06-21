@@ -6,124 +6,108 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:46:29 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:07:59 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_command(char **argv)
+void	execute_command(char **argv)
 {
 	char	*cmd;
 	int		res;
-	char	**env;
 
-	env = get_state()->env;
 	if (!argv)
+		set_error("minishell", 2, "syntax error");
+	if (is_builtin(argv[0]))
 	{
-		ft_printf(2, "Syntax error");
-		return (2);
+		exec_builtin(argv);
+		printf("execute_command %d \n", state()->should_stop);
 	}
-	cmd = get_cmd_path(argv[0]);
-	if (cmd)
-		res = execve(cmd, argv, env);
 	else
 	{
-		ft_printf(2, "%s: command not found\n", argv[0]);
-		res = 127;
+		cmd = get_cmd_path(argv[0]);
+		if (cmd)
+		{
+			res = execve(cmd, argv, state()->env);
+			set_exit_code(res);
+		}
+		else
+			set_error(argv[0], 127, "command not found");
+		free(cmd); //TODO: when?????
 	}
-	free(cmd); //TODO: when?????
-	return (res);
+	exit(state()->exit_code);
 }
 
-void	execute_cmd(t_stage stage, t_pipe *left_p, t_pipe *right_p)
+void	close_unused_pipes(int left_keep)
 {
-	int	res;
+	int		i;
+	int		right_keep;
+	t_pipe	*pipes;
 
-	// printf("%s in: %s\n", stage.argv[0], stage.redir.in);
-	// printf("%s out: %s\n", stage.argv[0], stage.redir.out);
-	if (right_p)
+	pipes = state()->pipes;
+	right_keep = left_keep + 1;
+	i = -1;
+	while (++i < state()->pipeline_len)
 	{
-		close(right_p->read);
-		if (dup2(right_p->write, 1) == -1)
-			set_error("dup2 right", 0, NULL);
-		close(right_p->write);
+		if ((left_keep == -1) || (i != left_keep && i != right_keep))
+			close_pipe(pipes + i);
 	}
-	if (left_p)
-	{
-		close(left_p->write);
-		if (dup2(left_p->read, 0) == -1)
-			set_error("dup2 left", 0, NULL);
-		close(left_p->read);
-	}
-	res = execute_command(stage.argv);
-	exit(res);
 }
 
-void	execute_rightmost(t_stage stage, t_pipe *left_p)
+int	execute_with_pipe(t_stage stage, int i)
 {
-	t_pipe	*right_p;
-	int		fd[2];
-	int		pid1;
-	int		exit;
+	int	pid1;
+	int	is_last_stage;
 
-	if (is_builtin(stage.argv[0]))
-	{
-		exec_builtin(stage.argv);
-		return ;
-	}
-	exit = get_state()->exit_code;
-	if (pipe(fd) < 0)
-		set_error("pipe", 0, NULL);
-	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
-	pid1 = fork();
-	right_p->read = dup(0);
-	right_p->write = dup(1);
-	if (!pid1)
-		execute_cmd(stage, left_p, right_p);
-	close_pipe(left_p);
-	close_pipe(right_p);
-	waitpid(pid1, &exit, 0);
-	set_exit_code(error_code(exit));
-	set_last_arg(stage.argv[ft_arr_len(stage.argv) - 1]);
-}
-
-void	execute_with_pipe(t_stage *pipeline, t_pipe *left_p)
-{
-	int		temp;
-	t_pipe	*right_p;
-	int		fd[2];
-	int		pid1;
-
-	if (pipe(fd) < 0)
-		set_error("pipe", 0, NULL);
-	right_p = &(t_pipe){.read = fd[0], .write = fd[1]};
-	pid1 = fork();
-	if (!pid1)
-		execute_cmd(*pipeline, left_p, right_p);
-	close_pipe(left_p);
-	execute_commands(pipeline + 1, right_p);
-	close_pipe(right_p);
-	waitpid(pid1, &temp, 0);
-}
-int	pipeline_len(t_stage *pipeline)
-{
-	int	len;
-
-	len = 0;
-	if (!pipeline)
-		return (0);
-	while (pipeline[len].argv)
-		len++;
-	return (len);
-}
-
-void	execute_commands(t_stage *pipeline, t_pipe *left_p)
-{
-	if (!pipeline || !get_state()->syntax_valid)
-		return ;
-	if (pipeline_len(pipeline) > 1)
-		execute_with_pipe(pipeline, left_p);
+	if (i == pipeline_len(state()->pipeline) - 1)
+		is_last_stage = 1;
 	else
-		execute_rightmost(pipeline[0], left_p);
+		is_last_stage = 0;
+	stage.left_pipe = state()->pipes + i;
+	stage.right_pipe = state()->pipes + i + 1;
+	pid1 = fork();
+	if (!pid1)
+	{
+		close_unused_pipes(i);
+		close_write(stage.left_pipe);
+		close_read(stage.right_pipe);
+		if (i > 0)
+			dup2(stage.left_pipe->read, STDIN_FILENO);
+		if (!is_last_stage)
+			dup2(stage.right_pipe->write, STDOUT_FILENO);
+		execute_command(stage.argv);
+		close_read(stage.left_pipe);
+		close_write(stage.right_pipe);
+	}
+	return (pid1);
+}
+
+void	execute_multiple(void)
+{
+	int		i;
+	int		*pids;
+	int		exit_code;
+	t_stage	*pipeline;
+
+	pipeline = state()->pipeline;
+	i = -1;
+	pids = ft_calloc(state()->pipeline_len, sizeof(int));
+	while (pipeline[++i].argv)
+		pids[i] = execute_with_pipe(pipeline[i], i);
+	i = -1;
+	close_unused_pipes(-1);
+	while (pipeline[++i].argv)
+		waitpid(pids[i], &exit_code, 0);
+	if (state()->should_stop)
+		free_and_exit();
+	set_exit_code(error_code(exit_code));
+}
+
+void	execute_commands(t_stage *pipeline)
+{
+	if (state()->pipeline_len == 1 && str_equal(pipeline[0].argv[0], "exit"))
+		exec_builtin(pipeline[0].argv);
+	else
+		execute_multiple();
 }

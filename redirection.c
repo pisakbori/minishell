@@ -18,13 +18,13 @@ void	add_redir(int index, char mode, char *filename, char io)
 
 	if (io == IN)
 	{
-		get_state()->pipeline[index].redir.in_mode = mode;
-		get_state()->pipeline[index].redir.in = filename;
+		state()->pipeline[index].redir.in_mode = mode;
+		state()->pipeline[index].redir.in = filename;
 	}
 	if (io == OUT)
 	{
-		get_state()->pipeline[index].redir.out_mode = mode;
-		get_state()->pipeline[index].redir.out = filename;
+		state()->pipeline[index].redir.out_mode = mode;
+		state()->pipeline[index].redir.out = filename;
 		if (mode == TRUNCATE)
 			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 		else if (mode == APPEND)

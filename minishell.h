@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:27:47 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:14:43 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,16 @@ typedef struct s_stage
 {
 	t_redir		redir;
 	char		**argv;
+	t_pipe		*left_pipe;
+	t_pipe		*right_pipe;
 }				t_stage;
 
 typedef struct s_state
 {
+	int			pipeline_len;
+	int			should_stop;
 	t_stage		*pipeline;
+	t_pipe		*pipes;
 	int			exit_code;
 	int			syntax_valid;
 	char		**env;
@@ -85,15 +90,19 @@ typedef struct s_state
 }				t_state;
 
 // execution
-void			execute_commands(t_stage *pipeline, t_pipe *left_p);
+void			execute_commands(t_stage *pipeline);
 void			close_pipe(t_pipe *p);
+int				pipeline_len(t_stage *pipeline);
+t_pipe			invalid_pipe(void);
+void			close_read(t_pipe *p);
+void			close_write(t_pipe *p);
 
 int				error_code(int ext);
 
 void			init_state(char **env);
 void			set_exit_code(int exit_code);
 void			set_state(t_state *val);
-t_state			*get_state(void);
+t_state			*state(void);
 t_state			**get_state_ptr(void);
 void			set_last_arg(char *arg);
 void			set_cwd(char *cwd);

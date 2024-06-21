@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:24:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:37:00 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@ void	add_value(char *rule)
 {
 	char	**env;
 	char	**new;
-	t_state	*state;
+	t_state	*s;
 
-	state = get_state();
-	env = clone_str_arr(state->env);
-	free_split_arr(state->env);
+	s = state();
+	env = clone_str_arr(s->env);
+	free_split_arr(s->env);
 	new = append_to_str_arr(env, rule);
-	state->env = new;
+	s->env = new;
 }
 
 void	replace_value(char *var_name, char *rule)
 {
-	t_state	*state;
+	t_state	*s;
 	int		i;
 
 	if (!is_variable(var_name))
 		return ;
-	state = get_state();
+	s = state();
 	i = -1;
-	while (state->env[++i])
+	while (s->env[++i])
 	{
-		if (starts_with(state->env[i], var_name)
-			&& state->env[i][ft_strlen(var_name)] == '=')
+		if (starts_with(s->env[i], var_name) &&
+			s->env[i][ft_strlen(var_name)] == '=')
 		{
-			free(state->env[i]);
-			state->env[i] = ft_strdup(rule);
+			free(s->env[i]);
+			s->env[i] = ft_strdup(rule);
 		}
 	}
 }
@@ -73,7 +73,7 @@ char	*get_env_variable(char *var_name)
 	i = -1;
 	res = NULL;
 	name_len = ft_strlen(var_name);
-	env = get_state()->env;
+	env = state()->env;
 	while (env[++i])
 	{
 		clone = ft_strdup(env[i]);
@@ -94,7 +94,7 @@ int	is_variable(char *var_name)
 
 	i = -1;
 	name_len = ft_strlen(var_name);
-	env = get_state()->env;
+	env = state()->env;
 	while (env[++i])
 	{
 		clone = ft_strdup(env[i]);

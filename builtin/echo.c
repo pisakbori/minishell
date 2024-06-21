@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:27:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:04:15 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:32:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_arg(char *arg)
 	// if (scmp(arg, "~"))
 	ft_printf(1, "%s", arg);
 	// else
-	// 	ft_printf("%s", get_state()->home);
+	// 	ft_printf("%s", state()->home);
 }
 
 void	on_echo(t_exec e)

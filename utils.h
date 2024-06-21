@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:05:50 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:07:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_free(void **ptr);
 void	ft_path_join(char **path, char *bin_name);
 int		path_exists(char *path);
 int		is_exec(char *path);
-void	set_error(char *text, int err_code, char *msg);
+int		set_error(char *text, int err_code, char *msg);
 char	*get_cmd_path(char *bin_name);
 
 // free_utils

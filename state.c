@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 10:55:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:15:00 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_state	**get_state_ptr(void)
 	return (&state);
 }
 
-t_state	*get_state(void)
+t_state	*state(void)
 {
 	return (*get_state_ptr());
 }
@@ -43,11 +43,12 @@ void	init_state(char **env)
 	state->syntax_valid = 1;
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);
+	state->should_stop = 0;
 	set_state(state);
 }
 
 void	reset_stdio(void)
 {
-	dup2(get_state()->backup_stdin, STDIN_FILENO);
-	dup2(get_state()->backup_stdout, STDOUT_FILENO);
+	dup2(state()->backup_stdin, STDIN_FILENO);
+	dup2(state()->backup_stdout, STDOUT_FILENO);
 }

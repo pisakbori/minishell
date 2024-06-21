@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:41:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:10:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,37 @@ void	parse_line(char *line)
 {
 	char	**cmd_set;
 	int		i;
+	int		fd[2];
+	int		len;
 
 	if (!line || !*line)
 		return ;
 	cmd_set = str_split(line, "|", "\"\'");
+	len = ft_arr_len(cmd_set);
+	state()->pipeline_len = len;
 	// TODO:ERROR?
 	if (!cmd_set)
 		return ;
 	i = -1;
-	// table_cmd_args = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char **));
-	get_state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
+	state()->pipeline = ft_calloc(len + 1, sizeof(t_stage));
+	state()->pipes = ft_calloc(len + 2, sizeof(t_pipe));
 	arr_expand_variables(cmd_set);
+	i = -1;
 	while (cmd_set[++i])
 	{
-		get_state()->pipeline[i].argv = parse_redir(cmd_set[i], i);
-		arr_remove_chars(get_state()->pipeline[i].argv, "\"\'");
+		if (i)
+		{
+			if (pipe(fd) < 0)
+				set_error("pipe", 0, NULL);
+			state()->pipes[i] = (t_pipe){.read = fd[0], .write = fd[1]};
+		}
+		else
+			state()->pipes[i] = invalid_pipe();
+		state()->pipeline[i].argv = parse_redir(cmd_set[i], i);
+		arr_remove_chars(state()->pipeline[i].argv, "\"\'");
 	}
+	state()->pipes[i] = invalid_pipe();
 	free_split_arr(cmd_set);
-	// return (table_cmd_args);
 }
 
 // ctrl-d exits minishell
@@ -67,16 +80,17 @@ int	main(int argc, char const *argv[], char **env)
 	(void)argc;
 	(void)argv;
 	init_state(env);
-	while (1)
+	while (!state()->should_stop)
 	{
-		get_state()->syntax_valid = 1;
+		state()->syntax_valid = 1;
 		line = readline("minishell$ ");
 		if (line)
 		{
 			if (is_valid_syntax(line))
 			{
 				parse_line(line);
-				execute_commands(get_state()->pipeline, NULL);
+				execute_commands(state()->pipeline);
+				// TODO:reset_stdio();
 				// free_2d_split_arr(table_cmd_args);
 			}
 			add_history(line);
@@ -85,5 +99,6 @@ int	main(int argc, char const *argv[], char **env)
 			free_and_exit();
 		free(line);
 	}
+	free_and_exit();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 16:23:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:32:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	on_env(t_exec e)
 
 	(void)e;
 	set_env_variable("_", "/usr/bin/env");
-	env = get_state()->env;
+	env = state()->env;
 	print_array(env);
 	set_exit_code(0);
 }
