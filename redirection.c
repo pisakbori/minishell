@@ -25,13 +25,21 @@ void	add_redir(int index, char mode, char *filename, char io)
 	{
 		state()->pipeline[index].redir.out_mode = mode;
 		state()->pipeline[index].redir.out = filename;
-		if (mode == TRUNCATE)
+		fd = 0;
+		if (path_exists(filename) && access(filename, W_OK))
+			set_error(NULL, 1, "Permission denied");
+		else if (mode == TRUNCATE)
+		{
 			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+			close(fd);
+		}
 		else if (mode == APPEND)
+		{
 			fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-		if (fd == -1)
-			set_error(NULL, 1, "open");
-		close(fd);
+			close(fd);
+		}
+		else if (fd == -1)
+			set_error(NULL, 1, "Permission denied");
 	}
 }
 

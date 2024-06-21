@@ -12,3 +12,5 @@ bash: syntax error near unexpected token `|'
 
 ||
 bash: syntax error near unexpected token `||'
+
+lsof -c sleep | grep pipe
