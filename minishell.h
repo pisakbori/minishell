@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 14:14:43 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:35:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@
 
 typedef struct s_pipe
 {
-	int			read;
-	int			write;
-}				t_pipe;
+	int				read;
+	int				write;
+}					t_pipe;
 
 typedef enum mode
 {
 	TRUNCATE,
 	APPEND
-}				t_file_mode;
+}					t_file_mode;
 
 typedef enum redir
 {
 	IN,
 	OUT
-}				t_redir_io;
+}					t_redir_io;
 
 typedef enum operation
 {
@@ -53,61 +53,69 @@ typedef enum operation
 	KEEP,
 	DELIMITER,
 	SKIP,
-}				t_operation;
+}					t_operation;
+
+typedef enum path_status
+{
+	IS_VALID,
+	IS_DIR,
+	NOT_COMMAND,
+	NO_EXEC_RIGHTS,
+	INVALID_PATH
+}					t_path_status;
 
 typedef struct s_redir
 {
-	char		*in;
-	t_file_mode	in_mode;
-	char		*out;
-	t_file_mode	out_mode;
-}				t_redir;
+	char			*in;
+	t_file_mode		in_mode;
+	char			*out;
+	t_file_mode		out_mode;
+}					t_redir;
 
 typedef struct s_stage
 {
-	t_redir		redir;
-	char		**argv;
-	t_pipe		*left_pipe;
-	t_pipe		*right_pipe;
-}				t_stage;
+	t_redir			redir;
+	char			**argv;
+	t_pipe			*left_pipe;
+	t_pipe			*right_pipe;
+}					t_stage;
 
 typedef struct s_state
 {
-	int			pipeline_len;
-	int			should_stop;
-	t_stage		*pipeline;
-	t_pipe		*pipes;
-	int			exit_code;
-	int			syntax_valid;
-	char		**env;
-	char		**path;
-	char		*last_arg;
-	char		*oldcwd;
-	char		*cwd;
-	t_redir		*redirs;
-	int			backup_stdin;
-	int			backup_stdout;
-}				t_state;
+	int				should_stop;
+	t_path_status	cmd_path_status;
+	t_stage			*pipeline;
+	t_pipe			*pipes;
+	int				exit_code;
+	int				syntax_valid;
+	char			**env;
+	char			*last_arg;
+	char			*oldcwd;
+	char			*cwd;
+	t_redir			*redirs;
+	int				backup_stdin;
+	int				backup_stdout;
+}					t_state;
 
 // execution
-void			execute_commands(t_stage *pipeline);
-void			close_pipe(t_pipe *p);
-int				pipeline_len(t_stage *pipeline);
-t_pipe			invalid_pipe(void);
-void			close_read(t_pipe *p);
-void			close_write(t_pipe *p);
+void				execute_commands(t_stage *pipeline);
+void				close_pipe(t_pipe *p);
+int					pipeline_len(t_stage *pipeline);
+t_pipe				invalid_pipe(void);
+void				close_read(t_pipe *p);
+void				close_write(t_pipe *p);
 
-int				error_code(int ext);
+int					error_code(int ext);
 
-void			init_state(char **env);
-void			set_exit_code(int exit_code);
-void			set_state(t_state *val);
-t_state			*state(void);
-t_state			**get_state_ptr(void);
-void			set_last_arg(char *arg);
-void			set_cwd(char *cwd);
-void			reset_stdio(void);
+void				init_state(int argc, char const *argv[], char **env);
+void				set_exit_code(int exit_code);
+void				set_state(t_state *val);
+t_state				*state(void);
+t_state				**get_state_ptr(void);
+void				set_last_arg(char *arg);
+void				set_cwd(char *cwd);
+void				reset_state(void);
 
-void			print_prompt(void);
+void				print_prompt(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 15:10:15 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:44:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	parse_line(char *line)
 		return ;
 	cmd_set = str_split(line, "|", "\"\'");
 	len = ft_arr_len(cmd_set);
-	state()->pipeline_len = len;
 	// TODO:ERROR?
 	if (!cmd_set)
 		return ;
@@ -76,28 +75,24 @@ int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
 
-	// char	***table_cmd_args;
-	(void)argc;
-	(void)argv;
-	init_state(env);
+	init_state(argc, argv, env);
 	while (!state()->should_stop)
 	{
-		state()->syntax_valid = 1;
 		line = readline("minishell$ ");
 		if (line)
 		{
-			if (is_valid_syntax(line))
+			syntax_check(line);
+			if (state()->syntax_valid)
 			{
 				parse_line(line);
 				execute_commands(state()->pipeline);
-				// TODO:reset_stdio();
-				// free_2d_split_arr(table_cmd_args);
 			}
 			add_history(line);
 		}
 		else
 			free_and_exit();
 		free(line);
+		reset_state();
 	}
 	free_and_exit();
 	return (0);

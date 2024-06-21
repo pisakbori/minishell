@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 14:15:00 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:45:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ void	set_state(t_state *val)
 	*state = val;
 }
 
-void	init_state(char **env)
+void	init_state(int argc, char const *argv[], char **env)
 {
 	t_state	*state;
 
+	(void)argc;
+	(void)argv;
 	state = ft_calloc(1, sizeof(t_state));
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
@@ -44,11 +46,37 @@ void	init_state(char **env)
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;
+	state->pipeline = NULL;
 	set_state(state);
 }
 
-void	reset_stdio(void)
+void	free_pipeline(void)
 {
+	int	i;
+
+	i = 0;
+	if (state()->pipes)
+	{
+		free(state()->pipes);
+		state()->pipes = NULL;
+	}
+	if (!state()->pipeline)
+		return ;
+	while (state()->pipeline[i].argv != NULL)
+	{
+		if (state()->pipeline[i].argv)
+			free_split_arr(state()->pipeline[i].argv);
+		state()->pipeline[i].argv = NULL;
+		i++;
+	}
+	free(state()->pipeline);
+	state()->pipeline = NULL;
+}
+
+void	reset_state(void)
+{
+	state()->syntax_valid = 1;
 	dup2(state()->backup_stdin, STDIN_FILENO);
 	dup2(state()->backup_stdout, STDOUT_FILENO);
+	free_pipeline();
 }

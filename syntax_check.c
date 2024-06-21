@@ -6,14 +6,14 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 11:59:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 16:15:30 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
 // TODO:check for > empty, or > |
-int	is_valid_syntax(char *str)
+int	syntax_check(char *str)
 {
 	char	msg[42];
 

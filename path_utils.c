@@ -6,11 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/19 16:43:58 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:20:24 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "minishell.h"
 
 int	path_exists(char *path)
 {
@@ -22,12 +22,18 @@ int	path_exists(char *path)
 
 int	is_exec(char *path)
 {
-	int	res;
+	struct stat	sb;
 
-	if (!path_exists(path))
-		return (0);
-	res = access(path, X_OK);
-	return (!res);
+	state()->cmd_path_status = IS_VALID;
+	if (!strchr(path, '/'))
+		state()->cmd_path_status = NOT_COMMAND;
+	else if (access(path, F_OK))
+		state()->cmd_path_status = INVALID_PATH;
+	else if (is_dir(path))
+		state()->cmd_path_status = IS_DIR;
+	else if (!(stat(path, &sb) == 0 && sb.st_mode & S_IXUSR))
+		state()->cmd_path_status = NO_EXEC_RIGHTS;
+	return (state()->cmd_path_status == IS_VALID);
 }
 
 void	ft_path_join(char **path, char *bin_name)
@@ -46,6 +52,21 @@ void	ft_path_join(char **path, char *bin_name)
 	*path = full_path;
 }
 
+void	set_path_error(char *path)
+{
+	t_path_status	status;
+
+	status = state()->cmd_path_status;
+	if (status == IS_DIR)
+		set_error(path, 126, "Is a directory");
+	else if (status == NO_EXEC_RIGHTS)
+		set_error(path, 126, "Permission denied");
+	else if (status == NOT_COMMAND)
+		set_error(path, 127, "command not found");
+	else if (status == INVALID_PATH)
+		set_error(path, 127, " No such file or directory");
+}
+
 char	*get_cmd_path(char *bin_name)
 {
 	char	*paths;
@@ -58,19 +79,19 @@ char	*get_cmd_path(char *bin_name)
 	ft_free((void **)&paths);
 	i = -1;
 	res = NULL;
-	if (!path_exists(bin_name))
+	while (p[++i])
 	{
-		while (p[++i])
+		ft_path_join(&(p[i]), bin_name);
+		if (is_exec(p[i]))
 		{
-			ft_path_join(&(p[i]), bin_name);
-			if (is_exec(p[i]))
-				res = ft_strdup(p[i]);
+			res = ft_strdup(p[i]);
+			break ;
 		}
 	}
-	else if (is_exec(bin_name))
-		res = ft_strdup(bin_name);
-	// if (!res)
-	// 	set_error(bin_name, errno, NULL);
 	free_split_arr(p);
+	if (state()->cmd_path_status != IS_VALID && is_exec(bin_name))
+		res = ft_strdup(bin_name);
+	else
+		set_path_error(bin_name);
 	return (res);
 }

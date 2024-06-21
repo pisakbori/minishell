@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:39:48 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/18 15:01:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:50:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void		on_unset(t_exec e);
 int			is_valid_name(char *name);
 
 int			is_valid_path(char *path);
+int			is_dir(char *path);
 
 #endif

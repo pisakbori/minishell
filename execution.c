@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 15:07:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:43:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	execute_command(char **argv)
 	if (!argv)
 		set_error("minishell", 2, "syntax error");
 	if (is_builtin(argv[0]))
-	{
 		exec_builtin(argv);
-		printf("execute_command %d \n", state()->should_stop);
-	}
 	else
 	{
 		cmd = get_cmd_path(argv[0]);
@@ -32,8 +29,8 @@ void	execute_command(char **argv)
 			res = execve(cmd, argv, state()->env);
 			set_exit_code(res);
 		}
-		else
-			set_error(argv[0], 127, "command not found");
+		// else if (state()->cmd_path_status == INVALID_PATH)
+		// 	set_error(argv[0], 127, "command not found");
 		free(cmd); //TODO: when?????
 	}
 	exit(state()->exit_code);
@@ -47,10 +44,10 @@ void	close_unused_pipes(int left_keep)
 
 	pipes = state()->pipes;
 	right_keep = left_keep + 1;
-	i = -1;
-	while (++i < state()->pipeline_len)
+	i = 0;
+	while (state()->pipes[++i].read != -1)
 	{
-		if ((left_keep == -1) || (i != left_keep && i != right_keep))
+		if (i != left_keep && i != right_keep)
 			close_pipe(pipes + i);
 	}
 }
@@ -83,7 +80,7 @@ int	execute_with_pipe(t_stage stage, int i)
 	return (pid1);
 }
 
-void	execute_multiple(void)
+void	execute_multiple(int len)
 {
 	int		i;
 	int		*pids;
@@ -92,7 +89,7 @@ void	execute_multiple(void)
 
 	pipeline = state()->pipeline;
 	i = -1;
-	pids = ft_calloc(state()->pipeline_len, sizeof(int));
+	pids = ft_calloc(len, sizeof(int));
 	while (pipeline[++i].argv)
 		pids[i] = execute_with_pipe(pipeline[i], i);
 	i = -1;
@@ -106,8 +103,13 @@ void	execute_multiple(void)
 
 void	execute_commands(t_stage *pipeline)
 {
-	if (state()->pipeline_len == 1 && str_equal(pipeline[0].argv[0], "exit"))
+	int	len;
+
+	if (!state()->pipeline)
+		return ;
+	len = pipeline_len(pipeline);
+	if (len == 1 && is_builtin(pipeline[0].argv[0]))
 		exec_builtin(pipeline[0].argv);
 	else
-		execute_multiple();
+		execute_multiple(len);
 }
