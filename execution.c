@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 10:32:49 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:07:01 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute_command(char **argv)
 {
+	char	buff[4096];
 	char	*cmd;
 	int		res;
 
@@ -24,19 +25,18 @@ void	execute_command(char **argv)
 	else
 	{
 		cmd = get_cmd_path(argv[0]);
-		if (cmd)
+		ft_strlcpy(buff, cmd, 4096);
+		free(cmd);
+		if (*buff)
 		{
-			res = execve(cmd, argv, state()->env);
+			res = execve(buff, argv, state()->env);
 			set_exit_code(res);
 		}
-		// else if (state()->cmd_path_status == INVALID_PATH)
-		// 	set_error(argv[0], 127, "command not found");
-		free(cmd); //TODO: when?????
 	}
 	exit(state()->exit_code);
 }
 
-void	close_unused_pipes(void)
+void	close_all_pipes(void)
 {
 	int		i;
 	t_pipe	*pipes;
@@ -47,23 +47,69 @@ void	close_unused_pipes(void)
 		close_pipe(pipes + i);
 }
 
-int	execute_with_pipe(t_stage stage, int i)
+void	close_redir(t_stage stage)
+{
+	if (stage.redir.in_fd)
+		close(stage.redir.in_fd);
+	if (stage.redir.out_fd)
+		close(stage.redir.out_fd);
+}
+void	handle_redir(t_redir *r)
+{
+	int	out_mode;
+
+	if (r->in)
+	{
+		r->in_fd = open(r->in, O_RDONLY, S_IRWXU);
+		if (r->in_fd != -1)
+		{
+			dup2(r->in_fd, STDIN_FILENO);
+			close(r->in_fd);
+		}
+	}
+	if (r->out)
+	{
+		out_mode = O_CREAT | O_WRONLY | r->out_mode;
+		r->out_fd = open(r->out, out_mode, S_IRWXU);
+		if (r->out_fd != -1)
+		{
+			dup2(r->out_fd, STDOUT_FILENO);
+			close(r->out_fd);
+		}
+	}
+}
+
+int	execute_with_pipe(t_stage *stage, int i)
 {
 	int	pid1;
 
-	stage.left_pipe = state()->pipes + i;
-	stage.right_pipe = state()->pipes + i + 1;
+	stage->left_pipe = state()->pipes + i;
+	stage->right_pipe = state()->pipes + i + 1;
 	pid1 = fork();
 	if (!pid1)
 	{
-		if (i > 0)
-			dup2(stage.left_pipe->read, STDIN_FILENO);
-		if (i != pipeline_len(state()->pipeline) - 1)
-			dup2(stage.right_pipe->write, STDOUT_FILENO);
-		close_unused_pipes();
-		execute_command(stage.argv);
+		handle_redir(&stage->redir);
+		if (i > 0 && !stage->redir.in)
+			dup2(stage->left_pipe->read, STDIN_FILENO);
+		if (!stage->redir.out && i != pipeline_len(state()->pipeline) - 1)
+			dup2(stage->right_pipe->write, STDOUT_FILENO);
+		close_all_pipes();
+		execute_command(stage->argv);
 	}
 	return (pid1);
+}
+
+void	close_all_redir(void)
+{
+	t_stage	*pipeline;
+
+	pipeline = state()->pipeline;
+	while (pipeline->argv)
+	{
+		if (pipeline->redir.in_fd || pipeline->redir.out_fd)
+			close_redir(*pipeline);
+		pipeline++;
+	}
 }
 
 void	execute_multiple(int len)
@@ -77,9 +123,10 @@ void	execute_multiple(int len)
 	i = -1;
 	pids = ft_calloc(len, sizeof(int));
 	while (pipeline[++i].argv)
-		pids[i] = execute_with_pipe(pipeline[i], i);
+		pids[i] = execute_with_pipe(pipeline + i, i);
 	i = -1;
-	close_unused_pipes();
+	close_all_pipes();
+	close_all_redir();
 	while (pipeline[++i].argv)
 		waitpid(pids[i], &exit_code, 0);
 	free(pids);
@@ -96,7 +143,11 @@ void	execute_commands(t_stage *pipeline)
 		return ;
 	len = pipeline_len(pipeline);
 	if (len == 1 && is_builtin(pipeline[0].argv[0]))
+	{
+		handle_redir(&pipeline[0].redir);
 		exec_builtin(pipeline[0].argv);
+		close_redir(pipeline[0]);
+	}
 	else
 		execute_multiple(len);
 }

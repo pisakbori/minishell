@@ -12,47 +12,41 @@
 
 #include "minishell.h"
 
-void	add_redir(int index, char mode, char *filename, char io)
+void	add_redir(int index, int mode, char *filename, char io)
 {
 	int	fd;
 
 	if (io == IN)
 	{
-		state()->pipeline[index].redir.in_mode = mode;
+		state()->pipeline[index].redir.in_mode = 0 | mode;
 		state()->pipeline[index].redir.in = filename;
 	}
 	if (io == OUT)
 	{
-		state()->pipeline[index].redir.out_mode = mode;
+		state()->pipeline[index].redir.out_mode = 0 | mode;
 		state()->pipeline[index].redir.out = filename;
 		fd = 0;
 		if (path_exists(filename) && access(filename, W_OK))
 			set_error(NULL, 1, "Permission denied");
-		else if (mode == TRUNCATE)
-		{
-			fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-			close(fd);
-		}
-		else if (mode == APPEND)
-		{
-			fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-			close(fd);
-		}
-		else if (fd == -1)
+		else
+			fd = open(filename, O_CREAT | O_WRONLY | mode, S_IRWXU);
+		if (fd == -1)
 			set_error(NULL, 1, "Permission denied");
+		else
+			close(fd);
 	}
 }
 
 void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
 	if (str_equal(symbol, "<"))
-		add_redir(i, TRUNCATE, arg, IN);
+		add_redir(i, O_APPEND, arg, IN);
 	else if (str_equal(symbol, "<<"))
-		add_redir(i, APPEND, arg, IN);
+		add_redir(i, O_TRUNC, arg, IN);
 	else if (str_equal(symbol, ">"))
-		add_redir(i, TRUNCATE, arg, OUT);
+		add_redir(i, O_TRUNC, arg, OUT);
 	else if (str_equal(symbol, ">>"))
-		add_redir(i, APPEND, arg, OUT);
+		add_redir(i, O_APPEND, arg, OUT);
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
@@ -63,13 +57,13 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 
 	arg = get_arg_name(str);
 	if (starts_with(str, "<<"))
-		add_redir(index, APPEND, arg, IN);
+		add_redir(index, O_APPEND, arg, IN);
 	else if (starts_with(str, "<"))
-		add_redir(index, TRUNCATE, arg, IN);
+		add_redir(index, O_TRUNC, arg, IN);
 	else if (starts_with(str, ">>"))
-		add_redir(index, APPEND, arg, OUT);
+		add_redir(index, O_APPEND, arg, OUT);
 	else if (starts_with(str, ">"))
-		add_redir(index, TRUNCATE, arg, OUT);
+		add_redir(index, O_TRUNC, arg, OUT);
 	map[j] = SKIP;
 }
 

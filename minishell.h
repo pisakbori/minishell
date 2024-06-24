@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 17:35:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:49:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ typedef struct s_pipe
 	int				write;
 }					t_pipe;
 
-typedef enum mode
-{
-	TRUNCATE,
-	APPEND
-}					t_file_mode;
-
 typedef enum redir
 {
 	IN,
@@ -67,9 +61,11 @@ typedef enum path_status
 typedef struct s_redir
 {
 	char			*in;
-	t_file_mode		in_mode;
+	int				in_mode;
+	int				in_fd;
 	char			*out;
-	t_file_mode		out_mode;
+	int				out_mode;
+	int				out_fd;
 }					t_redir;
 
 typedef struct s_stage
