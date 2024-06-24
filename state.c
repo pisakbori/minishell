@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 09:50:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:58:53 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,15 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->pipeline = NULL;
 	set_state(state);
 }
+void	reset_stdio(void)
+{
+	dup2(state()->backup_stdin, STDIN_FILENO);
+	dup2(state()->backup_stdout, STDOUT_FILENO);
+}
 
 void	reset_state(void)
 {
+	reset_stdio();
 	state()->syntax_valid = 1;
-	dup2(state()->backup_stdin, STDIN_FILENO);
-	dup2(state()->backup_stdout, STDOUT_FILENO);
 	free_pipeline();
 }

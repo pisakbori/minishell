@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 18:20:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:42:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	set_path_error(char *path)
 		set_error(path, 127, "command not found");
 	else if (status == INVALID_PATH)
 		set_error(path, 127, " No such file or directory");
+	if (status != IS_VALID)
+		exit(state()->exit_code);
 }
 
 char	*get_cmd_path(char *bin_name)

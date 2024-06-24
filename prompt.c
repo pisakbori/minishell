@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 18:44:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:57:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ int	main(int argc, char const *argv[], char **env)
 			if (state()->syntax_valid)
 			{
 				parse_line(line);
-				execute_commands(state()->pipeline);
+				if (state()->pipeline && state()->pipeline[0].argv)
+					execute_commands(state()->pipeline);
 			}
-			add_history(line);
+			if (*line)
+				add_history(line);
 		}
 		else
 			free_and_exit();

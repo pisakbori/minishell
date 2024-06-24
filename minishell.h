@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 13:49:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:59:06 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_state				**get_state_ptr(void);
 void				set_last_arg(char *arg);
 void				set_cwd(char *cwd);
 void				reset_state(void);
+void				reset_stdio(void);
 
 void				print_prompt(void);
 
