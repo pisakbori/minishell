@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 16:15:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:51:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_and_exit(void);
 void	free_split_arr(char **res);
 void	free_2d_split_arr(char ***res);
 char	**split_fail_free(char **res, int i, char *map, char *clone);
+void	free_pipeline(void);
+void	free_redirs(void);
 
 int		syntax_check(char *str);
 

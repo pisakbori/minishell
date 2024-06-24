@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 15:05:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:54:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,52 @@ void	free_2d_split_arr(char ***res)
 	free(res);
 }
 
+void	free_redirs(void)
+{
+	int		i;
+	int		len;
+	t_redir	*redirs;
+
+	i = -1;
+	redirs = state()->redirs;
+	if (!redirs)
+		return ;
+	len = pipeline_len(state()->pipeline);
+	while (++i < len)
+	{
+		if (redirs[i].in)
+			free(redirs[i].in);
+		if (redirs[i].out)
+			free(redirs[i].out);
+	}
+	free(state()->redirs);
+	state()->redirs = NULL;
+}
+
+void	free_pipeline(void)
+{
+	int	i;
+
+	i = 0;
+	free_redirs();
+	if (state()->pipes)
+	{
+		free(state()->pipes);
+		state()->pipes = NULL;
+	}
+	if (!state()->pipeline)
+		return ;
+	while (state()->pipeline[i].argv != NULL)
+	{
+		if (state()->pipeline[i].argv)
+			free_split_arr(state()->pipeline[i].argv);
+		state()->pipeline[i].argv = NULL;
+		i++;
+	}
+	free(state()->pipeline);
+	state()->pipeline = NULL;
+}
+
 void	free_and_exit(void)
 {
 	t_state	*s;
@@ -60,6 +106,7 @@ void	free_and_exit(void)
 		free(s->oldcwd);
 	if (s->last_arg)
 		free(s->last_arg);
+	free_pipeline();
 	free_split_arr(s->env);
 	free(s);
 	ft_printf(1, "exit\n");

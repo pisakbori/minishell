@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 09:34:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:53:30 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,27 @@ t_env_var	*get_name_value(char *env_line)
 int	export_arg(char *arg)
 {
 	t_env_var	*v;
+	int			res;
 
 	v = get_name_value(arg);
 	if (!is_valid_name(v->name))
-		return (0);
-	set_env_variable(v->name, v->value);
+		res = 0;
+	else
+	{
+		set_env_variable(v->name, v->value);
+		res = 1;
+	}
 	free(v->name);
 	free(v->value);
 	free(v);
-	return (1);
+	return (res);
+}
+
+void	free_env_var(t_env_var *v)
+{
+	free(v->name);
+	free(v->value);
+	free(v);
 }
 
 void	print_all_exported(void)
@@ -62,6 +74,7 @@ void	print_all_exported(void)
 	{
 		env_var = get_name_value(copy[i]);
 		ft_printf(1, "declare -x %s=\"%s\"\n", env_var->name, env_var->value);
+		free_env_var(env_var);
 	}
 	free_split_arr(copy);
 }

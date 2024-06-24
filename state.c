@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 18:45:35 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:50:31 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,6 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->should_stop = 0;
 	state->pipeline = NULL;
 	set_state(state);
-}
-
-void	free_pipeline(void)
-{
-	int	i;
-
-	i = 0;
-	if (state()->pipes)
-	{
-		free(state()->pipes);
-		state()->pipes = NULL;
-	}
-	if (!state()->pipeline)
-		return ;
-	while (state()->pipeline[i].argv != NULL)
-	{
-		if (state()->pipeline[i].argv)
-			free_split_arr(state()->pipeline[i].argv);
-		state()->pipeline[i].argv = NULL;
-		i++;
-	}
-	free(state()->pipeline);
-	state()->pipeline = NULL;
 }
 
 void	reset_state(void)

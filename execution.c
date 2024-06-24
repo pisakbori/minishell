@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 20:51:42 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:32:49 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	execute_multiple(int len)
 	close_unused_pipes();
 	while (pipeline[++i].argv)
 		waitpid(pids[i], &exit_code, 0);
+	free(pids);
 	if (state()->should_stop)
 		free_and_exit();
 	set_exit_code(error_code(exit_code));
