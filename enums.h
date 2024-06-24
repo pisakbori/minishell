@@ -1,24 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maybe_utils.h                                      :+:      :+:    :+:   */
+/*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 12:17:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/14 12:55:54 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/06/24 18:25:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAYBE_UTILS_H
-# define MAYBE_UTILS_H
+#ifndef ENUMS_H
+# define ENUMS_H
 
-# include "minishell.h"
-
-typedef struct s_env_var
+typedef enum s_mode_io
 {
-	char	*name;
-	char	*value;
-}			t_env_var;
+	DOUBLE,
+	SINGLE
+}	t_mode_io;
+
+typedef enum redir
+{
+	IN,
+	OUT
+}	t_redir_io;
+
+typedef enum operation
+{
+	END,
+	KEEP,
+	DELIMITER,
+	SKIP,
+}	t_operation;
+
+typedef enum path_status
+{
+	IS_VALID,
+	IS_DIR,
+	NOT_COMMAND,
+	PERMISSION_DENIED,
+	NOT_EXIST,
+	WRITE_RIGHTS,
+	READ_RIGHTS,
+
+}	t_path_status;
 
 #endif

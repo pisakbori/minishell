@@ -12,41 +12,68 @@
 
 #include "minishell.h"
 
-void	add_redir(int index, int mode, char *filename, char io)
+void	add_i_redir(int index, int mode, char *filename)
+{
+	if (state()->pipeline[index].redir.invalid)
+		return ;
+	if (mode == SINGLE)
+	{
+		if (!path_exists(filename))
+		{
+			set_error("minishell", 1, "No such file or directory");
+			state()->pipeline[index].redir.invalid = 1;
+		}
+		else if (path_exists(filename) && access(filename, R_OK))
+		{
+			set_error("minishell", 1, "Permission denied");
+			state()->pipeline[index].redir.invalid = 1;
+		}
+		else
+		{
+			state()->pipeline[index].redir.in_mode = mode;
+			state()->pipeline[index].redir.in = filename;
+		}
+	}
+}
+
+void	add_o_redir(int index, int mode, char *filename)
 {
 	int	fd;
+	int	w_mode;
 
-	if (io == IN)
+	if (state()->pipeline[index].redir.invalid)
+		return ;
+	if (mode == SINGLE)
+		w_mode = O_TRUNC;
+	else
+		w_mode = O_APPEND;
+	if (path_exists(filename) && access(filename, W_OK))
 	{
-		state()->pipeline[index].redir.in_mode = 0 | mode;
-		state()->pipeline[index].redir.in = filename;
+		set_error("minishell", 1, "Permission denied");
+		state()->pipeline[index].redir.invalid = 1;
 	}
-	if (io == OUT)
+	else
 	{
-		state()->pipeline[index].redir.out_mode = 0 | mode;
-		state()->pipeline[index].redir.out = filename;
-		fd = 0;
-		if (path_exists(filename) && access(filename, W_OK))
-			set_error(NULL, 1, "Permission denied");
-		else
-			fd = open(filename, O_CREAT | O_WRONLY | mode, S_IRWXU);
-		if (fd == -1)
-			set_error(NULL, 1, "Permission denied");
-		else
+		fd = open(filename, O_CREAT | O_WRONLY | w_mode, S_IRWXU);
+		if (fd != -1)
+		{
+			state()->pipeline[index].redir.out_mode = mode;
+			state()->pipeline[index].redir.out = filename;
 			close(fd);
+		}
 	}
 }
 
 void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
 	if (str_equal(symbol, "<"))
-		add_redir(i, O_APPEND, arg, IN);
+		add_i_redir(i, SINGLE, arg);
 	else if (str_equal(symbol, "<<"))
-		add_redir(i, O_TRUNC, arg, IN);
+		add_i_redir(i, DOUBLE, arg);
 	else if (str_equal(symbol, ">"))
-		add_redir(i, O_TRUNC, arg, OUT);
+		add_o_redir(i, SINGLE, arg);
 	else if (str_equal(symbol, ">>"))
-		add_redir(i, O_APPEND, arg, OUT);
+		add_o_redir(i, DOUBLE, arg);
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
@@ -57,13 +84,13 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 
 	arg = get_arg_name(str);
 	if (starts_with(str, "<<"))
-		add_redir(index, O_APPEND, arg, IN);
+		add_i_redir(index, DOUBLE, arg);
 	else if (starts_with(str, "<"))
-		add_redir(index, O_TRUNC, arg, IN);
+		add_i_redir(index, SINGLE, arg);
 	else if (starts_with(str, ">>"))
-		add_redir(index, O_APPEND, arg, OUT);
+		add_o_redir(index, DOUBLE, arg);
 	else if (starts_with(str, ">"))
-		add_redir(index, O_TRUNC, arg, OUT);
+		add_o_redir(index, SINGLE, arg);
 	map[j] = SKIP;
 }
 

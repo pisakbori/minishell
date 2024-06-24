@@ -6,13 +6,14 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:39:48 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 15:50:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:55:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include <enums.h>
 # include <minishell.h>
 
 typedef struct s_exec

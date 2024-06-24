@@ -6,14 +6,14 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 14:59:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:45:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "maybe_utils.h"
+# include "enums.h"
 # include "utils.h"
 # include <builtins.h>
 # include <errno.h>
@@ -35,28 +35,11 @@ typedef struct s_pipe
 	int				write;
 }					t_pipe;
 
-typedef enum redir
+typedef struct s_env_var
 {
-	IN,
-	OUT
-}					t_redir_io;
-
-typedef enum operation
-{
-	END,
-	KEEP,
-	DELIMITER,
-	SKIP,
-}					t_operation;
-
-typedef enum path_status
-{
-	IS_VALID,
-	IS_DIR,
-	NOT_COMMAND,
-	NO_EXEC_RIGHTS,
-	INVALID_PATH
-}					t_path_status;
+	char			*name;
+	char			*value;
+}					t_env_var;
 
 typedef struct s_redir
 {
@@ -66,6 +49,7 @@ typedef struct s_redir
 	char			*out;
 	int				out_mode;
 	int				out_fd;
+	int				invalid;
 }					t_redir;
 
 typedef struct s_stage
@@ -79,7 +63,7 @@ typedef struct s_stage
 typedef struct s_state
 {
 	int				should_stop;
-	t_path_status	cmd_path_status;
+	t_path_status	path_status;
 	t_stage			*pipeline;
 	t_pipe			*pipes;
 	int				exit_code;

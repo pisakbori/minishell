@@ -6,13 +6,14 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 09:51:29 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:54:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include "enums.h"
 # include "minishell.h"
 
 // str_array utils
@@ -32,11 +33,15 @@ int		ends_with_char(char *str, char c);
 int		chars_freq(char *str, char *chars);
 int		char_freq(char *str, char c);
 
-char	*get_env_variable(char *var_name);
-void	ft_free(void **ptr);
-void	ft_path_join(char **path, char *bin_name);
+// path utils
 int		path_exists(char *path);
 int		is_exec(char *path);
+int		is_redirectable(char *path, t_path_status correct_status);
+void	ft_path_join(char **path, char *bin_name);
+void	set_path_error(char *path);
+
+char	*get_env_variable(char *var_name);
+void	ft_free(void **ptr);
 int		set_error(char *text, int err_code, char *msg);
 char	*get_cmd_path(char *bin_name);
 

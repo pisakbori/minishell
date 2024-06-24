@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 16:40:27 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:06:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	handle_redir(t_stage *s)
 	int	out_mode;
 
 	reset_stdio();
+	if (s->redir.invalid)
+		return ;
 	if (s->redir.in)
 	{
 		s->redir.in_fd = open(s->redir.in, O_RDONLY, S_IRWXU);
@@ -80,20 +82,19 @@ void	handle_redir(t_stage *s)
 			dup2(s->redir.in_fd, STDIN_FILENO);
 			close(s->redir.in_fd);
 		}
-		else
-			set_error("minishell", 1, "Permission denied");
 	}
 	if (s->redir.out)
 	{
-		out_mode = O_CREAT | O_WRONLY | s->redir.out_mode;
+		if (s->redir.out_mode == SINGLE)
+			out_mode = O_CREAT | O_WRONLY | O_TRUNC;
+		else
+			out_mode = O_CREAT | O_WRONLY | O_APPEND;
 		s->redir.out_fd = open(s->redir.out, out_mode, S_IRWXU);
 		if (s->redir.out_fd != -1)
 		{
 			dup2(s->redir.out_fd, STDOUT_FILENO);
 			close(s->redir.out_fd);
 		}
-		else
-			set_error("minishell", 1, "Permission denied");
 	}
 }
 
@@ -107,7 +108,7 @@ int	execute_with_pipe(t_stage *stage, int i)
 	pid1 = fork();
 	if (!pid1)
 	{
-		if (stage->redir.in_fd == -1 || stage->redir.out_fd == -1)
+		if (stage->redir.invalid)
 			exit(1);
 		if (i > 0 && !stage->redir.in)
 			dup2(stage->left_pipe->read, STDIN_FILENO);

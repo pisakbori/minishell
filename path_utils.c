@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 15:42:05 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:45:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,37 @@ int	is_exec(char *path)
 {
 	struct stat	sb;
 
-	state()->cmd_path_status = IS_VALID;
+	state()->path_status = IS_VALID;
 	if (!strchr(path, '/'))
-		state()->cmd_path_status = NOT_COMMAND;
+		state()->path_status = NOT_COMMAND;
 	else if (access(path, F_OK))
-		state()->cmd_path_status = INVALID_PATH;
+		state()->path_status = NOT_EXIST;
 	else if (is_dir(path))
-		state()->cmd_path_status = IS_DIR;
+		state()->path_status = IS_DIR;
 	else if (!(stat(path, &sb) == 0 && sb.st_mode & S_IXUSR))
-		state()->cmd_path_status = NO_EXEC_RIGHTS;
-	return (state()->cmd_path_status == IS_VALID);
+		state()->path_status = PERMISSION_DENIED;
+	return (state()->path_status == IS_VALID);
+}
+
+int	is_redirectable(char *path, t_path_status correct_status)
+{
+	struct stat	sb;
+	int			exists;
+
+	state()->path_status = IS_VALID;
+	exists = 1;
+	if (access(path, F_OK))
+	{
+		state()->path_status = NOT_EXIST;
+		exists = 0;
+	}
+	// else if (is_dir(path))
+	// 	state()->path_status = IS_DIR;
+	if (exists && (stat(path, &sb) == 0 && sb.st_mode & S_IWUSR))
+		state()->path_status = WRITE_RIGHTS;
+	if (exists && (stat(path, &sb) == 0 && sb.st_mode & S_IRUSR))
+		state()->path_status = READ_RIGHTS;
+	return (state()->path_status == correct_status);
 }
 
 void	ft_path_join(char **path, char *bin_name)
@@ -56,14 +77,14 @@ void	set_path_error(char *path)
 {
 	t_path_status	status;
 
-	status = state()->cmd_path_status;
+	status = state()->path_status;
 	if (status == IS_DIR)
 		set_error(path, 126, "Is a directory");
-	else if (status == NO_EXEC_RIGHTS)
+	else if (status == PERMISSION_DENIED)
 		set_error(path, 126, "Permission denied");
 	else if (status == NOT_COMMAND)
 		set_error(path, 127, "command not found");
-	else if (status == INVALID_PATH)
+	else if (status == NOT_EXIST)
 		set_error(path, 127, " No such file or directory");
 	if (status != IS_VALID)
 		exit(state()->exit_code);
@@ -91,7 +112,7 @@ char	*get_cmd_path(char *bin_name)
 		}
 	}
 	free_split_arr(p);
-	if (state()->cmd_path_status != IS_VALID && is_exec(bin_name))
+	if (state()->path_status != IS_VALID && is_exec(bin_name))
 		res = ft_strdup(bin_name);
 	else
 		set_path_error(bin_name);
