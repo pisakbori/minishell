@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:18:46 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:38:13 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void	set_state(t_state *val)
 void	init_state(int argc, char const *argv[], char **env)
 {
 	t_state	*state;
+	char	cwd[4096];
 
 	(void)argc;
 	(void)argv;
 	state = ft_calloc(1, sizeof(t_state));
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
-	state->cwd = getcwd(NULL, 0);
+	getcwd(cwd, 4096);
+	state->cwd = ft_strdup(cwd);
 	state->syntax_valid = 1;
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);

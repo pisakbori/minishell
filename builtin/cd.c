@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:04:15 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:47:28 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void	navigate_to_path(char *path)
 {
-	char	*cwd;
+	char	cwd[4096];
 
 	chdir(path);
-	cwd = getcwd(NULL, 0);
+	getcwd(cwd, 4096);
 	set_cwd(cwd);
-	free(cwd);
 	set_exit_code(0);
 }
 
@@ -29,12 +28,7 @@ void	navigate_to_oldpwd(void)
 
 	dest_path = get_env_variable("OLDPWD");
 	if (!dest_path[0])
-	{
-		print_prompt();
-		ft_printf(2, "cd: OLDPWD not set\n");
-		set_exit_code(1);
-		return ;
-	}
+		set_mini_error("cd", 1, "OLDPWD not set");
 	else
 		ft_printf(1, "%s\n", dest_path);
 	free(dest_path);
