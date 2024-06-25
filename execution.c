@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 10:42:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:25:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,8 @@ void	execute_commands(t_stage *pipeline)
 	if (len == 1 && is_builtin(pipeline[0].argv[0]))
 	{
 		handle_redir(pipeline);
-		exec_builtin(pipeline[0].argv);
+		if (!pipeline[0].redir.invalid)
+			exec_builtin(pipeline[0].argv);
 		close_redir(pipeline[0]);
 	}
 	else
