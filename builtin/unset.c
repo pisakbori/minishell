@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 11:38:20 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:19:50 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 void	delete_value(char *var_name)
 {
 	char	**env;
-	t_state	*s;
 	int		i;
 	int		j;
 	int		size;
 
+	if (str_equal(var_name, "PATH"))
+		state()->backup_path = get_env_variable("PATH");
 	if (!is_variable(var_name))
 		return ;
-	s = state();
-	env = clone_str_arr(s->env);
-	free_split_arr(s->env);
+	env = clone_str_arr(state()->env);
+	free_split_arr(state()->env);
 	size = ft_arr_len(env) - 1;
 	i = -1;
-	s->env = ft_calloc(size + 1, sizeof(char *));
-	if (!s->env)
+	state()->env = ft_calloc(size + 1, sizeof(char *));
+	if (!state()->env)
 		exit(EXIT_FAILURE);
 	j = 0;
 	while (++i <= size)
 	{
 		if (!(starts_with(env[i], var_name)
 				&& env[i][ft_strlen(var_name)] == '='))
-			s->env[j++] = env[i];
+			state()->env[j++] = env[i];
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 09:54:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:16:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	free_and_exit(void)
 		free(s->last_arg);
 	free_pipeline();
 	free_split_arr(s->env);
+	free(s->backup_path);
 	free(s);
 	ft_printf(1, "exit\n");
 	exit(exit_code);

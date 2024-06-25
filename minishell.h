@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 18:45:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:15:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_state
 	int				exit_code;
 	int				syntax_valid;
 	char			**env;
+	char			*backup_path;
 	char			*last_arg;
 	char			*oldcwd;
 	char			*cwd;

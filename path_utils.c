@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 17:45:14 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:21:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ char	*get_cmd_path(char *bin_name)
 	char	*res;
 
 	paths = get_env_variable("PATH");
+	if (!paths)
+		paths = state()->backup_path;
 	p = ft_split(paths, ':');
 	ft_free((void **)&paths);
 	i = -1;
