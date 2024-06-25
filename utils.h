@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 17:54:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:47:47 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	set_path_error(char *path);
 char	*get_env_variable(char *var_name);
 void	ft_free(void **ptr);
 int		set_error(char *text, int err_code, char *msg);
+int		set_mini_error(char *text, int err_code, char *msg);
+
 char	*get_cmd_path(char *bin_name);
 
 // free_utils

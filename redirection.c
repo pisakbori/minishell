@@ -14,16 +14,19 @@
 
 void	add_i_redir(int index, int mode, char *filename)
 {
+	char	*fn;
+
 	if (state()->pipeline[index].redir.invalid)
 		return ;
+	fn = remove_chars(filename, "\"\'");
 	if (mode == SINGLE)
 	{
-		if (!path_exists(filename))
+		if (!path_exists(fn))
 		{
-			set_error("minishell", 1, "No such file or directory");
+			set_mini_error(fn, 1, "No such file or directory");
 			state()->pipeline[index].redir.invalid = 1;
 		}
-		else if (path_exists(filename) && access(filename, R_OK))
+		else if (path_exists(fn) && access(fn, R_OK))
 		{
 			set_error("minishell", 1, "Permission denied");
 			state()->pipeline[index].redir.invalid = 1;
@@ -31,35 +34,46 @@ void	add_i_redir(int index, int mode, char *filename)
 		else
 		{
 			state()->pipeline[index].redir.in_mode = mode;
-			state()->pipeline[index].redir.in = filename;
+			if (state()->pipeline[index].redir.in)
+				free(state()->pipeline[index].redir.in);
+			state()->pipeline[index].redir.in = fn;
 		}
 	}
 }
 
 void	add_o_redir(int index, int mode, char *filename)
 {
-	int	fd;
-	int	w_mode;
+	int		fd;
+	int		w_mode;
+	char	*fn;
 
 	if (state()->pipeline[index].redir.invalid)
 		return ;
+	fn = remove_chars(filename, "\"\'");
 	if (mode == SINGLE)
 		w_mode = O_TRUNC;
 	else
 		w_mode = O_APPEND;
-	if (path_exists(filename) && access(filename, W_OK))
+	if (path_exists(fn) && access(fn, W_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
 		state()->pipeline[index].redir.invalid = 1;
 	}
 	else
 	{
-		fd = open(filename, O_CREAT | O_WRONLY | w_mode, S_IRWXU);
+		fd = open(fn, O_CREAT | O_WRONLY | w_mode, S_IRWXU);
+		close(fd);
 		if (fd != -1)
 		{
+			if (state()->pipeline[index].redir.out)
+				free(state()->pipeline[index].redir.out);
 			state()->pipeline[index].redir.out_mode = mode;
-			state()->pipeline[index].redir.out = filename;
-			close(fd);
+			state()->pipeline[index].redir.out = fn;
+		}
+		else
+		{
+			set_mini_error(fn, 1, "No such file or directory");
+			state()->pipeline[index].redir.invalid = 1;
 		}
 	}
 }
