@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:47:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:05:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,24 @@ void	on_cd(t_exec e)
 
 	if (e.argc > 2)
 	{
-		print_prompt();
-		ft_printf(2, "cd: too many arguments\n");
-		set_exit_code(1);
+		set_mini_error("cd", 1, "too many arguments");
 		return ;
 	}
 	home = get_env_variable("HOME");
 	dest_path = NULL;
-	if (e.argc == 1)
+	if (e.argc == 1 && home)
 		dest_path = ft_strdup(home);
+	else if (e.argc == 1 && !home)
+	{
+		set_mini_error("cd", 1, "HOME not set");
+		return ;
+	}
 	else if (e.argv[1][0] == '~')
 		navigate_relative_home(e.argv[1], home);
 	else if (e.argv[1][0] == SKIP && ft_strlen(e.argv[1]) == 1)
 		return (navigate_to_oldpwd());
 	else
-	{
 		dest_path = ft_strdup(e.argv[1]);
-		navigate(dest_path);
-	}
+	navigate(dest_path);
 	free(home);
 }
