@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:16:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 10:48:50 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:31:43 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	set_error(char *text, int err_code, char *msg)
 
 int	set_mini_error(char *text, int err_code, char *msg)
 {
-	print_prompt();
+	ft_printf(2, "minishell: ");
 	return (set_error(text, err_code, msg));
 }

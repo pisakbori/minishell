@@ -15,18 +15,6 @@ bash: syntax error near unexpected token `||'
 
 lsof -c sleep | grep pipe
 
-Test 65: ❌ echo <"./test_files/infile" <missing <"./test_files/infile"
-mini output = (minishell: )
-bash output = ()
-mini exit code = 0
-bash exit code = 1
-
-Test 66: ❌ echo <missing <"./test_files/infile" <missing
-mini output = (minishell: )
-bash output = ()
-mini exit code = 0
-bash exit code = 1
-
 Test 78: ❌ cat <missing | echo oi
 mini output = (minishell: oi)
 bash output = (oi)
