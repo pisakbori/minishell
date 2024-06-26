@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 09:35:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:10:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	**append_to_str_arr(char **arr, char *str);
 void	ft_sort_alph(char **arr);
 void	print_array(char **arr);
 char	**clone_str_arr(char **arr);
+char	*str_join_all(char **arr, char *sepa);
 
 // str utils
 char	*ft_str_append(char *str1, char *str2);
@@ -80,7 +81,6 @@ char	**str_split(char *s, char *delim, char *skip);
 
 // redir
 char	**parse_redir(char *str, int index);
-int		is_separated_redir(char *symbol, char *arg);
 int		is_unsplit_redir(char *str);
 int		is_redir_arg(char *str);
 int		is_bracket(char *str);
@@ -88,12 +88,14 @@ char	*get_arg_name(char *str);
 
 // parse
 void	parse_line(char **cmd_set);
+void	set_pipes(char **cmd_set);
+void	set_redirs(char **cmd_set);
 
 // heredoc
-char	**parse_heredoc(char *str, int index);
-int		is_unsplit_heredoc(char *str);
+char	**handle_heredocs(char **stages);
+char	*parse_heredoc(char *str, int index);
 int		is_separated_heredoc(char *symbol, char *arg);
 void	add_separated_heredoc(char *arg, char *map, int i);
 void	add_unsplit_heredoc(char *str, char *map, int j, int index);
-char	**keep_nonredir_only(char *map, char **parts);
+char	**keep_marked_only(char *map, char **parts);
 #endif

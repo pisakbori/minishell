@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 11:48:14 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	set_pipes(char **cmd_set)
 	int	len;
 
 	len = ft_arr_len(cmd_set);
-	state()->pipeline = ft_calloc(len + 1, sizeof(t_stage));
 	state()->pipes = ft_calloc(len + 2, sizeof(t_pipe));
 	i = -1;
 	while (cmd_set[++i])
@@ -48,8 +47,8 @@ void	set_redirs(char **cmd_set)
 	}
 }
 
-void	parse_line(char **cmd_set)
-{
-	set_pipes(cmd_set);
-	set_redirs(cmd_set);
-}
+// void	parse_line(char **cmd_set)
+// {
+// 	set_pipes(cmd_set);
+// 	set_redirs(cmd_set);
+// }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:49:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 11:53:53 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:50:53 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,9 @@ int	is_unsplit_redir(char *str)
 	return (res);
 }
 
-int	is_separated_redir(char *symbol, char *arg)
-{
-	return (is_bracket(symbol) && !str_equal("<<", symbol)
-		&& is_redir_arg(arg));
-}
-
-int	is_unsplit_heredoc(char *str)
-{
-	return (starts_with(str, "<<"));
-}
-
 int	is_separated_heredoc(char *symbol, char *arg)
 {
-	return (str_equal(symbol, ">>") && is_redir_arg(arg));
+	return (str_equal(symbol, "<<") && is_redir_arg(arg));
 }
 
 char	*get_arg_name(char *str)

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 11:48:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:46:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,40 @@ void	init_signals(void)
 	signal(SIGINT, reset_prompt);
 }
 
+void	execute_line(char *line)
+{
+	char	**cmd_set;
+	char	**temp;
+
+	cmd_set = str_split(line, "|", "\"\'");
+	temp = cmd_set;
+	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
+	cmd_set = handle_heredocs(temp);
+	free(temp);
+	arr_expand_variables(cmd_set);
+	set_pipes(cmd_set);
+	set_redirs(cmd_set);
+	free_split_arr(cmd_set);
+	if (state()->pipeline && state()->pipeline[0].argv)
+		execute_commands(state()->pipeline);
+}
+
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
-	char	**cmd_set;
-	int		syntax_correct;
 
 	init_state(argc, argv, env);
 	while (!state()->should_stop)
 	{
 		line = readline("minishell$ ");
-		if (line)
+		if (line && *line)
 		{
-			if (*line)
-			{
-				syntax_correct = syntax_check(line);
-				if (syntax_correct)
-				{
-					cmd_set = str_split(line, "|", "\"\'");
-					arr_expand_variables(cmd_set);
-					parse_line(cmd_set);
-					free_split_arr(cmd_set);
-					if (state()->pipeline && state()->pipeline[0].argv)
-						execute_commands(state()->pipeline);
-				}
-				add_history(line);
-			}
+			if (syntax_check(line))
+				execute_line(line);
+			add_history(line);
 		}
-		else
+		else if (!line)
 			free_and_exit();
 		free(line);
 		reset_state();

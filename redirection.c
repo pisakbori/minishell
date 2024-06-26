@@ -19,53 +19,62 @@ void	add_i_redir(int index, int mode, char *filename)
 	if (state()->pipeline[index].redir.invalid)
 		return ;
 	fn = remove_chars(filename, "\"\'");
-	if (mode == SINGLE)
+	if (!path_exists(fn))
 	{
-		if (!path_exists(fn))
-		{
-			set_mini_error(fn, 1, "No such file or directory");
-			state()->pipeline[index].redir.invalid = 1;
-		}
-		else if (path_exists(fn) && access(fn, R_OK))
-		{
-			set_error("minishell", 1, "Permission denied");
-			state()->pipeline[index].redir.invalid = 1;
-		}
-		else
-		{
-			state()->pipeline[index].redir.in_mode = mode;
-			if (state()->pipeline[index].redir.in)
-				free(state()->pipeline[index].redir.in);
-			state()->pipeline[index].redir.in = fn;
-		}
+		set_mini_error(fn, 1, "No such file or directory");
+		state()->pipeline[index].redir.invalid = 1;
+	}
+	else if (path_exists(fn) && access(fn, R_OK))
+	{
+		set_error("minishell", 1, "Permission denied");
+		state()->pipeline[index].redir.invalid = 1;
+	}
+	else
+	{
+		state()->pipeline[index].redir.in_mode = mode;
+		if (state()->pipeline[index].redir.in)
+			free(state()->pipeline[index].redir.in);
+		state()->pipeline[index].redir.in = fn;
 	}
 }
 
-// TODO:shouldnt be expanded
-void	heredoc(int index, char *key)
+void	create_heredoc(int index, char *key1)
 {
-	char	*fn;
+	char	*key;
+	char	*hd_line;
 	char	*heredoc_name;
+	int		fd;
 
+	hd_line = NULL;
 	heredoc_name = ft_strdup("Heredoc");
-	fn = remove_chars(key, "\"\'");
-	(void)fn;
-	add_i_redir(index, SINGLE, heredoc_name);
+	heredoc_name = ft_str_append(heredoc_name, ft_itoa(index));
+	key = remove_chars(key1, "\"\'");
+	fd = open(heredoc_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	while (1)
+	{
+		hd_line = readline("> ");
+		if (!hd_line || str_equal(hd_line, key))
+			break ;
+		ft_printf(fd, hd_line);
+		ft_printf(fd, "\n");
+	}
+	close(fd);
+	add_i_redir(index, DOUBLE, heredoc_name);
 }
 
 void	add_separated_heredoc(char *arg, char *map, int i)
 {
-	heredoc(i, arg);
+	create_heredoc(i, arg);
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
 
-void	add_unsplit_heredoc(char *str, char *map, int j, int index)
+void	add_unsplit_heredoc(char *str, char *map, int j, int i)
 {
 	char	*arg;
 
 	arg = get_arg_name(str);
-	heredoc(index, arg);
+	create_heredoc(i, arg);
 	map[j] = SKIP;
 }
 
@@ -110,8 +119,6 @@ void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
 	if (str_equal(symbol, "<"))
 		add_i_redir(i, SINGLE, arg);
-	// else if (str_equal(symbol, "<<"))
-	// 	add_i_redir(i, DOUBLE, arg);
 	else if (str_equal(symbol, ">"))
 		add_o_redir(i, SINGLE, arg);
 	else if (str_equal(symbol, ">>"))
@@ -125,8 +132,6 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 	char	*arg;
 
 	arg = get_arg_name(str);
-	// if (starts_with(str, "<<"))
-	// 	add_i_redir(index, DOUBLE, arg);
 	if (starts_with(str, "<"))
 		add_i_redir(index, SINGLE, arg);
 	else if (starts_with(str, ">>"))
@@ -136,7 +141,7 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 	map[j] = SKIP;
 }
 
-char	**keep_nonredir_only(char *map, char **parts)
+char	**keep_marked_only(char *map, char **parts)
 {
 	int		len;
 	char	**res;
@@ -181,7 +186,7 @@ char	**parse_redir(char *str, int index)
 		else
 			map[i] = KEEP;
 	}
-	res = keep_nonredir_only(map, parts);
+	res = keep_marked_only(map, parts);
 	free(map);
 	free_split_arr(parts);
 	return (res);
