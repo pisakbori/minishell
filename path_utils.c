@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:21:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:00:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,20 @@ int	is_redirectable(char *path, t_path_status correct_status)
 	return (state()->path_status == correct_status);
 }
 
-void	ft_path_join(char **path, char *bin_name)
+char	*ft_path_join(char *path, char *bin_name)
 {
 	char	*temp;
 	char	*full_path;
 
-	if (!ends_with_char(*path, '/'))
+	if (!ends_with_char(path, '/'))
 	{
-		temp = ft_strjoin(*path, "/");
-		free(*path);
-		*path = temp;
+		temp = ft_strjoin(path, "/");
+		full_path = ft_strjoin(temp, bin_name);
+		free(temp);
 	}
-	full_path = ft_strjoin(*path, bin_name);
-	free(*path);
-	*path = full_path;
+	else
+		full_path = ft_strjoin(path, bin_name);
+	return (full_path);
 }
 
 void	set_path_error(char *path)
@@ -90,33 +90,41 @@ void	set_path_error(char *path)
 		exit(state()->exit_code);
 }
 
+char	*bin_using_path(char *paths, char *bin_name)
+{
+	char	**p;
+	int		i;
+	char	*path;
+	char	*res;
+
+	p = ft_split(paths, ':');
+	ft_free((void **)&paths);
+	res = NULL;
+	i = -1;
+	while (p[++i])
+	{
+		path = ft_path_join(p[i], bin_name);
+		if (is_exec(path))
+			res = path;
+		else
+			free(path);
+	}
+	free_split_arr(p);
+	return (res);
+}
+
 char	*get_cmd_path(char *bin_name)
 {
 	char	*paths;
-	char	**p;
-	int		i;
 	char	*res;
 
 	paths = get_env_variable("PATH");
 	if (!paths)
 		paths = state()->backup_path;
-	p = ft_split(paths, ':');
-	ft_free((void **)&paths);
-	i = -1;
-	res = NULL;
-	while (p[++i])
-	{
-		ft_path_join(&(p[i]), bin_name);
-		if (is_exec(p[i]))
-		{
-			res = ft_strdup(p[i]);
-			break ;
-		}
-	}
-	free_split_arr(p);
+	res = bin_using_path(paths, bin_name);
 	if (state()->path_status != IS_VALID && is_exec(bin_name))
 		res = ft_strdup(bin_name);
-	else
+	else if (!res)
 		set_path_error(bin_name);
 	return (res);
 }

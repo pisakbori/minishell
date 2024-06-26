@@ -3,6 +3,7 @@
 **/*.a
 minishell
 garbage/**
+tmp/**
 garbage
 # *.pdf
 # todo.txt

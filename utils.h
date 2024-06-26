@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 14:10:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:48:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		char_freq(char *str, char c);
 int		path_exists(char *path);
 int		is_exec(char *path);
 int		is_redirectable(char *path, t_path_status correct_status);
-void	ft_path_join(char **path, char *bin_name);
+char	*ft_path_join(char *path, char *bin_name);
 void	set_path_error(char *path);
 
 char	*get_env_variable(char *var_name);

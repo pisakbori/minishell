@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 11:58:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:20:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_state
 	t_redir			*redirs;
 	int				backup_stdin;
 	int				backup_stdout;
+	char			*heredoc_dir;
 }					t_state;
 
 // execution

@@ -41,13 +41,20 @@ void	add_i_redir(int index, int mode, char *filename)
 void	create_heredoc(int index, char *key1)
 {
 	char	*key;
+	char	*temp;
 	char	*hd_line;
 	char	*heredoc_name;
 	int		fd;
 
 	hd_line = NULL;
-	heredoc_name = ft_strdup("Heredoc");
-	heredoc_name = ft_str_append(heredoc_name, ft_itoa(index));
+	heredoc_name = ft_strdup("heredoc");
+	temp = heredoc_name;
+	heredoc_name = ft_strjoin(heredoc_name, ft_itoa(index));
+	free(temp);
+	temp = heredoc_name;
+	heredoc_name = ft_path_join(state()->heredoc_dir, heredoc_name);
+	free(temp);
+	fprintf(stderr, "%s\n", heredoc_name);
 	key = remove_chars(key1, "\"\'");
 	fd = open(heredoc_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	while (1)
