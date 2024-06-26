@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 10:47:47 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 09:35:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,15 @@ int		is_unsplit_redir(char *str);
 int		is_redir_arg(char *str);
 int		is_bracket(char *str);
 char	*get_arg_name(char *str);
+
+// parse
+void	parse_line(char **cmd_set);
+
+// heredoc
+char	**parse_heredoc(char *str, int index);
+int		is_unsplit_heredoc(char *str);
+int		is_separated_heredoc(char *symbol, char *arg);
+void	add_separated_heredoc(char *arg, char *map, int i);
+void	add_unsplit_heredoc(char *str, char *map, int j, int index);
+char	**keep_nonredir_only(char *map, char **parts);
 #endif

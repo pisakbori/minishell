@@ -41,6 +41,34 @@ void	add_i_redir(int index, int mode, char *filename)
 	}
 }
 
+// TODO:shouldnt be expanded
+void	heredoc(int index, char *key)
+{
+	char	*fn;
+	char	*heredoc_name;
+
+	heredoc_name = ft_strdup("Heredoc");
+	fn = remove_chars(key, "\"\'");
+	(void)fn;
+	add_i_redir(index, SINGLE, heredoc_name);
+}
+
+void	add_separated_heredoc(char *arg, char *map, int i)
+{
+	heredoc(i, arg);
+	*map = SKIP;
+	*(map + 1) = SKIP;
+}
+
+void	add_unsplit_heredoc(char *str, char *map, int j, int index)
+{
+	char	*arg;
+
+	arg = get_arg_name(str);
+	heredoc(index, arg);
+	map[j] = SKIP;
+}
+
 void	add_o_redir(int index, int mode, char *filename)
 {
 	int		fd;
@@ -82,8 +110,8 @@ void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
 	if (str_equal(symbol, "<"))
 		add_i_redir(i, SINGLE, arg);
-	else if (str_equal(symbol, "<<"))
-		add_i_redir(i, DOUBLE, arg);
+	// else if (str_equal(symbol, "<<"))
+	// 	add_i_redir(i, DOUBLE, arg);
 	else if (str_equal(symbol, ">"))
 		add_o_redir(i, SINGLE, arg);
 	else if (str_equal(symbol, ">>"))
@@ -97,9 +125,9 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 	char	*arg;
 
 	arg = get_arg_name(str);
-	if (starts_with(str, "<<"))
-		add_i_redir(index, DOUBLE, arg);
-	else if (starts_with(str, "<"))
+	// if (starts_with(str, "<<"))
+	// 	add_i_redir(index, DOUBLE, arg);
+	if (starts_with(str, "<"))
 		add_i_redir(index, SINGLE, arg);
 	else if (starts_with(str, ">>"))
 		add_o_redir(index, DOUBLE, arg);
@@ -143,7 +171,7 @@ char	**parse_redir(char *str, int index)
 	map = ft_calloc(ft_arr_len(parts) + 1, 1);
 	while (parts[++i])
 	{
-		if (is_separated_redir(parts[i], parts[i + 1]))
+		if (is_bracket(parts[i]) && !str_equal("<<", parts[i]))
 		{
 			add_separated_redir(parts[i], parts[i + 1], map + i, index);
 			i++;

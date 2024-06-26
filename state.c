@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:38:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:58:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->env = clone_str_arr(env);
 	getcwd(cwd, 4096);
 	state->cwd = ft_strdup(cwd);
-	state->syntax_valid = 1;
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;
@@ -60,6 +59,5 @@ void	reset_stdio(void)
 void	reset_state(void)
 {
 	reset_stdio();
-	state()->syntax_valid = 1;
 	free_pipeline();
 }

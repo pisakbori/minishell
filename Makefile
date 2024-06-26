@@ -11,7 +11,7 @@ FILES			= utils state path_utils free_utils split_utils syntax_check\
 				   execution execute_utils prompt env_utils expand\
 				   str_utils1 str_utils2 state_utils \
 				   str_arr_utils expand_utils error\
-				   redirection redir_utils\
+				   redirection redir_utils heredoc parse\
 				   $(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))

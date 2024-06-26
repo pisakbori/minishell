@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 15:57:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:48:21 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,12 @@ void	init_signals(void)
 	signal(SIGINT, reset_prompt);
 }
 
-void	parse_line(char *line)
-{
-	char	**cmd_set;
-	int		i;
-	int		fd[2];
-	int		len;
-
-	if (!line || !*line)
-		return ;
-	cmd_set = str_split(line, "|", "\"\'");
-	len = ft_arr_len(cmd_set);
-	// TODO:ERROR?
-	if (!cmd_set)
-		return ;
-	i = -1;
-	state()->pipeline = ft_calloc(len + 1, sizeof(t_stage));
-	state()->pipes = ft_calloc(len + 2, sizeof(t_pipe));
-	arr_expand_variables(cmd_set);
-	i = -1;
-	while (cmd_set[++i])
-	{
-		if (i)
-		{
-			if (pipe(fd) < 0)
-				set_error("pipe", 0, NULL);
-			state()->pipes[i] = (t_pipe){.read = fd[0], .write = fd[1]};
-		}
-		else
-			state()->pipes[i] = invalid_pipe();
-		state()->pipeline[i].argv = parse_redir(cmd_set[i], i);
-		arr_remove_chars(state()->pipeline[i].argv, "\"\'");
-	}
-	state()->pipes[i] = invalid_pipe();
-	free_split_arr(cmd_set);
-}
-
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
+	char	**cmd_set;
+	int		syntax_correct;
 
 	init_state(argc, argv, env);
 	while (!state()->should_stop)
@@ -81,15 +47,20 @@ int	main(int argc, char const *argv[], char **env)
 		line = readline("minishell$ ");
 		if (line)
 		{
-			syntax_check(line);
-			if (state()->syntax_valid)
-			{
-				parse_line(line);
-				if (state()->pipeline && state()->pipeline[0].argv)
-					execute_commands(state()->pipeline);
-			}
 			if (*line)
+			{
+				syntax_correct = syntax_check(line);
+				if (syntax_correct)
+				{
+					cmd_set = str_split(line, "|", "\"\'");
+					arr_expand_variables(cmd_set);
+					parse_line(cmd_set);
+					free_split_arr(cmd_set);
+					if (state()->pipeline && state()->pipeline[0].argv)
+						execute_commands(state()->pipeline);
+				}
 				add_history(line);
+			}
 		}
 		else
 			free_and_exit();
