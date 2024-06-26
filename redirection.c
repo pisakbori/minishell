@@ -54,7 +54,6 @@ void	create_heredoc(int index, char *key1)
 	temp = heredoc_name;
 	heredoc_name = ft_path_join(state()->heredoc_dir, heredoc_name);
 	free(temp);
-	fprintf(stderr, "%s\n", heredoc_name);
 	key = remove_chars(key1, "\"\'");
 	fd = open(heredoc_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	while (1)
