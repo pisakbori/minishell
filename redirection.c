@@ -61,7 +61,7 @@ void	create_heredoc(int index, char *key1)
 		hd_line = readline("> ");
 		if (!hd_line || str_equal(hd_line, key))
 			break ;
-		ft_printf(fd, hd_line);
+		ft_printf(fd, expand_variables(hd_line, NULL));
 		ft_printf(fd, "\n");
 	}
 	close(fd);

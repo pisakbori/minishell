@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 15:48:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:31:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	add_value(char *rule);
 
 int		is_variable(char *var_name);
 
-char	*expand_variables(char *str);
+char	*expand_variables(char *str, char *skip);
 
 char	*skip_until(char quote_type, char *s);
 void	arr_expand_variables(char **cmd_set);

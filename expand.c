@@ -6,13 +6,13 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 11:50:46 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:30:56 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_variables(char *str)
+char	*expand_variables(char *str, char *skip)
 {
 	char	*map;
 	char	*res;
@@ -20,7 +20,7 @@ char	*expand_variables(char *str)
 	int		j;
 	char	*buff;
 
-	map = operation_map(str, NULL, "\"\'");
+	map = operation_map(str, NULL, skip);
 	i = 0;
 	j = 0;
 	res = NULL;
@@ -52,7 +52,7 @@ void	arr_expand_variables(char **cmd_set)
 	while (*cmd_set)
 	{
 		temp = *cmd_set;
-		*cmd_set = expand_variables(*cmd_set);
+		*cmd_set = expand_variables(*cmd_set, "\'\"");
 		free(temp);
 		cmd_set++;
 	}
