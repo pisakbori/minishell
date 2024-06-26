@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 17:05:46 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:54:17 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,8 @@ void	execute_commands(t_stage *pipeline)
 
 	len = pipeline_len(pipeline);
 	last_arg_index = ft_arr_len(pipeline[len - 1].argv);
-	set_last_arg(pipeline[len - 1].argv[last_arg_index - 1]);
+	if (last_arg_index)
+		set_last_arg(pipeline[len - 1].argv[last_arg_index - 1]);
 	if (len == 1 && is_builtin(pipeline[0].argv[0]))
 	{
 		handle_redir(pipeline);
