@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 16:00:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 22:52:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_exec(char *path)
 	struct stat	sb;
 
 	state()->path_status = IS_VALID;
-	if (!strchr(path, '/'))
+	if (!ft_strchr(path, '/'))
 		state()->path_status = NOT_COMMAND;
 	else if (access(path, F_OK))
 		state()->path_status = NOT_EXIST;
@@ -101,7 +101,7 @@ char	*bin_using_path(char *paths, char *bin_name)
 	ft_free((void **)&paths);
 	res = NULL;
 	i = -1;
-	while (p[++i])
+	while (p && p[++i])
 	{
 		path = ft_path_join(p[i], bin_name);
 		if (is_exec(path))
@@ -113,18 +113,34 @@ char	*bin_using_path(char *paths, char *bin_name)
 	return (res);
 }
 
+// TODO:
 char	*get_cmd_path(char *bin_name)
 {
 	char	*paths;
 	char	*res;
 
 	paths = get_env_variable("PATH");
-	if (!paths)
-		paths = state()->backup_path;
-	res = bin_using_path(paths, bin_name);
-	if (state()->path_status != IS_VALID && is_exec(bin_name))
-		res = ft_strdup(bin_name);
-	else if (!res)
+	res = NULL;
+	if (ft_strchr(bin_name, '/'))
+	{
+		if (is_exec(bin_name))
+		{
+			set_path_error(bin_name);
+			if (state()->path_status == IS_VALID)
+				res = ft_strdup(bin_name);
+		}
+	}
+	else if (!paths)
+	{
+		state()->path_status = NOT_COMMAND;
 		set_path_error(bin_name);
+	}
+	else
+	{
+		res = bin_using_path(paths, bin_name);
+		if (!res)
+			state()->path_status = NOT_COMMAND;
+		set_path_error(bin_name);
+	}
 	return (res);
 }

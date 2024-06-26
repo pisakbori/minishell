@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:19:50 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 22:17:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	delete_value(char *var_name)
 	int		j;
 	int		size;
 
-	if (str_equal(var_name, "PATH"))
-		state()->backup_path = get_env_variable("PATH");
 	if (!is_variable(var_name))
 		return ;
 	env = clone_str_arr(state()->env);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 15:20:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 22:15:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_state
 	t_pipe			*pipes;
 	int				exit_code;
 	char			**env;
-	char			*backup_path;
 	char			*last_arg;
 	char			*oldcwd;
 	char			*cwd;
