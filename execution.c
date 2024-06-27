@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 20:54:17 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:22:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	execute_command(char **argv)
 		ft_strlcpy(buff, cmd, 4096);
 		if (cmd)
 			free(cmd);
-		if (*buff)
+		if (buff[0])
 			execve(buff, argv, state()->env);
 	}
 	exit(state()->exit_code);

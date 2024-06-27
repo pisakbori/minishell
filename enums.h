@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 18:25:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:57:58 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum path_status
 {
 	IS_VALID,
 	IS_DIR,
-	NOT_COMMAND,
+	CMD_NOT_FOUND,
 	PERMISSION_DENIED,
 	NOT_EXIST,
 	WRITE_RIGHTS,
