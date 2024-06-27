@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:27:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:07:43 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:46:34 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	is_n_flag(char *option)
 {
 	int	i;
 
+	if (!option)
+		return (0);
 	if (option[0] != '-')
 		return (0);
 	i = 1;

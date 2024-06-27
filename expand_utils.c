@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 17:29:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:50:38 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	append_variable_value(char **res, char **buff, char *str, int *i)
 	*res = ft_str_append(*res, *buff);
 	*buff = ft_calloc(1, ft_strlen(str) + 1);
 	until = end_variable_name(str + *i + 1);
+	value = NULL;
 	if (until)
 		value = expand_env_var_name(until, str, *i + 1);
 	*res = ft_str_append(*res, value);

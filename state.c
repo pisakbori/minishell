@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 15:55:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/26 22:38:06 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_state(int argc, char const *argv[], char **env)
 	(void)argc;
 	(void)argv;
 	state = ft_calloc(1, sizeof(t_state));
+	state->path_status = IS_VALID;
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
 	getcwd(cwd, 4096);
@@ -61,4 +62,5 @@ void	reset_state(void)
 {
 	reset_stdio();
 	free_pipeline();
+	state()->path_status = IS_VALID;
 }

@@ -6,19 +6,19 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 11:39:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:28:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	valid_neighbors(char **words)
+int	valid_neighbors(char **words, char is_last_stage)
 {
 	int		i;
 	char	error;
-	char	msg[39];
+	char	msg[45];
 
-	ft_strlcpy(msg, "syntax error near unexpected token ' '", 39);
+	ft_strlcpy(msg, "syntax error near unexpected token ` '", 45);
 	i = -1;
 	error = 0;
 	while (words && words[++i])
@@ -45,7 +45,10 @@ int	valid_neighbors(char **words)
 		{
 			if (!words[i + 1])
 			{
-				msg[36] = '|';
+				if (is_last_stage)
+					ft_strlcpy(msg + 35, "`newline'", 10);
+				else
+					msg[36] = '|';
 				set_error("minishell", 2, msg);
 				return (0);
 			}
@@ -74,7 +77,7 @@ int	has_valid_redirs(char *str)
 	while (stages[++i])
 	{
 		words = str_split(stages[i], " \t", "\"\'");
-		if (!valid_neighbors(words))
+		if (!valid_neighbors(words, stages[i + 1] == NULL))
 			res = 0;
 		free_split_arr(words);
 	}
@@ -82,13 +85,10 @@ int	has_valid_redirs(char *str)
 	return (res);
 }
 
-// TODO:check for > empty, or > |
-int	syntax_check(char *str)
+int	quotes_valid(char *str)
 {
 	char	msg[42];
-	char	*start;
 
-	start = str;
 	ft_strlcpy(msg, "Syntax error: Unterminated quoted string\n", 42);
 	while (*str)
 	{
@@ -103,7 +103,53 @@ int	syntax_check(char *str)
 		}
 		str++;
 	}
-	if (!has_valid_redirs(start))
+	return (1);
+}
+
+int	pipes_valid(char *str, char *eol_error, char *pipe_error)
+{
+	char	*map;
+	int		i;
+	int		res;
+
+	res = 1;
+	map = operation_map(str, " \t", "\"\'");
+	i = -1;
+	while (map[++i])
+	{
+		if (map[i] == KEEP && str[i] == '|')
+		{
+			i++;
+			while (map[i] == DELIMITER)
+				i++;
+			if (str[i] == '|')
+				set_error("minishell", 2, pipe_error);
+			else if (!str[i])
+				set_error("minishell", 2, eol_error);
+			if (str[i] == '|' || !str[i])
+			{
+				free(map);
+				return (0);
+			}
+		}
+	}
+	free(map);
+	return (1);
+}
+
+// TODO:check for ||
+int	syntax_check(char *str)
+{
+	char	eol_error[45];
+	char	pipe_error[45];
+
+	ft_strlcpy(eol_error, "syntax error near unexpected token `newline'", 45);
+	ft_strlcpy(pipe_error, "syntax error near unexpected token `|'", 45);
+	if (!pipes_valid(str, eol_error, pipe_error))
+		return (0);
+	if (!quotes_valid(str))
+		return (0);
+	if (!has_valid_redirs(str))
 		return (0);
 	return (1);
 }
