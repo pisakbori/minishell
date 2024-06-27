@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:37:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,3 @@ void	set_redirs(char **cmd_set)
 		arr_remove_chars(state()->pipeline[i].argv, "\"\'");
 	}
 }
-
-// void	parse_line(char **cmd_set)
-// {
-// 	set_pipes(cmd_set);
-// 	set_redirs(cmd_set);
-// }
