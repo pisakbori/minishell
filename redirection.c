@@ -19,12 +19,12 @@ void	add_i_redir(int index, int mode, char *filename)
 	if (state()->pipeline[index].redir.invalid)
 		return ;
 	fn = remove_chars(filename, "\"\'");
-	if (!path_exists(fn))
+	if (access(fn, F_OK))
 	{
 		set_mini_error(fn, 1, "No such file or directory");
 		state()->pipeline[index].redir.invalid = 1;
 	}
-	else if (path_exists(fn) && access(fn, R_OK))
+	else if (!access(fn, F_OK) && access(fn, R_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
 		state()->pipeline[index].redir.invalid = 1;
@@ -36,52 +36,6 @@ void	add_i_redir(int index, int mode, char *filename)
 			free(state()->pipeline[index].redir.in);
 		state()->pipeline[index].redir.in = fn;
 	}
-}
-
-void	create_heredoc(int index, char *key1)
-{
-	char	*key;
-	char	*temp;
-	char	*hd_line;
-	char	*heredoc_name;
-	int		fd;
-
-	hd_line = NULL;
-	heredoc_name = ft_strdup("heredoc");
-	temp = heredoc_name;
-	heredoc_name = ft_strjoin(heredoc_name, ft_itoa(index));
-	free(temp);
-	temp = heredoc_name;
-	heredoc_name = ft_path_join(state()->heredoc_dir, heredoc_name);
-	free(temp);
-	key = remove_chars(key1, "\"\'");
-	fd = open(heredoc_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-	while (1)
-	{
-		hd_line = readline("> ");
-		if (!hd_line || str_equal(hd_line, key))
-			break ;
-		ft_printf(fd, expand_variables(hd_line, NULL));
-		ft_printf(fd, "\n");
-	}
-	close(fd);
-	add_i_redir(index, DOUBLE, heredoc_name);
-}
-
-void	add_separated_heredoc(char *arg, char *map, int i)
-{
-	create_heredoc(i, arg);
-	*map = SKIP;
-	*(map + 1) = SKIP;
-}
-
-void	add_unsplit_heredoc(char *str, char *map, int j, int i)
-{
-	char	*arg;
-
-	arg = get_arg_name(str);
-	create_heredoc(i, arg);
-	map[j] = SKIP;
 }
 
 void	add_o_redir(int index, int mode, char *filename)
@@ -97,7 +51,7 @@ void	add_o_redir(int index, int mode, char *filename)
 		w_mode = O_TRUNC;
 	else
 		w_mode = O_APPEND;
-	if (path_exists(fn) && access(fn, W_OK))
+	if (!access(fn, F_OK) && access(fn, W_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
 		state()->pipeline[index].redir.invalid = 1;

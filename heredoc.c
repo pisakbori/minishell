@@ -6,11 +6,32 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 14:09:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:09:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_separated_heredoc(char *symbol, char *arg)
+{
+	return (str_equal(symbol, "<<") && is_redir_arg(arg));
+}
+
+void	add_separated_heredoc(char *arg, char *map, int i)
+{
+	create_heredoc(i, arg);
+	*map = SKIP;
+	*(map + 1) = SKIP;
+}
+
+void	add_unsplit_heredoc(char *str, char *map, int j, int i)
+{
+	char	*arg;
+
+	arg = get_arg_name(str);
+	create_heredoc(i, arg);
+	map[j] = SKIP;
+}
 
 char	*parse_heredoc(char *str, int index)
 {

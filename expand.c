@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 16:30:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:15:56 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ char	*expand_variables(char *str, char *skip)
 		i++;
 	}
 	res = ft_str_append(res, buff);
-	// buff = ft_calloc(1, ft_strlen(str) + 1);
-	if (map)
-		free(map);
+	free(map);
 	return (res);
 }
 

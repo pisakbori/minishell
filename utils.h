@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 11:52:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:25:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,16 @@ int		chars_freq(char *str, char *chars);
 int		char_freq(char *str, char c);
 
 // path utils
-int		path_exists(char *path);
-int		is_exec(char *path);
 char	*ft_path_join(char *path, char *bin_name);
-void	set_path_error(char *path);
+char	*get_cmd_path(char *bin_name);
 
-char	*get_env_variable(char *var_name);
-void	ft_free(void **ptr);
+//error
 int		set_error(char *text, int err_code, char *msg);
 int		set_mini_error(char *text, int err_code, char *msg);
-
-char	*get_cmd_path(char *bin_name);
 
 // free_utils
 void	free_and_exit(void);
 void	free_split_arr(char **res);
-void	free_2d_split_arr(char ***res);
 char	**split_fail_free(char **res, int i, char *map, char *clone);
 void	free_pipeline(void);
 void	free_redirs(void);
@@ -58,12 +52,9 @@ void	free_redirs(void);
 int		syntax_check(char *str);
 
 // env
+char	*get_env_variable(char *var_name);
 void	set_env_variable(char *var_name, char *var_value);
 void	add_value(char *rule);
-
-int		is_variable(char *var_name);
-
-char	*expand_variables(char *str, char *skip);
 
 char	*skip_until(char quote_type, char *s);
 void	arr_expand_variables(char **cmd_set);
@@ -71,6 +62,8 @@ char	*remove_chars(char *str, char *skip);
 void	arr_remove_chars(char **cmd_set, char *skip);
 
 // expand utils
+char	*expand_variables(char *str, char *skip);
+int		is_variable(char *var_name);
 char	*operation_map(char *str, char *delim, char *skip);
 int		append_variable_value(char **res, char **buff, char *str, int *i);
 int		start_variable(char *str, char *map, int i);
@@ -84,6 +77,7 @@ int		is_unsplit_redir(char *str);
 int		is_redir_arg(char *str);
 int		is_bracket(char *str);
 char	*get_arg_name(char *str);
+void	add_i_redir(int index, int mode, char *filename);
 
 // parse
 void	parse_line(char **cmd_set);
@@ -93,8 +87,8 @@ void	set_redirs(char **cmd_set);
 // heredoc
 char	**handle_heredocs(char **stages);
 char	*parse_heredoc(char *str, int index);
-int		is_separated_heredoc(char *symbol, char *arg);
-void	add_separated_heredoc(char *arg, char *map, int i);
-void	add_unsplit_heredoc(char *str, char *map, int j, int index);
 char	**keep_marked_only(char *map, char **parts);
+char	*get_heredoc_path(int index);
+void	create_heredoc(int index, char *key1);
+
 #endif

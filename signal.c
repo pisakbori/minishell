@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 14:57:12 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/05/31 10:19:35 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/06/27 15:30:32 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/06/27 16:01:27 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_free(void **ptr)
+void	reset_prompt(int signum)
 {
-	if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
+	(void)signum;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	// rl_replace_line("^C", 1);
+	// rl_redisplay();
+	rl_replace_line("", 1);
+	rl_redisplay();
+}
+
+// TODO:
+void	init_signals(void)
+{
+	signal(SIGINT, reset_prompt);
 }

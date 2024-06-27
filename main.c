@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 14:29:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:43:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 void	print_prompt(void)
 {
 	ft_printf(1, "minishell: ");
-}
-
-void	reset_prompt(int signum)
-{
-	(void)signum;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("^C", 1);
-	rl_redisplay();
-	rl_replace_line("", 1);
-	rl_redisplay();
-}
-
-// TODO:
-void	init_signals(void)
-{
-	signal(SIGINT, reset_prompt);
 }
 
 void	execute_line(char *line)
@@ -57,6 +40,7 @@ int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
 
+	init_signals();
 	init_state(argc, argv, env);
 	while (!state()->should_stop)
 	{

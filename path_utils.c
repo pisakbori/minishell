@@ -6,19 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 12:21:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:53:13 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	path_exists(char *path)
-{
-	int	res;
-
-	res = access(path, F_OK);
-	return (!res);
-}
 
 int	is_exec(char *path)
 {
@@ -74,8 +66,9 @@ char	*bin_using_path(char *paths, char *bin_name)
 	char	*path;
 	char	*res;
 
+	if (!paths)
+		return (NULL);
 	p = ft_split(paths, ':');
-	ft_free((void **)&paths);
 	res = NULL;
 	i = -1;
 	while (p && p[++i])
@@ -107,11 +100,6 @@ char	*get_cmd_path(char *bin_name)
 		else
 			set_path_error(bin_name);
 	}
-	else if (!paths)
-	{
-		state()->path_status = CMD_NOT_FOUND;
-		set_path_error(bin_name);
-	}
 	else
 	{
 		res = bin_using_path(paths, bin_name);
@@ -121,5 +109,6 @@ char	*get_cmd_path(char *bin_name)
 			set_path_error(bin_name);
 		}
 	}
+	free(paths);
 	return (res);
 }
