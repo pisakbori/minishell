@@ -132,7 +132,7 @@ char	**parse_redir(char *str, int index)
 	int		i;
 
 	i = -1;
-	parts = str_split(str, " \t", "\"\'");
+	parts = careful_split(str, " \t", "\"\'");
 	map = ft_calloc(ft_arr_len(parts) + 1, 1);
 	while (parts[++i])
 	{

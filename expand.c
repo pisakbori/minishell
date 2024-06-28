@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 15:15:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:09:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	arr_remove_chars(char **cmd_set, char *skip)
 	while (*cmd_set)
 	{
 		temp = *cmd_set;
-		*cmd_set = remove_chars(*cmd_set, skip);
+		if (is_valid_syntax(*cmd_set, 1))
+			*cmd_set = remove_chars(*cmd_set, skip);
+		else
+			*cmd_set = remove_chars(*cmd_set, NULL);
 		free(temp);
 		cmd_set++;
 	}

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:08:26 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:06:30 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ char	*set_delim_zeros(char *map, char *s)
 	clone = ft_strdup(s);
 	ft_replace_chars(clone, map, 0);
 	return (clone);
+}
+
+char	**careful_split(char *s, char *delim, char *skip)
+{
+	if (!is_valid_syntax(s, 1))
+	{
+		return (str_split(s, delim, NULL));
+	}
+	else
+		return (str_split(s, delim, skip));
 }
 
 char	**str_split(char *s, char *delim, char *skip)

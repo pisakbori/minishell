@@ -1,0 +1,27 @@
+
+>>
+|  |
+
+export A="'ls -l" ; $A
+unset PATH ; ls
+mkdir a ; mkdir a/b ; cd a/b ; rm -rf ../../a ; pwd
+exit MAX_LONG
+exit NOT_A_NUMBER
+./BASH_SCRIPT
+
+env -i ./minishell
+ls /bin/ls
+
+ls >"blabla"  --> blabla
+
+
+$A=='ls -l
+
+ls >$A
+bash: $A: ambiguous redirect
+
+ls >"$A"
+'ls -l
+
+B="bla bla"
+--> bla bla

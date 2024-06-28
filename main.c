@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 15:43:35 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:06:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute_line(char *line)
 	char	**cmd_set;
 	char	**temp;
 
-	cmd_set = str_split(line, "|", "\"\'");
+	cmd_set = careful_split(line, "|", "\"\'");
 	temp = cmd_set;
 	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	cmd_set = handle_heredocs(temp);
@@ -47,7 +47,7 @@ int	main(int argc, char const *argv[], char **env)
 		line = readline("minishell$ ");
 		if (line && *line)
 		{
-			if (syntax_check(line))
+			if (is_valid_syntax(line, 0))
 				execute_line(line);
 			add_history(line);
 		}

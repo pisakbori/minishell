@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 15:25:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/27 20:04:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**split_fail_free(char **res, int i, char *map, char *clone);
 void	free_pipeline(void);
 void	free_redirs(void);
 
-int		syntax_check(char *str);
+int		is_valid_syntax(char *str, char mute);
 
 // env
 char	*get_env_variable(char *var_name);
@@ -70,6 +70,7 @@ int		start_variable(char *str, char *map, int i);
 
 // split
 char	**str_split(char *s, char *delim, char *skip);
+char	**careful_split(char *s, char *delim, char *skip);
 
 // redir
 char	**parse_redir(char *str, int index);
