@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 12:02:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:27:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ void	execute_line(char *line)
 {
 	char	**cmd_set;
 	char	**temp;
-	char	*temp_str;
-	char	*temp_str2;
-	int		i;
-	int		j;
 
 	cmd_set = str_split(line, "|", "\"\'");
 	temp = cmd_set;
@@ -32,30 +28,8 @@ void	execute_line(char *line)
 	cmd_set = handle_heredocs(temp);
 	free(temp);
 	set_pipes(cmd_set);
-	i = -1;
-	while (cmd_set[++i])
-	{
-		temp_str = cmd_set[i];
-		cmd_set[i] = handle_redirs(temp_str, i);
-		free(temp_str);
-	}
-	i = -1;
-	while (cmd_set[++i])
-	{
-		temp_str = cmd_set[i];
-		cmd_set[i] = expand_variables(cmd_set[i], "\'\"");
-		free(temp_str);
-		temp = str_split(cmd_set[i], " \t", "\"\'");
-		j = -1;
-		while (temp[++j])
-		{
-			temp_str2 = temp[j];
-			temp[j] = remove_chars(temp[j], "\"\'");
-			replace_special_chars(temp[j]);
-			free(temp_str2);
-		}
-		state()->pipeline[i].argv = temp;
-	}
+	set_and_remove_redirs(cmd_set);
+	set_pipeline_argvs(cmd_set);
 	free_split_arr(cmd_set);
 	if (state()->pipeline && state()->pipeline[0].argv)
 		execute_commands(state()->pipeline);

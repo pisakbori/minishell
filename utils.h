@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 10:50:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:27:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	add_i_redir(int index, int mode, char *filename);
 // parse
 void	parse_line(char **cmd_set);
 void	set_pipes(char **cmd_set);
-char	**set_and_remove_redirs(char **cmd_set);
+void	set_and_remove_redirs(char **cmd_set);
+void	set_pipeline_argvs(char **cmd_set);
 
 // heredoc
 char	**handle_heredocs(char **stages);

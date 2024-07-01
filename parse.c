@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 11:02:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:27:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,45 @@ void	set_pipes(char **cmd_set)
 			state()->pipes[i] = invalid_pipe();
 	}
 	state()->pipes[i] = invalid_pipe();
+}
+
+void	set_and_remove_redirs(char **cmd_set)
+{
+	char	*temp_str;
+	int		i;
+
+	i = -1;
+	while (cmd_set[++i])
+	{
+		temp_str = cmd_set[i];
+		cmd_set[i] = handle_redirs(temp_str, i);
+		free(temp_str);
+	}
+}
+
+void	set_pipeline_argvs(char **cmd_set)
+{
+	int		i;
+	int		j;
+	char	*temp_str2;
+	char	*temp_str;
+	char	**temp;
+
+	i = -1;
+	while (cmd_set[++i])
+	{
+		temp_str = cmd_set[i];
+		cmd_set[i] = expand_variables(cmd_set[i], "\'\"");
+		free(temp_str);
+		temp = str_split(cmd_set[i], " \t", "\"\'");
+		j = -1;
+		while (temp[++j])
+		{
+			temp_str2 = temp[j];
+			temp[j] = remove_chars(temp[j], "\"\'");
+			replace_special_chars(temp[j]);
+			free(temp_str2);
+		}
+		state()->pipeline[i].argv = temp;
+	}
 }
