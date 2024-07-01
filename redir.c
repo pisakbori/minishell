@@ -12,39 +12,14 @@
 
 #include "minishell.h"
 
-char	*get_filename(char *filename, int index)
+void	add_i_redir(int index, int mode, char *fn)
 {
-	char	*fn;
-	char	*temp;
-	char	**parts;
-
-	temp = expand_variables(filename, "\'\"");
-	parts = str_split(temp, " \t", "\"\'");
-	fn = remove_all_chars(temp, "\"\'");
-	free(temp);
-	replace_special_chars(fn);
-	if (ft_arr_len(parts) > 1)
-	{
-		set_mini_error(filename, 1, "ambiguous redirect");
-		state()->pipeline[index].redir.invalid = 1;
-	}
-	free_split_arr(parts);
-	return (fn);
-}
-
-void	add_i_redir(int index, int mode, char *filename)
-{
-	char	*fn;
-
-	fn = get_filename(filename, index);
-	if (state()->pipeline[index].redir.invalid)
-		return ;
 	if (access(fn, F_OK))
 	{
 		set_mini_error(fn, 1, "No such file or directory");
 		state()->pipeline[index].redir.invalid = 1;
 	}
-	else if (!access(fn, F_OK) && access(fn, R_OK))
+	if (!access(fn, F_OK) && access(fn, R_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
 		state()->pipeline[index].redir.invalid = 1;
@@ -58,19 +33,10 @@ void	add_i_redir(int index, int mode, char *filename)
 	}
 }
 
-void	add_o_redir(int index, int mode, char *filename)
+void	add_o_redir(int index, int mode, char *fn)
 {
-	int		fd;
-	int		w_mode;
-	char	*fn;
+	int	fd;
 
-	fn = get_filename(filename, index);
-	if (state()->pipeline[index].redir.invalid)
-		return ;
-	if (mode == SINGLE)
-		w_mode = O_TRUNC;
-	else
-		w_mode = O_APPEND;
 	if (!access(fn, F_OK) && access(fn, W_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
@@ -78,7 +44,7 @@ void	add_o_redir(int index, int mode, char *filename)
 	}
 	else
 	{
-		fd = open(fn, O_CREAT | O_WRONLY | w_mode, S_IRWXU);
+		fd = open(fn, O_CREAT | O_WRONLY | mode, S_IRWXU);
 		close(fd);
 		if (fd != -1)
 		{
@@ -97,47 +63,41 @@ void	add_o_redir(int index, int mode, char *filename)
 
 void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 {
-	if (str_equal(symbol, "<"))
-		add_i_redir(i, SINGLE, arg);
-	else if (str_equal(symbol, ">"))
-		add_o_redir(i, SINGLE, arg);
-	else if (str_equal(symbol, ">>"))
-		add_o_redir(i, DOUBLE, arg);
+	char	*fn;
+
+	fn = get_filename(arg, i);
+	if (!state()->pipeline[i].redir.invalid)
+	{
+		if (str_equal(symbol, "<"))
+			add_i_redir(i, SINGLE, fn);
+		else if (str_equal(symbol, ">"))
+			add_o_redir(i, O_TRUNC, fn);
+		else if (str_equal(symbol, ">>"))
+			add_o_redir(i, O_APPEND, fn);
+	}
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
 
+// TODO: free fn if open fails???
 void	add_unsplit_redir(char *str, char *map, int j, int index)
 {
 	char	*arg;
+	char	*fn;
 
 	arg = get_arg_name(str);
-	if (starts_with(str, "<"))
-		add_i_redir(index, SINGLE, arg);
-	else if (starts_with(str, ">>"))
-		add_o_redir(index, DOUBLE, arg);
-	else if (starts_with(str, ">"))
-		add_o_redir(index, SINGLE, arg);
-	map[j] = SKIP;
-}
-
-char	**keep_marked_only(char *map, char **parts)
-{
-	int		len;
-	char	**res;
-	int		j;
-	int		i;
-
-	len = char_freq(map, KEEP);
-	res = ft_calloc(len + 1, sizeof(char *));
-	i = -1;
-	j = 0;
-	while (map[++i])
+	fn = get_filename(arg, index);
+	if (!state()->pipeline[index].redir.invalid)
 	{
-		if (map[i] == KEEP)
-			res[j++] = ft_strdup(parts[i]);
+		if (starts_with(str, "<"))
+			add_i_redir(index, SINGLE, fn);
+		else if (starts_with(str, ">>"))
+			add_o_redir(index, O_APPEND, fn);
+		else if (starts_with(str, ">"))
+			add_o_redir(index, O_TRUNC, fn);
 	}
-	return (res);
+	free(arg);
+	map[j] = SKIP;
 }
 
 /// @brief splits str by spaces and remove everything related to redirection
@@ -150,23 +110,9 @@ char	*handle_redirs(char *str, int index)
 	char	**parts;
 	char	**res;
 	char	*joined;
-	int		i;
 
-	i = -1;
 	parts = str_split(str, " \t", "\"\'");
-	map = ft_calloc(ft_arr_len(parts) + 1, 1);
-	while (parts[++i])
-	{
-		if (is_bracket(parts[i]) && !str_equal("<<", parts[i]))
-		{
-			add_separated_redir(parts[i], parts[i + 1], map + i, index);
-			i++;
-		}
-		else if (is_unsplit_redir(parts[i]))
-			add_unsplit_redir(parts[i], map, i, index);
-		else
-			map[i] = KEEP;
-	}
+	map = handle_and_mark_redirs(parts, index);
 	res = keep_marked_only(map, parts);
 	free(map);
 	joined = str_join_all(res, " ");

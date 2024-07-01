@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:31:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/20 12:05:50 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:14:39 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*ft_str_append(char *str1, char *str2)
 		free(str1);
 	if (str2)
 		free(str2);
-	// TODO:exit on error;
 	return (res);
 }
 

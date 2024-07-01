@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/30 17:57:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:57:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef enum path_status
 	NOT_EXIST,
 	WRITE_RIGHTS,
 	READ_RIGHTS,
-
 }	t_path_status;
 
 #endif

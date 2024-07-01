@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:27:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 20:46:34 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:56:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ int	is_n_flag(char *option)
 		return (1);
 }
 
-void	print_arg(char *arg)
-{
-	// if (scmp(arg, "~"))
-	ft_printf(1, "%s", arg);
-	// else
-	// 	ft_printf("%s", state()->home);
-}
-
 void	on_echo(t_exec e)
 {
 	int	i;
@@ -60,7 +52,7 @@ void	on_echo(t_exec e)
 		}
 		while (i < e.argc)
 		{
-			print_arg(e.argv[i++]);
+			ft_printf(1, "%s", e.argv[i++]);
 			if (i < e.argc)
 				ft_printf(1, " ");
 		}

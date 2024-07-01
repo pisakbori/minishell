@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 12:27:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:53:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ char	**split_fail_free(char **res, int i, char *map, char *clone);
 void	free_pipeline(void);
 void	free_redirs(void);
 
-int		is_valid_syntax(char *str, char mute);
+// syntax check
+int		is_valid_syntax(char *str);
+int		pipes_valid(char *str, char *eol_error, char *pipe_error);
+int		quotes_valid(char *str);
+int		redirs_valid(char *str);
 
 // env
 char	*get_env_variable(char *var_name);
@@ -81,6 +85,11 @@ int		is_redir_arg(char *str);
 int		is_bracket(char *str);
 char	*get_arg_name(char *str);
 void	add_i_redir(int index, int mode, char *filename);
+char	*get_filename(char *filename, int index);
+char	**keep_marked_only(char *map, char **parts);
+char	*handle_and_mark_redirs(char **parts, int index);
+void	add_unsplit_redir(char *str, char *map, int j, int index);
+void	add_separated_redir(char *symbol, char *arg, char *map, int i);
 
 // parse
 void	parse_line(char **cmd_set);

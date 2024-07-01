@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 22:38:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:12:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ t_state	**get_state_ptr(void)
 t_state	*state(void)
 {
 	return (*get_state_ptr());
-}
-
-void	set_state(t_state *val)
-{
-	t_state	**state;
-
-	state = get_state_ptr();
-	*state = val;
 }
 
 void	init_state(int argc, char const *argv[], char **env)
@@ -50,8 +42,9 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->should_stop = 0;
 	state->pipeline = NULL;
 	state->heredoc_dir = ft_path_join(cwd, "tmp");
-	set_state(state);
+	*get_state_ptr() = state;
 }
+
 void	reset_stdio(void)
 {
 	dup2(state()->backup_stdin, STDIN_FILENO);

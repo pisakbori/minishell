@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 12:27:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:17:18 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	set_pipes(char **cmd_set)
 {
-	int	fd[2];
-	int	i;
-	int	len;
+	int		fd[2];
+	int		i;
+	int		len;
+	t_pipe	p;
 
 	len = ft_arr_len(cmd_set);
 	state()->pipes = ft_calloc(len + 2, sizeof(t_pipe));
@@ -27,7 +28,8 @@ void	set_pipes(char **cmd_set)
 		{
 			if (pipe(fd) < 0)
 				set_error("pipe", 0, NULL);
-			state()->pipes[i] = (t_pipe){.read = fd[0], .write = fd[1]};
+			p = (t_pipe){.read = fd[0], .write = fd[1]};
+			state()->pipes[i] = p;
 		}
 		else
 			state()->pipes[i] = invalid_pipe();
