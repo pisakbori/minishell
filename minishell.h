@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:12:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:50:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void				execute_commands(t_stage *pipeline);
 void				close_pipe(t_pipe *p);
 int					pipeline_len(t_stage *pipeline);
 t_pipe				invalid_pipe(void);
-void				close_read(t_pipe *p);
-void				close_write(t_pipe *p);
 void				close_all_redir(void);
 void				handle_redir(t_stage *s);
 void				close_redir(t_stage stage);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:53:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:48:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		char_freq(char *str, char c);
 void	replace_special_chars(char *str);
 void	protect_special_chars(char *str);
 char	*remove_all_chars(char *str, char *to_remove);
+char	*skip_until(char quote_type, char *s);
 
 // path utils
 char	*ft_path_join(char *path, char *bin_name);
@@ -63,7 +64,6 @@ char	*get_env_variable(char *var_name);
 void	set_env_variable(char *var_name, char *var_value);
 void	add_value(char *rule);
 
-char	*skip_until(char quote_type, char *s);
 void	arr_expand_variables(char **cmd_set);
 char	*remove_chars(char *str, char *skip);
 void	arr_remove_chars(char **cmd_set, char *skip);
@@ -99,9 +99,7 @@ void	set_pipeline_argvs(char **cmd_set);
 
 // heredoc
 char	**handle_heredocs(char **stages);
-char	*parse_heredoc(char *str, int index);
 char	**keep_marked_only(char *map, char **parts);
-char	*get_heredoc_path(int index);
 void	create_heredoc(int index, char *key1);
 
 #endif
