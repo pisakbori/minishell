@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 19:47:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:02:56 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,4 @@ void	set_pipes(char **cmd_set)
 			state()->pipes[i] = invalid_pipe();
 	}
 	state()->pipes[i] = invalid_pipe();
-}
-
-void	set_redirs(char **cmd_set)
-{
-	int	i;
-
-	i = -1;
-	while (cmd_set[++i])
-	{
-		state()->pipeline[i].argv = parse_redir(cmd_set[i], i);
-		arr_remove_chars(state()->pipeline[i].argv, "\"\'");
-	}
 }

@@ -12,13 +12,33 @@
 
 #include "minishell.h"
 
+char	*get_filename(char *filename, int index)
+{
+	char	*fn;
+	char	*temp;
+	char	**parts;
+
+	temp = expand_variables(filename, "\'\"");
+	parts = str_split(temp, " \t", "\"\'");
+	fn = remove_all_chars(temp, "\"\'");
+	free(temp);
+	replace_special_chars(fn);
+	if (ft_arr_len(parts) > 1)
+	{
+		set_mini_error(filename, 1, "ambiguous redirect");
+		state()->pipeline[index].redir.invalid = 1;
+	}
+	free_split_arr(parts);
+	return (fn);
+}
+
 void	add_i_redir(int index, int mode, char *filename)
 {
 	char	*fn;
 
+	fn = get_filename(filename, index);
 	if (state()->pipeline[index].redir.invalid)
 		return ;
-	fn = remove_chars(filename, "\"\'");
 	if (access(fn, F_OK))
 	{
 		set_mini_error(fn, 1, "No such file or directory");
@@ -44,9 +64,9 @@ void	add_o_redir(int index, int mode, char *filename)
 	int		w_mode;
 	char	*fn;
 
+	fn = get_filename(filename, index);
 	if (state()->pipeline[index].redir.invalid)
 		return ;
-	fn = remove_chars(filename, "\"\'");
 	if (mode == SINGLE)
 		w_mode = O_TRUNC;
 	else
@@ -124,15 +144,16 @@ char	**keep_marked_only(char *map, char **parts)
 /// @param str
 /// @param index
 /// @return
-char	**parse_redir(char *str, int index)
+char	*handle_redirs(char *str, int index)
 {
 	char	*map;
 	char	**parts;
 	char	**res;
+	char	*joined;
 	int		i;
 
 	i = -1;
-	parts = careful_split(str, " \t", "\"\'");
+	parts = str_split(str, " \t", "\"\'");
 	map = ft_calloc(ft_arr_len(parts) + 1, 1);
 	while (parts[++i])
 	{
@@ -148,6 +169,8 @@ char	**parse_redir(char *str, int index)
 	}
 	res = keep_marked_only(map, parts);
 	free(map);
+	joined = str_join_all(res, " ");
+	free_split_arr(res);
 	free_split_arr(parts);
-	return (res);
+	return (joined);
 }

@@ -2,7 +2,6 @@
 >>
 |  |
 
-export A="'ls -l" ; $A
 unset PATH ; ls
 mkdir a ; mkdir a/b ; cd a/b ; rm -rf ../../a ; pwd
 exit MAX_LONG
@@ -25,3 +24,4 @@ ls >"$A"
 
 B="bla bla"
 --> bla bla
+

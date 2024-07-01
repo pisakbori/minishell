@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 11:50:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/30 18:19:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ char	*expand_env_var_name(char *until, char *str, int j)
 	else if (str_equal(var_name, "_"))
 		value = ft_strdup(state()->last_arg);
 	else
+	{
 		value = get_env_variable(var_name);
+		protect_special_chars(value);
+	}
 	free(var_name);
 	return (value);
 }

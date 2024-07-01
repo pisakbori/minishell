@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 20:04:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 10:50:16 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
 int		chars_freq(char *str, char *chars);
 int		char_freq(char *str, char c);
+void	replace_special_chars(char *str);
+void	protect_special_chars(char *str);
+char	*remove_all_chars(char *str, char *to_remove);
 
 // path utils
 char	*ft_path_join(char *path, char *bin_name);
@@ -70,10 +73,9 @@ int		start_variable(char *str, char *map, int i);
 
 // split
 char	**str_split(char *s, char *delim, char *skip);
-char	**careful_split(char *s, char *delim, char *skip);
 
 // redir
-char	**parse_redir(char *str, int index);
+char	*handle_redirs(char *str, int index);
 int		is_unsplit_redir(char *str);
 int		is_redir_arg(char *str);
 int		is_bracket(char *str);
@@ -83,7 +85,7 @@ void	add_i_redir(int index, int mode, char *filename);
 // parse
 void	parse_line(char **cmd_set);
 void	set_pipes(char **cmd_set);
-void	set_redirs(char **cmd_set);
+char	**set_and_remove_redirs(char **cmd_set);
 
 // heredoc
 char	**handle_heredocs(char **stages);

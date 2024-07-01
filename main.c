@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 20:06:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:02:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,41 @@ void	execute_line(char *line)
 {
 	char	**cmd_set;
 	char	**temp;
+	char	*temp_str;
+	char	*temp_str2;
+	int		i;
+	int		j;
 
-	cmd_set = careful_split(line, "|", "\"\'");
+	cmd_set = str_split(line, "|", "\"\'");
 	temp = cmd_set;
 	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	cmd_set = handle_heredocs(temp);
 	free(temp);
-	arr_expand_variables(cmd_set);
 	set_pipes(cmd_set);
-	set_redirs(cmd_set);
+	i = -1;
+	while (cmd_set[++i])
+	{
+		temp_str = cmd_set[i];
+		cmd_set[i] = handle_redirs(temp_str, i);
+		free(temp_str);
+	}
+	i = -1;
+	while (cmd_set[++i])
+	{
+		temp_str = cmd_set[i];
+		cmd_set[i] = expand_variables(cmd_set[i], "\'\"");
+		free(temp_str);
+		temp = str_split(cmd_set[i], " \t", "\"\'");
+		j = -1;
+		while (temp[++j])
+		{
+			temp_str2 = temp[j];
+			temp[j] = remove_chars(temp[j], "\"\'");
+			replace_special_chars(temp[j]);
+			free(temp_str2);
+		}
+		state()->pipeline[i].argv = temp;
+	}
 	free_split_arr(cmd_set);
 	if (state()->pipeline && state()->pipeline[0].argv)
 		execute_commands(state()->pipeline);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 19:31:49 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/30 18:35:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*parse_heredoc(char *str, int index)
 	int		i;
 
 	i = -1;
-	parts = careful_split(str, " \t", "\"\'");
+	parts = str_split(str, " \t", "\"\'");
 	map = ft_calloc(ft_arr_len(parts) + 1, 1);
 	while (parts[++i])
 	{

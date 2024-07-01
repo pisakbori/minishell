@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 11:57:58 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/06/30 17:57:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ typedef enum operation
 	DELIMITER,
 	SKIP,
 }	t_operation;
+
+typedef enum t_special_character
+{
+	DOUBLE_QUOTE = 16,
+	SINGLE_QUOTE = 17,
+	GREATER_THAN = 18,
+	SMALLER_THAN = 19,
+}	t_special_character;
 
 typedef enum path_status
 {
