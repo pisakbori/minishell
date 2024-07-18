@@ -8,20 +8,8 @@ exit MAX_LONG
 exit NOT_A_NUMBER
 ./BASH_SCRIPT
 
-env -i ./minishell
-ls /bin/ls
 
-ls >"blabla"  --> blabla
+| ls
 
 
-$A=='ls -l
-
-ls >$A
-bash: $A: ambiguous redirect
-
-ls >"$A"
-'ls -l
-
-B="bla bla"
---> bla bla
-
+set exitcode on ctrl+c?

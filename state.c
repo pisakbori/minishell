@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:12:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:14:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;
 	state->pipeline = NULL;
-	state->heredoc_dir = ft_path_join(cwd, "tmp");
+	state->heredoc_dir = ft_path_join(cwd, "");
 	*get_state_ptr() = state;
 }
 

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:10:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:26:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	quotes_valid(char *str)
 {
 	char	msg[42];
 
-	ft_strlcpy(msg, "Syntax error: Unterminated quoted string\n", 42);
+	ft_strlcpy(msg, "Syntax error: Unterminated quoted string", 41);
 	while (*str)
 	{
 		if (*str == '"')

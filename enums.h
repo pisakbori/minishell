@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 13:57:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:13:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef enum operation
 	SKIP,
 }	t_operation;
 
+// special characters are temporarily replaced with
+// these unprintabe chars to be escaped and later converted back
 typedef enum t_special_character
 {
 	DOUBLE_QUOTE = 16,

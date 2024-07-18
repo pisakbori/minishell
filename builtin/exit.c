@@ -6,32 +6,54 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 11:56:29 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:31:59 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-// TODO:
-int	is_valid_int(char *str)
+int	jump_sign(char **str)
 {
-	int	i;
+	int	sign;
 
+	sign = 1;
+	if (**str == '-')
+	{
+		*str = *str + 1;
+		sign = -1;
+	}
+	else if (**str == '+')
+		*str = *str + 1;
+	return (sign);
+}
+
+char	ft_a_to_uchar(char *str)
+{
+	unsigned long long	res;
+	int					i;
+	int					sign;
+
+	res = 0;
 	i = 0;
-	if (str_has("-+", str[i]))
-		i++;
+	if (str_equal(str, "-9223372036854775808"))
+		return (0);
+	sign = jump_sign(&str);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (0);
+			return (-1);
+		res = res * 10 + str[i] - '0';
 		i++;
 	}
-	return (1);
+	if (i >= 19 || res > 9223372036854775807)
+		return (-1);
+	res = sign * res;
+	return ((unsigned char)res);
 }
 
 void	on_exit_b(t_exec e)
 {
-	int	exit_code;
+	int	code;
 
 	if (e.argc == 1)
 		state()->should_stop = 1;
@@ -39,16 +61,18 @@ void	on_exit_b(t_exec e)
 	{
 		ft_printf(2, "exit: too many arguments\n");
 		set_exit_code(1);
-	}
-	else if (!is_valid_int(e.argv[1]))
-	{
-		ft_printf(2, "exit: %s: numeric argument required\n", e.argv[1]);
-		set_exit_code(2);
+		return ;
 	}
 	else
 	{
-		exit_code = ft_atoi(e.argv[1]);
-		set_exit_code(exit_code);
-		state()->should_stop = 1;
+		code = ft_a_to_uchar(e.argv[1]);
+		if (code == -1)
+		{
+			ft_printf(2, "exit: %s: numeric argument required\n", e.argv[1]);
+			set_exit_code(2);
+		}
+		else
+			set_exit_code(code);
 	}
+	state()->should_stop = 1;
 }
