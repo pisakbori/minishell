@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 16:50:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:35:53 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_state
 	int				backup_stdin;
 	int				backup_stdout;
 	char			*heredoc_dir;
+	int				input_closed_on_ctrl_c;
 }					t_state;
 
 // execution
@@ -99,5 +100,9 @@ void				reset_stdio(void);
 void				print_prompt(void);
 // signal
 void				init_signals(void);
+void				default_signals(void);
+void				let_signals_through(void);
+void				handle_heredoc_ctrl_c(int signum);
+void				handle_ctrl_c(int signum);
 
 #endif

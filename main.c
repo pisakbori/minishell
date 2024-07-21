@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 14:14:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:38:47 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char const *argv[], char **env)
 		line = readline("minishell$ ");
 		if (line && *line)
 		{
+			let_signals_through();
 			if (is_valid_syntax(line))
 				execute_line(line);
 			add_history(line);
