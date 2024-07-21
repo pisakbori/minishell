@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 17:37:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:12:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ char	*get_heredoc_path(int index)
 	heredoc_name = ft_strdup("heredoc");
 	temp = heredoc_name;
 	heredoc_name = ft_strjoin(heredoc_name, ft_itoa(index));
-	free(temp);
-	temp = heredoc_name;
-	heredoc_name = ft_path_join(state()->heredoc_dir, heredoc_name);
 	free(temp);
 	return (heredoc_name);
 }
@@ -50,4 +47,23 @@ void	create_heredoc(int index, char *key1)
 	let_signals_through();
 	close(fd);
 	add_i_redir(index, DOUBLE, heredoc_name);
+}
+
+void	remove_all_heredocs(void)
+{
+	int		i;
+	char	*heredoc_path;
+
+	i = -1;
+	while (1)
+	{
+		heredoc_path = get_heredoc_path(++i);
+		if (access(heredoc_path, F_OK))
+		{
+			free(heredoc_path);
+			return ;
+		}
+		unlink(heredoc_path);
+		free(heredoc_path);
+	}
 }
