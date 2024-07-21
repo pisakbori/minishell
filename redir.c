@@ -79,6 +79,8 @@ void	add_separated_redir(char *symbol, char *arg, char *map, int i)
 		else if (str_equal(symbol, ">>"))
 			add_o_redir(i, O_APPEND, fn);
 	}
+	else
+		free(fn);
 	*map = SKIP;
 	*(map + 1) = SKIP;
 }
@@ -100,6 +102,8 @@ void	add_unsplit_redir(char *str, char *map, int j, int index)
 		else if (starts_with(str, ">"))
 			add_o_redir(index, O_TRUNC, fn);
 	}
+	else
+		free(fn);
 	free(arg);
 	map[j] = SKIP;
 }
