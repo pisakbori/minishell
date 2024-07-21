@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/30 18:35:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:38:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*parse_heredoc(char *str, int index)
 	char	*map;
 	char	**parts;
 	char	**res;
+	char	*joined;
 	int		i;
 
 	i = -1;
@@ -58,7 +59,9 @@ char	*parse_heredoc(char *str, int index)
 	res = keep_marked_only(map, parts);
 	free(map);
 	free_split_arr(parts);
-	return (str_join_all(res, " "));
+	joined = str_join_all(res, " ");
+	free_split_arr(res);
+	return (joined);
 }
 
 char	**handle_heredocs(char **cmd_set)

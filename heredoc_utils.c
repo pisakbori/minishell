@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:12:10 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:31:24 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ char	*get_heredoc_path(int index)
 {
 	char	*heredoc_name;
 	char	*temp;
+	char	*index_str;
 
 	heredoc_name = ft_strdup("heredoc");
 	temp = heredoc_name;
-	heredoc_name = ft_strjoin(heredoc_name, ft_itoa(index));
+	index_str = ft_itoa(index);
+	heredoc_name = ft_strjoin(heredoc_name, index_str);
+	free(index_str);
 	free(temp);
 	return (heredoc_name);
 }

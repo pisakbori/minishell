@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/19 13:38:47 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:35:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execute_line(char *line)
 	temp = cmd_set;
 	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	cmd_set = handle_heredocs(temp);
-	free(temp);
+	free_split_arr(temp);
 	set_pipes(cmd_set);
 	set_and_remove_redirs(cmd_set);
 	set_pipeline_argvs(cmd_set);
