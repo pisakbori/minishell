@@ -30,7 +30,9 @@ void	add_i_redir(int index, int mode, char *fn)
 		if (state()->pipeline[index].redir.in)
 			free(state()->pipeline[index].redir.in);
 		state()->pipeline[index].redir.in = fn;
+		return ;
 	}
+	free(fn);
 }
 
 void	add_o_redir(int index, int mode, char *fn)
@@ -52,6 +54,7 @@ void	add_o_redir(int index, int mode, char *fn)
 				free(state()->pipeline[index].redir.out);
 			state()->pipeline[index].redir.out_mode = mode;
 			state()->pipeline[index].redir.out = fn;
+			return ;
 		}
 		else
 		{
@@ -59,6 +62,7 @@ void	add_o_redir(int index, int mode, char *fn)
 			state()->pipeline[index].redir.invalid = 1;
 		}
 	}
+	free(fn);
 }
 
 void	add_separated_redir(char *symbol, char *arg, char *map, int i)

@@ -19,7 +19,6 @@ OBJS			= $(patsubst %.c, %.o, $(SRC))
 
 
 all: $(NAME)
-	./minishell
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(HDR_FLAGS) -c $< -o $@

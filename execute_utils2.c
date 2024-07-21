@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:59:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:07:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:17:30 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ void	handle_redir(t_stage *s)
 	{
 		s->redir.in_fd = open(s->redir.in, O_RDONLY, S_IRWXU);
 		if (s->redir.in_fd != -1)
-		{
 			dup2(s->redir.in_fd, STDIN_FILENO);
-			close(s->redir.in_fd);
-			// if (s->redir.in_mode == DOUBLE)
-			// 	unlink(s->redir.in);
-		}
+		close(s->redir.in_fd);
 	}
 	if (s->redir.out)
 	{
