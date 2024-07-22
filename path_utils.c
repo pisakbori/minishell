@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 14:53:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:04:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,18 @@ char	*get_cmd_path(char *bin_name)
 {
 	char	*paths;
 	char	*res;
+	char	*pth;
 
 	paths = get_env_variable("PATH");
 	res = NULL;
-	if (ft_strchr(bin_name, '/'))
+	if (!paths)
+		pth = ft_strjoin("./", bin_name);
+	else
+		pth = ft_strdup(bin_name);
+	if (ft_strchr(pth, '/'))
 	{
-		if (is_exec(bin_name))
-			res = ft_strdup(bin_name);
+		if (is_exec(pth))
+			res = ft_strdup(pth);
 		else
 			set_path_error(bin_name);
 	}
@@ -110,5 +115,6 @@ char	*get_cmd_path(char *bin_name)
 		}
 	}
 	free(paths);
+	free(pth);
 	return (res);
 }
