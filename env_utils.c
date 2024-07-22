@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:16:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:26:24 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*get_env_variable(char *var_name)
 	res = NULL;
 	name_len = ft_strlen(var_name);
 	env = state()->env;
+	if (str_equal(var_name, "~"))
+		return (ft_strdup(state()->home_backup));
 	while (env[++i])
 	{
 		clone = ft_strdup(env[i]);

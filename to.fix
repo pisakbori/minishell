@@ -1,46 +1,6 @@
+env -i ./minishell
+cd /bin/
+ls
 
-mkdir a ; mkdir a/b ; cd a/b ; rm -rf ../../a ; pwd
-./BASH_SCRIPT
-
-
-| ls
-
-
-exit: jjjjj: numeric argument required
-exit
-==322722== 
-==322722== HEAP SUMMARY:
-==322722==     in use at exit: 233,483 bytes in 282 blocks
-==322722==   total heap usage: 2,439 allocs, 2,157 frees, 636,225 bytes allocated
-==322722== 
-==322722== 6 bytes in 2 blocks are definitely lost in loss record 1 of 79
-==322722==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==322722==    by 0x10F50F: ft_strdup (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10F640: ft_itoa (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10C60F: expand_env_var_name (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10C8AB: append_variable_value (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10B620: expand_variables (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10DBB0: set_pipeline_argvs (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10B089: execute_line (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10B149: main (in /home/bori/bpisak-l/minishell/minishell)
-==322722== 
-==322722== 11 bytes in 1 blocks are definitely lost in loss record 8 of 79
-==322722==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==322722==    by 0x10F50F: ft_strdup (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10EE32: on_cd (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10DFEF: exec_builtin (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10AC91: execute_commands (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10B0C6: execute_line (in /home/bori/bpisak-l/minishell/minishell)
-==322722==    by 0x10B149: main (in /home/bori/bpisak-l/minishell/minishell)
-==322722== 
-==322722== LEAK SUMMARY:
-==322722==    definitely lost: 17 bytes in 3 blocks
-==322722==    indirectly lost: 0 bytes in 0 blocks
-==322722==      possibly lost: 0 bytes in 0 blocks
-==322722==    still reachable: 233,466 bytes in 279 blocks
-==322722==         suppressed: 0 bytes in 0 blocks
-==322722== Reachable blocks (those to which a pointer was found) are not shown.
-==322722== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==322722== 
-==322722== For lists of detected and suppressed errors, rerun with: -s
-==322722== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+❌ 365   
+✅ 2458

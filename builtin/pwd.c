@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:51:01 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/25 14:42:14 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:43:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void	on_pwd(t_exec e)
 {
 	ft_printf(1, "%s\n", state()->cwd);
+	set_exit_code(0);
 	(void)e;
 }
