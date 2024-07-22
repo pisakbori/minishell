@@ -1,11 +1,5 @@
 
->>
-|  |
-
-unset PATH ; ls
 mkdir a ; mkdir a/b ; cd a/b ; rm -rf ../../a ; pwd
-exit MAX_LONG
-exit NOT_A_NUMBER
 ./BASH_SCRIPT
 
 

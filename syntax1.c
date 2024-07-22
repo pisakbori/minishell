@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/18 13:26:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:33:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,34 +111,3 @@ int	quotes_valid(char *str)
 	}
 	return (1);
 }
-
-int	pipes_valid(char *str, char *eol_error, char *pipe_error)
-{
-	char	*map;
-	int		i;
-
-	map = operation_map(str, " \t", "\"\'");
-	i = -1;
-	while (map[++i])
-	{
-		if (map[i] == KEEP && str[i] == '|')
-		{
-			i++;
-			while (map[i] == DELIMITER)
-				i++;
-			if (str[i] == '|')
-				set_error("minishell", 2, pipe_error);
-			else if (!str[i])
-				set_error("minishell", 2, eol_error);
-			if (str[i] == '|' || !str[i])
-			{
-				free(map);
-				return (0);
-			}
-		}
-	}
-	free(map);
-	return (1);
-}
-
-// TODO:check for ||
