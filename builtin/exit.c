@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/18 15:31:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:47:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	jump_sign(char **str)
 	return (sign);
 }
 
-char	ft_a_to_uchar(char *str)
+unsigned char	ft_a_to_uchar(char *str)
 {
 	unsigned long long	res;
 	int					i;
@@ -41,19 +41,27 @@ char	ft_a_to_uchar(char *str)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (-1);
-		res = res * 10 + str[i] - '0';
+		{
+			ft_printf(2, "exit: %s: numeric argument required\n", str);
+			return (2);
+		}
+		res = res * 10 - '0' + str[i];
 		i++;
 	}
-	if (i >= 19 || res > 9223372036854775807)
-		return (-1);
-	res = sign * res;
-	return ((unsigned char)res);
+	if (i >= 19 && res < 776627963145224191)
+	{
+		ft_printf(2, "exit: %s: numeric argument required\n", str);
+		return (2);
+	}
+	if (sign > 0)
+		return ((unsigned char)res);
+	else
+		return (256 - (unsigned char)res);
 }
 
 void	on_exit_b(t_exec e)
 {
-	int	code;
+	unsigned char	code;
 
 	if (e.argc == 1)
 		state()->should_stop = 1;
@@ -66,13 +74,7 @@ void	on_exit_b(t_exec e)
 	else
 	{
 		code = ft_a_to_uchar(e.argv[1]);
-		if (code == -1)
-		{
-			ft_printf(2, "exit: %s: numeric argument required\n", e.argv[1]);
-			set_exit_code(2);
-		}
-		else
-			set_exit_code(code);
+		set_exit_code(code);
 	}
 	state()->should_stop = 1;
 }
