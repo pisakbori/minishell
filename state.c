@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/20 17:49:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:28:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;
 	state->pipeline = NULL;
-	state->heredoc_dir = ft_path_join(cwd, "");
 	state->input_closed_on_ctrl_c = 0;
 	*get_state_ptr() = state;
 }
@@ -57,4 +56,5 @@ void	reset_state(void)
 	reset_stdio();
 	free_pipeline();
 	state()->path_status = IS_VALID;
+	remove_all_heredocs();
 }

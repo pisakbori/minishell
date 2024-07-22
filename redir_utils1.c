@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:49:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:24:20 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:10:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	is_unsplit_redir(char *str)
 
 char	*get_arg_name(char *str)
 {
+	char	*name;
+
 	while (str_has("><", *str))
 		str++;
-	return (ft_strdup(str));
+	name = ft_strdup(str);
+	return (name);
 }

@@ -14,3 +14,8 @@ bash: syntax error near unexpected token `|'
 bash: syntax error near unexpected token `||'
 
 lsof -c sleep | grep pipe
+
+
+
+
+leaks for <i >jujujuj szua
