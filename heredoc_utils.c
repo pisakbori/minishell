@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 19:36:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 21:33:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ void	create_heredoc(int index, char *key1)
 	signal(SIGINT, handle_heredoc_ctrl_c);
 	while (1)
 	{
-		hd_line = readline("> ");
+		if (isatty(fileno(stdin)))
+			hd_line = readline("> ");
+		else
+		{
+			hd_line = get_next_line(fileno(stdin));
+			hd_line = ft_strtrim(hd_line, "\n");
+		}
 		if (str_equal(hd_line, key))
 		{
 			free(hd_line);
