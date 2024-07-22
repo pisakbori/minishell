@@ -6,14 +6,13 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:27:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 13:56:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:53:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
 //	echo
-//	echo ~ , even if home is unset
 //	echo -nnnnn -n -n test
 //	echo -nnnnnadsfasdadasdasda -n -n -n test
 //	echo -asghhjgjf
