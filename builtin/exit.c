@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 17:11:11 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:59:04 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	jump_sign(char **str)
 	return (sign);
 }
 
-unsigned char	ft_a_to_uchar(char *str)
+int	ft_a_to_uchar(char *str)
 {
 	unsigned long long	res;
 	int					i;
@@ -38,7 +38,7 @@ unsigned char	ft_a_to_uchar(char *str)
 	if (!ft_strlen(str))
 	{
 		ft_printf(2, "exit: %s: numeric argument required\n", str);
-		return (2);
+		return (-1);
 	}
 	if (str_equal(str, "-9223372036854775808"))
 		return (0);
@@ -48,7 +48,7 @@ unsigned char	ft_a_to_uchar(char *str)
 		if (!ft_isdigit(str[i]))
 		{
 			ft_printf(2, "exit: %s: numeric argument required\n", str);
-			return (2);
+			return (-1);
 		}
 		res = res * 10 - '0' + str[i];
 		i++;
@@ -56,7 +56,7 @@ unsigned char	ft_a_to_uchar(char *str)
 	if (i >= 19 && res < 776627963145224191)
 	{
 		ft_printf(2, "exit: %s: numeric argument required\n", str);
-		return (2);
+		return (-1);
 	}
 	if (sign > 0)
 		return ((unsigned char)res);
@@ -66,16 +66,21 @@ unsigned char	ft_a_to_uchar(char *str)
 
 void	on_exit_b(t_exec e)
 {
-	unsigned char	code;
+	int	code;
 
 	if (e.argc == 1)
 		state()->should_stop = 1;
 	else
 	{
 		code = ft_a_to_uchar(e.argv[1]);
-		set_exit_code(code);
-		state()->should_stop = 1;
-		return ;
+		if (code == -1)
+		{
+			set_exit_code(2);
+			state()->should_stop = 1;
+			return ;
+		}
+		else
+			set_exit_code(code);
 	}
 	if (e.argc > 2)
 	{
@@ -83,5 +88,4 @@ void	on_exit_b(t_exec e)
 		set_exit_code(1);
 		return ;
 	}
-	state()->should_stop = 1;
 }
