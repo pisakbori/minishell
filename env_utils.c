@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 18:26:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:39:27 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	is_variable(char *var_name)
 	{
 		clone = ft_strdup(env[i]);
 		clone[name_len] = 0;
-		if (str_equal(clone, var_name))
+		if (str_equal(clone, var_name) && env[i][name_len] == '=')
 		{
 			free(clone);
 			return (1);

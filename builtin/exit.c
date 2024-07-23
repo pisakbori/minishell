@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 16:47:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:26:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ unsigned char	ft_a_to_uchar(char *str)
 
 	res = 0;
 	i = 0;
+	if (!ft_strlen(str))
+	{
+		ft_printf(2, "exit: %s: numeric argument required\n", str);
+		return (2);
+	}
 	if (str_equal(str, "-9223372036854775808"))
 		return (0);
 	sign = jump_sign(&str);
