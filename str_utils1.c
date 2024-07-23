@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:31:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:14:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:40:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	str_has(char *str, char c)
 {
+	if (!str)
+		return (0);
 	return (ft_strchr(str, c) != NULL);
 }
 

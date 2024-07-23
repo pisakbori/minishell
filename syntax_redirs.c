@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 14:02:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:05:31 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	try_get_token(char *token, char *str, int *i)
 {
 	ft_memset(token, 0, 8);
-	if (!str[*i])
+	if (!str || !str[*i])
 		return ;
 	if (str[*i] == '>')
 	{
@@ -55,17 +55,17 @@ static int	valid_words(char *str, char *msg)
 	char	*map;
 
 	i = 0;
-	if (!str)
+	if (!str || *str == 0)
 		return (1);
 	map = operation_map(str, NULL, "\'\"");
-	while (str[i])
+	while (map && str[i])
 	{
-		while (map[i] != KEEP)
+		while (map[i + 1] && map[i] != KEEP)
 			i++;
 		try_get_token(token1, str, &i);
 		if (token1[0])
 		{
-			while (ft_isspace(str[i]))
+			while (str[i] && ft_isspace(str[i]))
 				i++;
 			if (!str[i])
 				ft_strlcpy(token2, "newline", sizeof(token2));
