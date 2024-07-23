@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 16:26:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:11:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,18 @@ void	on_exit_b(t_exec e)
 
 	if (e.argc == 1)
 		state()->should_stop = 1;
-	else if (e.argc > 2)
-	{
-		ft_printf(2, "exit: too many arguments\n");
-		set_exit_code(1);
-		return ;
-	}
 	else
 	{
 		code = ft_a_to_uchar(e.argv[1]);
 		set_exit_code(code);
+		state()->should_stop = 1;
+		return ;
+	}
+	if (e.argc > 2)
+	{
+		ft_printf(2, "exit: too many arguments\n");
+		set_exit_code(1);
+		return ;
 	}
 	state()->should_stop = 1;
 }

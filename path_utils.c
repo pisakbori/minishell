@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 16:47:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:52:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_path_join(char *path, char *bin_name)
 	char	*temp;
 	char	*full_path;
 
-	if (!ends_with_char(path, '/'))
+	if (!ends_with_char(path, '/') && (bin_name[0] != '/'))
 	{
 		temp = ft_strjoin(path, "/");
 		full_path = ft_strjoin(temp, bin_name);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:25:58 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/21 15:53:10 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:53:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,21 @@ int	is_valid_path(char *path)
 	y = stat(path, &buf);
 	if (y)
 	{
-		print_prompt();
+		print_err_prompt();
 		ft_printf(2, "cd: %s: No such file or directory\n", path);
-		set_exit_code(1);
-		return (0);
 	}
 	else if (!is_dir(path))
 	{
-		print_prompt();
+		print_err_prompt();
 		ft_printf(2, "cd: %s: Not a directory\n", path);
-		set_exit_code(1);
-		return (0);
+	}
+	else if (access(path, X_OK) != 0)
+	{
+		print_err_prompt();
+		ft_printf(2, "cd: %s: Permission denied\n", path);
 	}
 	else
 		return (1);
+	set_exit_code(1);
+	return (0);
 }

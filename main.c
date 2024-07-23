@@ -6,15 +6,15 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 18:12:56 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:52:39 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_prompt(void)
+void	print_err_prompt(void)
 {
-	ft_printf(1, "minishell: ");
+	ft_printf(2, "minishell: ");
 }
 
 void	execute_line(char *line)

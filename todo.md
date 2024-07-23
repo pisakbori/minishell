@@ -54,3 +54,12 @@ a.out
 export PATH=tmp_path_test2:tmp_path_test1
 a.out
 /bin/rm -rf tmp_path_test1 tmp_path_test2
+
+cd "cmds/"
+/bin/ls
+
+cd cmds/
+/bin/ls
+
+cd ./cmds/
+/bin/ls

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 11:53:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:53:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	on_export(t_exec e)
 	{
 		if (!export_arg(e.argv[i]))
 		{
-			print_prompt();
+			print_err_prompt();
 			ft_printf(2, "export: `%s': not a valid identifier\n", e.argv[i]);
 			all_correct = 0;
 		}
