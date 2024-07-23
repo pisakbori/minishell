@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 15:45:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:11:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	start_variable(char *str, char *map, int i)
 	is_variable_start = 0;
 	res = res && map[i] != '\'';
 	res = res && str[i] == '$';
+	if (i > 0)
+		res = res && (str[i - 1] != '\\');
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
 	dollar_before_quote = (str[i + 1] == '\'');
