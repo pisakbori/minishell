@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/30 18:19:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:26:34 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	start_variable(char *str, char *map, int i)
 	res = res && str[i] == '$';
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
+	is_variable_start = is_variable_start || (str[i + 1] == '\'');
+	is_variable_start = is_variable_start || (str[i + 1] == '"');
 	is_variable_start = is_variable_start || str_has("_?", str[i + 1]);
 	res = res && is_variable_start;
 	return (res);
@@ -89,6 +91,8 @@ int	start_variable(char *str, char *map, int i)
 
 char	*end_variable_name(char *str)
 {
+	if ((*str == '"') || (*str == '\''))
+		return (str);
 	if (ft_isdigit(*str) || (*str == '?'))
 		return (str + 1);
 	else
