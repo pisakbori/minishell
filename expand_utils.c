@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 16:11:05 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:42:39 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*expand_env_var_name(char *until, char *str, int j)
 	var_name = ft_strdup(str + j);
 	*until = temp;
 	if (str_equal(var_name, "?"))
-		value = ft_strdup(ft_itoa(state()->exit_code));
+		value = ft_itoa(state()->exit_code);
 	else if (str_equal(var_name, "_"))
 		value = ft_strdup(state()->last_arg);
 	else
@@ -78,13 +78,19 @@ int	start_variable(char *str, char *map, int i)
 	int	res;
 	int	is_variable_start;
 	int	dollar_before_quote;
+	int	j;
 
 	res = 1;
 	is_variable_start = 0;
 	res = res && map[i] != '\'';
 	res = res && str[i] == '$';
 	if (i > 0)
-		res = res && (str[i - 1] != '\\');
+	{
+		j = 1;
+		while (str[i - j] && str[i - j] == '\\')
+			j++;
+		res = res && (j % 2 != 0);
+	}
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
 	dollar_before_quote = (str[i + 1] == '\'');

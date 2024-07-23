@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 17:52:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:13:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char const *argv[], char **env)
 	init_state(argc, argv, env);
 	while (!state()->should_stop)
 	{
+		reset_state();
 		if (isatty(fileno(stdin)))
 			line = readline("minishell$ ");
 		else
@@ -61,7 +62,6 @@ int	main(int argc, char const *argv[], char **env)
 		else if (!line)
 			free_and_exit();
 		free(line);
-		reset_state();
 	}
 	free_and_exit();
 	return (0);

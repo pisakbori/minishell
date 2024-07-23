@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 18:04:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:33:59 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ char	*expand_variables(char *str, char *skip)
 	buff = ft_calloc(1, ft_strlen(str) + 1);
 	while (map[i])
 	{
+		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '\\')
+		{
+			buff[j++] = str[i];
+			i += 2;
+			continue ;
+		}
 		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '$')
 		{
 			i++;
