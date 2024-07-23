@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 14:47:25 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:45:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	start_variable(char *str, char *map, int i)
 {
 	int	res;
 	int	is_variable_start;
+	int	dollar_before_quote;
 
 	res = 1;
 	is_variable_start = 0;
@@ -84,8 +85,10 @@ int	start_variable(char *str, char *map, int i)
 	res = res && str[i] == '$';
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
-	is_variable_start = is_variable_start || (str[i + 1] == '\'');
-	is_variable_start = is_variable_start || (str[i + 1] == '"');
+	dollar_before_quote = (str[i + 1] == '\'');
+	dollar_before_quote = dollar_before_quote || (str[i + 1] == '"');
+	dollar_before_quote = dollar_before_quote && map[i] != '"';
+	is_variable_start = is_variable_start || dollar_before_quote;
 	is_variable_start = is_variable_start || str_has("_?", str[i + 1]);
 	res = res && is_variable_start;
 	return (res);
