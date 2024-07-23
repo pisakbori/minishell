@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 18:46:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:26:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_state(int argc, char const *argv[], char **env)
 	(void)argc;
 	(void)argv;
 	state = ft_calloc(1, sizeof(t_state));
+	state->n_heredocs = 0;
 	state->path_status = IS_VALID;
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
@@ -53,8 +54,9 @@ void	reset_stdio(void)
 
 void	reset_state(void)
 {
+	remove_all_heredocs(state()->n_heredocs);
 	reset_stdio();
 	free_pipeline();
 	state()->path_status = IS_VALID;
-	remove_all_heredocs();
+	state()->n_heredocs = 0;
 }

@@ -8,7 +8,7 @@ LIBFT			= libft/libft.a
 BLTIN_NAMES		= builtin_exec exit utils export unset env echo cd_utils cd pwd  
 BUILTINS		= $(patsubst %, builtin/%, $(BLTIN_NAMES))
 FILES			= utils state path_utils free_utils split_utils\
-					syntax1 syntax2 syntax3\
+					syntax_redirs syntax_quotes syntax_pipes\
 					execution execute_utils1 execute_utils2 main env_utils expand\
 					str_utils1 str_utils2 str_utils3 state_utils \
 					str_arr_utils1 str_arr_utils2 expand_utils error\

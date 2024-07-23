@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:13:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:22:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void	set_pipeline_argvs(char **cmd_set);
 char	**handle_heredocs(char **stages);
 char	**keep_marked_only(char *map, char **parts);
 void	create_heredoc(int index, char *key1);
-void	remove_all_heredocs(void);
+void	remove_all_heredocs(int max_index);
 
 #endif

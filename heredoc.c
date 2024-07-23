@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 21:10:51 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:02:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	add_separated_heredoc(char *arg, char *map, int i)
 	create_heredoc(i, arg);
 	*map = SKIP;
 	*(map + 1) = SKIP;
-	// free(arg);
 }
 
 void	add_unsplit_heredoc(char *str, char *map, int j, int i)

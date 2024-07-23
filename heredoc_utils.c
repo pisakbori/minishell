@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 21:33:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:58:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	create_heredoc(int index, char *key1)
 	char	*temp;
 	int		fd;
 
+	state()->n_heredocs++;
 	hd_line = NULL;
 	heredoc_name = get_heredoc_path(index);
 	key = remove_chars(key1, "\"\'");
@@ -56,7 +57,11 @@ void	create_heredoc(int index, char *key1)
 		}
 		if (!hd_line)
 			break ;
-		temp = expand_variables(hd_line, NULL);
+		if (ft_strchr(key1, '\'') || ft_strchr(key1, '\"'))
+			temp = ft_strdup(hd_line);
+		else
+			temp = expand_variables(hd_line,
+									NULL);
 		ft_printf(fd, temp);
 		free(temp);
 		ft_printf(fd, "\n");
@@ -68,15 +73,15 @@ void	create_heredoc(int index, char *key1)
 	add_i_redir(index, DOUBLE, heredoc_name);
 }
 
-void	remove_all_heredocs(void)
+void	remove_all_heredocs(int max_index)
 {
 	int		i;
 	char	*heredoc_path;
 
 	i = -1;
-	while (1)
+	while (++i < max_index)
 	{
-		heredoc_path = get_heredoc_path(++i);
+		heredoc_path = get_heredoc_path(i);
 		if (access(heredoc_path, F_OK))
 		{
 			free(heredoc_path);

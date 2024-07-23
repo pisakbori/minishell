@@ -1,4 +1,4 @@
-0. practice microshell. find subject.
+<!-- 0. practice microshell. find subject.
 1. take 1 absolute path as arg, run it
 2. take 2args, put pipe between them. like this: ./microshell ls "|" grep microshell
 
@@ -14,8 +14,13 @@ bash: syntax error near unexpected token `|'
 bash: syntax error near unexpected token `||'
 
 lsof -c sleep | grep pipe
+ -->
 
+> echo>
+> /bin/rm -f echo
 
+<echo<
+/bin/rm -f echo
 
-
-leaks for <i >jujujuj szua
+> > echo>>
+> > /bin/rm -f echo
