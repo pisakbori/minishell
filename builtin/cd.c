@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 14:58:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:54:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void	navigate_to_oldpwd(void)
 	char	*dest_path;
 
 	dest_path = get_env_variable("OLDPWD");
-	if (!dest_path[0])
+	if (!dest_path)
 		set_mini_error("cd", 1, "OLDPWD not set");
 	else
+	{
 		ft_printf(1, "%s\n", dest_path);
+		navigate_to_path(dest_path);
+	}
 	free(dest_path);
 }
 
@@ -77,6 +80,8 @@ void	on_cd(t_exec e)
 		dest_path = ft_path_join(home, e.argv[1] + 1);
 		navigate(dest_path);
 	}
+	else if (str_equal(e.argv[1], "-"))
+		navigate_to_oldpwd();
 	else if (e.argv[1][0] == SKIP && ft_strlen(e.argv[1]) == 1)
 		return (navigate_to_oldpwd());
 	else
