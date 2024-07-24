@@ -1,0 +1,86 @@
+'''''''''''''''' echo ok
+>| echo sure
+cd --
+UNSET USER
+
+
+>> "$USER'$USER'"
+cat "$USER'$USER'"
+/bin/rm -f "$USER'$USER'"
+
+
+echo "ls" | env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "env | /usr/bin/wc -l" | env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+/bin/echo '\1$42' > tmp_redir_out
+ls -la | grep tmp_redir_out | awk '{print $1 $2}'
+cat -e tmp_redir_out
+rm tmp_redir_out
+
+>echo>
+/bin/rm -f echo
+
+<echo<
+/bin/rm -f echo
+
+>>echo>>
+/bin/rm -f echo
+
+env -i ./minishell
+cd /bin/
+ls
+
+mkdir tmp_path_test1 tmp_path_test2
+printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c
+gcc tmp_path_test1/test1.c -o tmp_path_test1/a.out
+printf '#include <unistd.h>\nint main(){write(1, \"2\\n\", 2);}' > tmp_path_test2/test2.c
+gcc tmp_path_test2/test2.c -o tmp_path_test2/a.out
+export PATH=tmp_path_test1:tmp_path_test2
+a.out
+export PATH=tmp_path_test2:tmp_path_test1
+a.out
+/bin/rm -rf tmp_path_test1 tmp_path_test2
+
+
+touch "
+"
+/bin/rm -f "
+"
+
+TODO: these are huge issues.
+ls|cat Makefile|cat<<asd>out
+$USER
+asd
+/bin/rm -f out
+
+ls|cat Makefile|cat<<'asd'>out
+$USER
+asd
+/bin/rm -f out
+
+ls|cat Makefile|cat<<"asd">out
+$USER
+asd
+/bin/rm -f out
+
+ls | cat << stop | ls -la | cat << stop1 | ls | cat << stop2 | ls -la > > out | cat << stop3
+fe
+wf
+fwe
+f
+stop
+dw
+stop1
+dwasd
+stop2
+cat Makefile | ls > out
+cat out
+/bin/rm -f out
+
+/bin/env | grep "_="       ???????????? how to do this?

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 09:37:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:16:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ t_state	**get_state_ptr(void)
 t_state	*state(void)
 {
 	return (*get_state_ptr());
+}
+
+void	inc_shell_level(void)
+{
+	char	*str_shlvl;
+	int		shlvl;
+
+	str_shlvl = get_env_variable("SHLVL");
+	shlvl = 0;
+	if (str_shlvl)
+		shlvl = ft_atoi(str_shlvl);
+	free(str_shlvl);
+	shlvl++;
+	str_shlvl = ft_itoa(shlvl);
+	set_env_variable("SHLVL", str_shlvl);
+	free(str_shlvl);
 }
 
 void	init_state(int argc, char const *argv[], char **env)
@@ -44,7 +60,7 @@ void	init_state(int argc, char const *argv[], char **env)
 	state->pipeline = NULL;
 	*get_state_ptr() = state;
 	state->home_backup = get_env_variable("HOME");
-	// set_cwd(cwd);
+	inc_shell_level();
 }
 
 void	reset_stdio(void)
