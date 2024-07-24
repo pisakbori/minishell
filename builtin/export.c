@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 15:47:29 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:35:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ int	export_arg(char *env_line)
 		*eq = 0;
 	name = ft_strdup(clone);
 	if (!eq)
+	{
+		free(name);
+		free(clone);
 		return (1);
+	}
 	else
 		value = ft_strdup(eq + 1);
-	free(clone);
 	if (!is_valid_name(name))
 		res = 0;
 	else
@@ -79,6 +82,7 @@ int	export_arg(char *env_line)
 	}
 	free(name);
 	free(value);
+	free(clone);
 	return (res);
 }
 

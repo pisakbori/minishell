@@ -29,3 +29,10 @@ cat wouaf wouaf
 >> "$USER'$USER'"
 cat "$USER'$USER'"
 /bin/rm -f "$USER'$USER'"
+
+
+export a="asd" b="de" o= c="hellomi" X
+unset o a X b c
+
+
+export $? 
