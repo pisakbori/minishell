@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 17:53:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:47:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,53 @@ t_env_var	*get_name_value(char *env_line)
 	return (res);
 }
 
-int	export_arg(char *arg)
+int	export_arg(char *env_line)
 {
-	t_env_var	*v;
-	int			res;
+	int		res;
+	char	*eq;
+	char	*name;
+	char	*value;
+	char	*clone;
+	char	*old_value;
+	char	*joined;
+	char	*plus;
 
-	v = get_name_value(arg);
-	if (!is_valid_name(v->name))
+	clone = ft_strdup(env_line);
+	eq = ft_strchr(clone, '=');
+	plus = NULL;
+	if (eq && eq > clone && clone[eq - clone - 1] == '+')
+	{
+		plus = eq - 1;
+		*plus = 0;
+	}
+	if (eq)
+		*eq = 0;
+	name = ft_strdup(clone);
+	if (!eq)
+		return (1);
+	else
+		value = ft_strdup(eq + 1);
+	free(clone);
+	if (!is_valid_name(name))
 		res = 0;
 	else
 	{
-		set_env_variable(v->name, v->value);
+		if (plus)
+		{
+			old_value = get_env_variable(name);
+			if (old_value)
+			{
+				joined = ft_strjoin(old_value, value);
+				free(value);
+				free(old_value);
+				value = joined;
+			}
+		}
+		set_env_variable(name, value);
 		res = 1;
 	}
-	free(v->name);
-	free(v->value);
-	free(v);
+	free(name);
+	free(value);
 	return (res);
 }
 

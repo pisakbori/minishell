@@ -4,3 +4,12 @@ ls
 
 ❌ 356   
 ✅ 2467
+
+
+export -TEST=123
+export --TEST=123
+export $?
+env what
+
+
+/bin/echo >/dev/null 1 | /usr/bin/grep 1

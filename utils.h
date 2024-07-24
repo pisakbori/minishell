@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 13:22:51 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char	*get_arg_name(char *str);
 void	add_i_redir(int index, int mode, char *filename);
 char	*get_filename(char *filename, int index);
 char	**keep_marked_only(char *map, char **parts);
-char	*handle_and_mark_redirs(char **parts, int index);
 void	add_unsplit_redir(char *str, char *map, int j, int index);
 void	add_separated_redir(char *symbol, char *arg, char *map, int i);
 

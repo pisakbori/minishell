@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 15:05:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:02:48 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,6 @@ void	try_get_token(char *token, char *str, int *i)
 	}
 }
 
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (1);
-	else
-		return (0);
-}
-
 static int	valid_words(char *str, char *msg)
 {
 	int		i;
@@ -65,7 +57,7 @@ static int	valid_words(char *str, char *msg)
 		try_get_token(token1, str, &i);
 		if (token1[0])
 		{
-			while (str[i] && ft_isspace(str[i]))
+			while (str[i] && ft_is_space(str[i]))
 				i++;
 			if (!str[i])
 				ft_strlcpy(token2, "newline", sizeof(token2));

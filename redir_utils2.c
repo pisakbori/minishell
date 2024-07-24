@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:23:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:31:40 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,4 @@ char	**keep_marked_only(char *map, char **parts)
 			res[j++] = ft_strdup(parts[i]);
 	}
 	return (res);
-}
-
-char	*handle_and_mark_redirs(char **parts, int index)
-{
-	char	*map;
-	int		i;
-
-	map = ft_calloc(ft_arr_len(parts) + 1, 1);
-	i = -1;
-	while (parts[++i])
-	{
-		if (is_bracket(parts[i]) && !str_equal("<<", parts[i]))
-		{
-			add_separated_redir(parts[i], parts[i + 1], map + i, index);
-			i++;
-		}
-		else if (is_unsplit_redir(parts[i]))
-			add_unsplit_redir(parts[i], map, i, index);
-		else
-			map[i] = KEEP;
-	}
-	return (map);
 }

@@ -14,6 +14,7 @@ FILES			= utils state path_utils free_utils split_utils\
 					str_arr_utils1 str_arr_utils2 expand_utils error\
 					redir redir_utils1 redir_utils2 heredoc heredoc_utils parse\
 					signal\
+					redirection\
 					$(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))

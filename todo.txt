@@ -77,3 +77,7 @@ cat out
 /bin/rm -f out
 
 /bin/env | grep "_="       ???????????? how to do this?
+
+
+cd '/////' 2>/dev/null
+export TEST+=100

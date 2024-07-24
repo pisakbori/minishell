@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 17:53:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:35:44 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ typedef struct s_state
 }					t_state;
 
 // execution
+void				try_get_token(char *token, char *str, int *i);
+void				add_o_redir(int index, int mode, char *fn);
+void				add_i_redir(int index, int mode, char *fn);
+
 void				execute_commands(t_stage *pipeline);
 void				close_pipe(t_pipe *p);
 int					pipeline_len(t_stage *pipeline);

@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_is_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 14:51:31 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 14:01:29 by bpisak-l         ###   ########.fr       */
+/*   Created: 2024/07/24 14:01:14 by bpisak-l          #+#    #+#             */
+/*   Updated: 2024/07/24 14:02:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_atoi(const char *str)
+int	ft_is_space(char c)
 {
-	int	res;
-	int	i;
-	int	sign;
+	char	*spaces;
 
-	res = 0;
-	i = 0;
-	sign = 1;
-	while (ft_is_space(str[i]))
-		i++;
-	if (str[i] == '-')
+	spaces = "\t\n\v\f\r ";
+	while (*spaces)
 	{
-		i++;
-		sign = -1;
+		if (*spaces == c)
+			return (1);
+		spaces++;
 	}
-	else if (str[i] == '+')
-		i++;
-	if (str[i] == '0')
-		i++;
-	while (ft_isdigit(str[i]))
-	{
-		res = res * 10 + sign * (str[i] - '0');
-		i++;
-	}
-	return (res);
+	return (0);
 }
