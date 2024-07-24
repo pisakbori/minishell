@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 13:58:35 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:25:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	create_heredoc(int index, char *key1)
 	char	*temp;
 	int		fd;
 
-	state()->n_heredocs++;
+	state()->n_heredocs = index;
 	hd_line = NULL;
 	heredoc_name = get_heredoc_path(index);
 	key = remove_chars(key1, "\"\'");
@@ -48,7 +48,9 @@ void	create_heredoc(int index, char *key1)
 		else
 		{
 			hd_line = get_next_line(fileno(stdin));
+			temp = hd_line;
 			hd_line = ft_strtrim(hd_line, "\n");
+			free(temp);
 		}
 		if (str_equal(hd_line, key))
 		{
@@ -60,8 +62,7 @@ void	create_heredoc(int index, char *key1)
 		if (ft_strchr(key1, '\'') || ft_strchr(key1, '\"'))
 			temp = ft_strdup(hd_line);
 		else
-			temp = expand_variables(hd_line,
-									NULL);
+			temp = expand_variables(hd_line, NULL);
 		ft_printf(fd, temp);
 		free(temp);
 		ft_printf(fd, "\n");
@@ -79,15 +80,11 @@ void	remove_all_heredocs(int max_index)
 	char	*heredoc_path;
 
 	i = -1;
-	while (++i < max_index)
+	while (++i <= max_index)
 	{
 		heredoc_path = get_heredoc_path(i);
-		if (access(heredoc_path, F_OK))
-		{
-			free(heredoc_path);
-			return ;
-		}
-		unlink(heredoc_path);
+		if (!access(heredoc_path, F_OK))
+			unlink(heredoc_path);
 		free(heredoc_path);
 	}
 }

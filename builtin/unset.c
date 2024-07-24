@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 17:53:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:06:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ void	on_unset(t_exec e)
 	i = 0;
 	set_exit_code(0);
 	if (e.argc == 1)
-	{
-		ft_printf(1, "\n");
 		return ;
-	}
 	while (e.argv[++i])
 	{
 		if (is_valid_name(e.argv[i]))
