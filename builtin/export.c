@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 20:35:05 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:58:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,65 +32,67 @@ t_env_var	*get_name_value(char *env_line)
 	return (res);
 }
 
+static int	free_vars(char *str1, char *str2)
+{
+	free(str1);
+	free(str2);
+	return (1);
+}
+
+int	append_to_env_variable(char *name, char *value)
+{
+	char	*old_value;
+	char	*joined;
+
+	old_value = get_env_variable(name);
+	if (old_value)
+	{
+		joined = ft_strjoin(old_value, value);
+		free(old_value);
+		value = joined;
+	}
+	set_env_variable(name, value);
+	free_vars(name, value);
+	return (1);
+}
+
+void	set_plus_and_eq_ptr(char **plus, char **eq, char *clone)
+{
+	*eq = ft_strchr(clone, '=');
+	*plus = NULL;
+	if (*eq && *eq > clone && clone[*eq - clone - 1] == '+')
+	{
+		*plus = *eq - 1;
+		**plus = 0;
+	}
+	if (*eq)
+		**eq = 0;
+}
+
 int	export_arg(char *env_line)
 {
 	int		res;
 	char	*eq;
 	char	*name;
-	char	*value;
 	char	*clone;
-	char	*old_value;
-	char	*joined;
 	char	*plus;
 
 	clone = ft_strdup(env_line);
-	eq = ft_strchr(clone, '=');
-	plus = NULL;
-	if (eq && eq > clone && clone[eq - clone - 1] == '+')
-	{
-		plus = eq - 1;
-		*plus = 0;
-	}
-	if (eq)
-		*eq = 0;
+	set_plus_and_eq_ptr(&plus, &eq, clone);
 	name = ft_strdup(clone);
 	if (!eq)
-	{
-		free(name);
-		free(clone);
-		return (1);
-	}
-	else
-		value = ft_strdup(eq + 1);
+		return (free_vars(name, clone));
 	if (!is_valid_name(name))
 		res = 0;
+	else if (plus)
+		return (append_to_env_variable(name, eq + 1));
 	else
 	{
-		if (plus)
-		{
-			old_value = get_env_variable(name);
-			if (old_value)
-			{
-				joined = ft_strjoin(old_value, value);
-				free(value);
-				free(old_value);
-				value = joined;
-			}
-		}
-		set_env_variable(name, value);
+		set_env_variable(name, eq + 1);
 		res = 1;
 	}
-	free(name);
-	free(value);
-	free(clone);
+	free_vars(name, clone);
 	return (res);
-}
-
-void	free_env_var(t_env_var *v)
-{
-	free(v->name);
-	free(v->value);
-	free(v);
 }
 
 void	print_all_exported(void)
@@ -109,7 +111,9 @@ void	print_all_exported(void)
 	{
 		env_var = get_name_value(copy[i]);
 		ft_printf(1, "declare -x %s=\"%s\"\n", env_var->name, env_var->value);
-		free_env_var(env_var);
+		free(env_var->name);
+		free(env_var->value);
+		free(env_var);
 	}
 	free_split_arr(copy);
 }

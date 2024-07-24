@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 15:57:57 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:02:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ int	jump_sign(char **str)
 	return (sign);
 }
 
+int	on_non_numeric_arg(char *str)
+{
+	ft_printf(2, "exit: %s: numeric argument required\n", str);
+	return (-1);
+}
+
 int	ft_a_to_uchar(char *str)
 {
 	unsigned long long	res;
@@ -36,28 +42,19 @@ int	ft_a_to_uchar(char *str)
 	res = 0;
 	i = 0;
 	if (!ft_strlen(str))
-	{
-		ft_printf(2, "exit: %s: numeric argument required\n", str);
-		return (-1);
-	}
+		return (on_non_numeric_arg(str));
 	if (str_equal(str, "-9223372036854775808"))
 		return (0);
 	sign = jump_sign(&str);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-		{
-			ft_printf(2, "exit: %s: numeric argument required\n", str);
-			return (-1);
-		}
+			return (on_non_numeric_arg(str));
 		res = res * 10 - '0' + str[i];
 		i++;
 	}
 	if (i >= 19 && res < 776627963145224191)
-	{
-		ft_printf(2, "exit: %s: numeric argument required\n", str);
-		return (-1);
-	}
+		return (on_non_numeric_arg(str));
 	if (sign > 0)
 		return ((unsigned char)res);
 	else
