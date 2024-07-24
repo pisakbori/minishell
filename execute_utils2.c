@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:59:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 19:17:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:40:04 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ void	close_all_redir(void)
 
 void	handle_redir(t_stage *s)
 {
-	int	out_mode;
+	int		out_mode;
+	mode_t	rights;
 
+	rights = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	reset_stdio();
 	if (s->redir.invalid)
 		return ;
@@ -50,7 +52,7 @@ void	handle_redir(t_stage *s)
 	if (s->redir.out)
 	{
 		out_mode = O_CREAT | O_WRONLY | s->redir.out_mode;
-		s->redir.out_fd = open(s->redir.out, out_mode, S_IRWXU);
+		s->redir.out_fd = open(s->redir.out, out_mode, rights);
 		if (s->redir.out_fd != -1)
 			dup2(s->redir.out_fd, STDOUT_FILENO);
 		close(s->redir.out_fd);

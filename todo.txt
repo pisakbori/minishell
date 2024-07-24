@@ -9,32 +9,25 @@ cat "$USER'$USER'"
 /bin/rm -f "$USER'$USER'"
 
 
-echo "ls" | env -i $MINISHELL_PATH"/"$EXECUTABLE
+
+echo "env | /usr/bin/wc -l" | env -i ./minishell
 echo $?
 
-echo "env | /usr/bin/wc -l" | env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo "unset PATH" | env -i ./minishell
 echo $?
 
-echo "unset PATH" | env -i $MINISHELL_PATH"/"$EXECUTABLE
-echo $?
-
-/bin/echo '\1$42' > tmp_redir_out
-ls -la | grep tmp_redir_out | awk '{print $1 $2}'
-cat -e tmp_redir_out
-rm tmp_redir_out
-
+TODO:
 >echo>
 /bin/rm -f echo
 
+TODO:
 <echo<
 /bin/rm -f echo
 
+TODO:
 >>echo>>
 /bin/rm -f echo
 
-env -i ./minishell
-cd /bin/
-ls
 
 mkdir tmp_path_test1 tmp_path_test2
 printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c

@@ -37,8 +37,10 @@ void	add_i_redir(int index, int mode, char *fn)
 
 void	add_o_redir(int index, int mode, char *fn)
 {
-	int	fd;
+	int		fd;
+	mode_t	rights;
 
+	rights = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	if (!access(fn, F_OK) && access(fn, W_OK))
 	{
 		set_error("minishell", 1, "Permission denied");
@@ -46,7 +48,7 @@ void	add_o_redir(int index, int mode, char *fn)
 	}
 	else
 	{
-		fd = open(fn, O_CREAT | O_WRONLY | mode, S_IRWXU);
+		fd = open(fn, O_CREAT | O_WRONLY | mode, rights);
 		close(fd);
 		if (fd != -1)
 		{
