@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 21:06:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:04:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,30 @@
 void	delete_value(char *var_name)
 {
 	char	**env;
+	int		size;
 	int		i;
 	int		j;
-	int		size;
+	int		is_same_var;
 
 	if (!is_variable(var_name))
 		return ;
 	env = clone_str_arr(state()->env);
-	free_split_arr(state()->env);
 	size = ft_arr_len(env) - 1;
-	i = -1;
+	free_split_arr(state()->env);
 	state()->env = ft_calloc(size + 1, sizeof(char *));
-	if (!state()->env)
-		exit(EXIT_FAILURE);
 	j = 0;
-	while (++i <= size)
+	i = -1;
+	while (++i < size)
 	{
-		if (!(starts_with(env[i], var_name)
-				&& env[i][ft_strlen(var_name)] == '='))
-			state()->env[j++] = env[i];
+		is_same_var = starts_with(env[i], var_name);
+		is_same_var = is_same_var && (env[i][ft_strlen(var_name)] == '=');
+		if (!is_same_var)
+		{
+			state()->env[j] = ft_strdup(env[i]);
+			j++;
+		}
 	}
+	free_split_arr(env);
 }
 
 void	on_unset(t_exec e)

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 18:48:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:23:40 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	free_split_arr(char **res)
 	if (!res)
 		return ;
 	i = -1;
-	while (res && res[++i])
+	while (res[++i])
+	{
 		free(res[i]);
+		res[i] = NULL;
+	}
 	free(res);
+	res = NULL;
 }
 
 void	free_redirs(void)
