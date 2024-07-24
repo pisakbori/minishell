@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 11:03:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:36:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ char	*get_cmd_path(char *bin_name)
 	char	*pth;
 
 	paths = get_env_variable("PATH");
+	if (!paths)
+		paths = ft_strdup("/bin/");
 	res = NULL;
 	if (str_equal(bin_name, "~"))
 		pth = get_env_variable("HOME");
-	else if (!paths && !ft_strchr(bin_name, '/'))
-		pth = ft_strjoin("./", bin_name);
 	else
 		pth = ft_strdup(bin_name);
 	if (ft_strchr(pth, '/'))

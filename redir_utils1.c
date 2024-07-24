@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:49:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 19:10:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:20:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_filename(char *filename, int index)
 
 	temp = expand_variables(filename, "\'\"");
 	parts = str_split(temp, " \t", "\"\'");
-	fn = remove_all_chars(temp, "\"\'");
+	fn = remove_chars(temp, "\"\'");
 	free(temp);
 	replace_special_chars(fn);
 	if (ft_arr_len(parts) > 1)
@@ -67,14 +67,4 @@ int	is_unsplit_redir(char *str)
 	res += starts_with(str, ">");
 	res *= !starts_with(str, "<<");
 	return (res);
-}
-
-char	*get_arg_name(char *str)
-{
-	char	*name;
-
-	while (str_has("><", *str))
-		str++;
-	name = ft_strdup(str);
-	return (name);
 }

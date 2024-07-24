@@ -13,3 +13,19 @@ env what
 
 
 /bin/echo >/dev/null 1 | /usr/bin/grep 1
+
+>| echo sure
+>> "$USER'$USER'"
+
+
+
+hello world
+||||||||
+            
+cat wouaf wouaf
+>
+
+
+>> "$USER'$USER'"
+cat "$USER'$USER'"
+/bin/rm -f "$USER'$USER'"

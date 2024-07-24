@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 16:54:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:52:21 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	on_cd(t_exec e)
 {
 	char	*dest_path;
 	char	*home;
+	int		a_h;
 
 	if (e.argc > 2)
 	{
@@ -68,12 +69,18 @@ void	on_cd(t_exec e)
 	}
 	home = get_env_variable("HOME");
 	dest_path = NULL;
-	if ((e.argc == 1 || str_equal(e.argv[0], "~")) && home)
-		navigate(home);
-	else if (e.argc == 1 && !home)
+	a_h = 0;
+	a_h = e.argc == 2;
+	a_h = a_h && (str_equal(e.argv[1], "~") || str_equal(e.argv[1], "--"));
+	if (e.argc == 1 || a_h)
 	{
-		set_mini_error("cd", 1, "HOME not set");
-		return ;
+		if (home)
+			navigate(home);
+		else
+		{
+			set_mini_error("cd", 1, "HOME not set");
+			return ;
+		}
 	}
 	else if (e.argv[1][0] == '~')
 	{

@@ -6,63 +6,73 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 14:02:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:40:45 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_separated_heredoc(char *symbol, char *arg)
+void	try_get_heredoc_token(char *token, char *str, int *i)
 {
-	return (str_equal(symbol, "<<") && is_redir_arg(arg));
-}
-
-void	add_separated_heredoc(char *arg, char *map, int i)
-{
-	create_heredoc(i, arg);
-	*map = SKIP;
-	*(map + 1) = SKIP;
-}
-
-void	add_unsplit_heredoc(char *str, char *map, int j, int i)
-{
-	char	*arg;
-
-	arg = get_arg_name(str);
-	create_heredoc(i, arg);
-	free(arg);
-	map[j] = SKIP;
+	ft_memset(token, 0, 8);
+	if (!str || !str[*i] || !str[*i + 1])
+		return ;
+	if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		token[0] = '<';
+		token[1] = '<';
+		*i = *i + 2;
+	}
 }
 
 char	*parse_heredoc(char *str, int index)
 {
-	char	*map;
-	char	**parts;
-	char	**res;
-	char	*joined;
 	int		i;
+	int		j;
+	int		k;
+	char	token1[8];
+	char	name[500];
+	char	*map;
+	char	*to_keep;
 
-	i = -1;
-	parts = str_split(str, " \t", "\"\'");
-	map = ft_calloc(ft_arr_len(parts) + 1, 1);
-	while (parts[++i])
+	i = 0;
+	j = 0;
+	if (!str || *str == 0)
+		return (str);
+	to_keep = ft_calloc(ft_strlen(str) + 1, 1);
+	map = operation_map(str, NULL, "\'\"");
+	while (map && str[i])
 	{
-		if (is_separated_heredoc(parts[i], parts[i + 1]))
+		while (map[i + 1] && map[i] != KEEP)
 		{
-			add_separated_heredoc(parts[i + 1], map + i, index);
+			to_keep[j++] = str[i];
 			i++;
 		}
-		else if (starts_with(parts[i], "<<"))
-			add_unsplit_heredoc(parts[i], map, i, index);
+		try_get_heredoc_token(token1, str, &i);
+		if (token1[0] && str_equal(token1, "<<"))
+		{
+			while (str[i] && ft_is_space(str[i]) && map[i] == KEEP)
+				i++;
+			k = 0;
+			while (str[i] && (map[i] != KEEP || (str[i] != '>' && str[i] != '<'
+						&& !ft_is_space(str[i]))))
+			{
+				name[k] = str[i];
+				i++;
+				k++;
+			}
+			name[k] = 0;
+			create_heredoc(index, name);
+		}
 		else
-			map[i] = KEEP;
+		{
+			to_keep[j++] = str[i];
+			i++;
+		}
 	}
-	res = keep_marked_only(map, parts);
+	to_keep[j] = 0;
 	free(map);
-	free_split_arr(parts);
-	joined = str_join_all(res, " ");
-	free_split_arr(res);
-	return (joined);
+	return (to_keep);
 }
 
 char	**handle_heredocs(char **cmd_set)

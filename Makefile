@@ -12,7 +12,7 @@ FILES			= utils state path_utils free_utils split_utils\
 					execution execute_utils1 execute_utils2 main env_utils expand\
 					str_utils1 str_utils2 str_utils3 state_utils \
 					str_arr_utils1 str_arr_utils2 expand_utils error\
-					redir redir_utils1 redir_utils2 heredoc heredoc_utils parse\
+					redir redir_utils1 heredoc heredoc_utils parse\
 					signal\
 					redirection\
 					$(BUILTINS)

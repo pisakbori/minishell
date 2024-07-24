@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:37:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 15:38:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:22:17 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,4 @@ void	replace_special_chars(char *str)
 		if (str[i] == SMALLER_THAN)
 			str[i] = '<';
 	}
-}
-
-char	*remove_all_chars(char *str, char *to_remove)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*res;
-
-	len = 0;
-	i = -1;
-	while (str && str[++i])
-		if (!ft_strchr(to_remove, str[i]))
-			len++;
-	res = ft_calloc(len + 1, 1);
-	i = -1;
-	j = 0;
-	while (str && str[++i])
-	{
-		if (!ft_strchr(to_remove, str[i]))
-			res[j++] = str[i];
-	}
-	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 15:42:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:22:22 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		chars_freq(char *str, char *chars);
 int		char_freq(char *str, char c);
 void	replace_special_chars(char *str);
 void	protect_special_chars(char *str);
-char	*remove_all_chars(char *str, char *to_remove);
 char	*skip_until(char quote_type, char *s);
 
 // path utils
@@ -83,10 +82,8 @@ char	*handle_redirs(char *str, int index);
 int		is_unsplit_redir(char *str);
 int		is_redir_arg(char *str);
 int		is_bracket(char *str);
-char	*get_arg_name(char *str);
 void	add_i_redir(int index, int mode, char *filename);
 char	*get_filename(char *filename, int index);
-char	**keep_marked_only(char *map, char **parts);
 void	add_unsplit_redir(char *str, char *map, int j, int index);
 void	add_separated_redir(char *symbol, char *arg, char *map, int i);
 
@@ -98,7 +95,6 @@ void	set_pipeline_argvs(char **cmd_set);
 
 // heredoc
 char	**handle_heredocs(char **stages);
-char	**keep_marked_only(char *map, char **parts);
 void	create_heredoc(int index, char *key1);
 void	remove_all_heredocs(int max_index);
 
