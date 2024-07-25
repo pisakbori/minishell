@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:18:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ t_env_var	*get_name_value(char *env_line)
 	t_env_var	*res;
 	char		*dup;
 
-	dup = ft_strdup(env_line);
+	dup = m_ft_strdup(env_line);
 	eq = ft_strchr(dup, '=');
 	if (eq)
 		*eq = 0;
-	res = ft_calloc(1, sizeof(t_env_var));
-	res->name = ft_strdup(dup);
+	res = m_ft_calloc(1, sizeof(t_env_var));
+	res->name = m_ft_strdup(dup);
 	if (!eq)
-		res->value = ft_strdup("");
+		res->value = m_ft_strdup("");
 	else
-		res->value = ft_strdup(eq + 1);
+		res->value = m_ft_strdup(eq + 1);
 	free(dup);
 	return (res);
 }

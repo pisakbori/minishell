@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 10:44:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	inc_shell_level(void)
 		shlvl = ft_atoi(str_shlvl);
 	free(str_shlvl);
 	shlvl++;
-	str_shlvl = ft_itoa(shlvl);
+	str_shlvl = m_ft_itoa(shlvl);
 	set_env_variable("SHLVL", str_shlvl);
 	free(str_shlvl);
 }
@@ -46,13 +46,13 @@ void	init_state(char **env)
 	char	cwd[4096];
 	char	basic_path[61];
 
-	state = ft_calloc(1, sizeof(t_state));
+	state = m_ft_calloc(1, sizeof(t_state));
 	state->n_heredocs = 0;
 	state->path_status = IS_VALID;
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
 	getcwd(cwd, 4096);
-	state->cwd = ft_strdup(cwd);
+	state->cwd = m_ft_strdup(cwd);
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;

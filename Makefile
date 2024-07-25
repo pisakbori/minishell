@@ -15,6 +15,7 @@ FILES			=   main state execution signal parse\
 					expand expand_utils error\
 					heredoc heredoc_utils\
 					redirection redir_utils2 redir_utils1\
+					malloc_safe_u\
 					$(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))

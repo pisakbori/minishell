@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 21:32:15 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:53:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	delete_value(char *var_name)
 	env = clone_str_arr(state()->env);
 	size = ft_arr_len(env) - 1;
 	free_split_arr(state()->env);
-	state()->env = ft_calloc(size + 1, sizeof(char *));
+	state()->env = m_ft_calloc(size + 1, sizeof(char *));
 	j = 0;
 	i = -1;
 	while (++i < size)
@@ -34,7 +34,7 @@ void	delete_value(char *var_name)
 		is_same_var = is_same_var && (env[i][ft_strlen(var_name)] == '=');
 		if (!is_same_var)
 		{
-			state()->env[j] = ft_strdup(env[i]);
+			state()->env[j] = m_ft_strdup(env[i]);
 			j++;
 		}
 	}

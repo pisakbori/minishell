@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:31:06 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:08 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_line(char *line)
 
 	cmd_set = str_split(line, "|", "\"\'");
 	temp = cmd_set;
-	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
+	state()->pipeline = m_ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	cmd_set = handle_heredocs(temp);
 	free_split_arr(temp);
 	set_pipes(cmd_set);
@@ -55,8 +55,8 @@ int	main(int argc, char const *argv[], char **env)
 
 	(void)argc;
 	(void)argv;
-	init_signals();
 	init_state(env);
+	init_signals();
 	while (!state()->should_stop)
 	{
 		reset_state();

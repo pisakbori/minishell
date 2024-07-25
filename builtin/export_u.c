@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:15:43 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:19:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:41:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	free_vars(char *str1, char *str2)
 	return (1);
 }
 
-static int	append_to_env_variable(char *name, char *value)
+static int	append_to_env_variable(char *name, char *clone, char *value)
 {
 	char	*old_value;
 	char	*joined;
@@ -40,12 +40,16 @@ static int	append_to_env_variable(char *name, char *value)
 	old_value = get_env_variable(name);
 	if (old_value)
 	{
-		joined = ft_strjoin(old_value, value);
-		free(old_value);
+		joined = m_ft_strjoin(old_value, value);
 		value = joined;
 	}
 	set_env_variable(name, value);
-	free_vars(name, value);
+	free_vars(name, clone);
+	if (old_value)
+	{
+		free(old_value);
+		free(value);
+	}
 	return (1);
 }
 
@@ -57,15 +61,15 @@ int	export_arg(char *env_line)
 	char	*clone;
 	char	*plus;
 
-	clone = ft_strdup(env_line);
+	clone = m_ft_strdup(env_line);
 	set_plus_and_eq_ptr(&plus, &eq, clone);
-	name = ft_strdup(clone);
+	name = m_ft_strdup(clone);
 	if (!eq)
 		return (free_vars(name, clone));
 	if (!is_valid_name(name))
 		res = 0;
 	else if (plus)
-		return (append_to_env_variable(name, eq + 1));
+		return (append_to_env_variable(name, clone, eq + 1));
 	else
 	{
 		set_env_variable(name, eq + 1);

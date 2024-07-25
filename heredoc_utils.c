@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 11:08:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:43:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ char	*get_heredoc_path(int index)
 	char	*temp;
 	char	*index_str;
 
-	heredoc_name = ft_strdup("heredoc");
+	heredoc_name = m_ft_strdup("heredoc");
 	temp = heredoc_name;
-	index_str = ft_itoa(index);
-	heredoc_name = ft_strjoin(temp, index_str);
+	index_str = m_ft_itoa(index);
+	heredoc_name = m_ft_strjoin(temp, index_str);
 	free(index_str);
 	free(temp);
 	return (heredoc_name);
@@ -39,7 +39,7 @@ static int	put_heredoc_line(char *hd_line, char *key, char *key1, int fd)
 	if (!hd_line)
 		return (0);
 	if (ft_strchr(key1, '\'') || ft_strchr(key1, '\"'))
-		temp = ft_strdup(hd_line);
+		temp = m_ft_strdup(hd_line);
 	else
 		temp = expand_variables(hd_line, NULL);
 	ft_printf(fd, temp);

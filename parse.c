@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/01 14:17:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_pipes(char **cmd_set)
 	t_pipe	p;
 
 	len = ft_arr_len(cmd_set);
-	state()->pipes = ft_calloc(len + 2, sizeof(t_pipe));
+	state()->pipes = m_ft_calloc(len + 2, sizeof(t_pipe));
 	i = -1;
 	while (cmd_set[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:25:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:00:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "enums.h"
 # include "minishell.h"
+# include <stdlib.h>
 
 // str_array utils
 char	**append_to_str_arr(char **arr, char *str);
@@ -80,7 +81,6 @@ char	*get_filename(char *filename, int index);
 void	try_get_token(char *token, char *str, int *i);
 
 // parse
-
 void	set_pipes(char **cmd_set);
 void	set_and_remove_redirs(char **cmd_set);
 void	set_pipeline_argvs(char **cmd_set);
@@ -89,5 +89,11 @@ void	set_pipeline_argvs(char **cmd_set);
 char	**handle_heredocs(char **stages);
 void	create_heredoc(int index, char *key1);
 void	remove_all_heredocs(int max_index);
+
+// malloc protected utils
+char	*m_ft_strdup(const char *s1);
+char	*m_ft_strjoin(char const *s1, char const *s2);
+char	*m_ft_itoa(int n);
+void	*m_ft_calloc(size_t count, size_t size);
 
 #endif

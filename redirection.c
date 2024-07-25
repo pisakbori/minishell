@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:58:06 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 11:44:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ char	*handle_redirs(char *str, int index)
 	i = 0;
 	j = 0;
 	if (!str || *str == 0)
-		return (ft_strdup(str));
-	to_keep = ft_calloc(ft_strlen(str) + 1, 1);
+		return (m_ft_strdup(str));
+	to_keep = m_ft_calloc(ft_strlen(str) + 1, 1);
 	map = operation_map(str, NULL, "\'\"");
 	while (map && str[i])
 	{

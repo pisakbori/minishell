@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:41:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 13:53:28 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:08 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ char	**clone_str_arr(char **arr)
 
 	size = ft_arr_len(arr);
 	i = -1;
-	new = ft_calloc(size + 1, sizeof(char *));
+	new = m_ft_calloc(size + 1, sizeof(char *));
 	if (!new)
 		exit(EXIT_FAILURE);
 	while (arr && arr[++i])
 	{
-		new[i] = ft_strdup(arr[i]);
+		new[i] = m_ft_strdup(arr[i]);
 	}
 	return (new);
 }
@@ -37,17 +37,17 @@ char	**append_to_str_arr(char **arr, char *str)
 	char	**new;
 
 	size = ft_arr_len(arr) + 1;
-	new = ft_calloc(size + 1, sizeof(char *));
+	new = m_ft_calloc(size + 1, sizeof(char *));
 	if (!new)
 		exit(EXIT_FAILURE);
 	i = 0;
 	while (arr && arr[i])
 	{
-		new[i] = ft_strdup(arr[i]);
+		new[i] = m_ft_strdup(arr[i]);
 		i++;
 	}
 	free_split_arr(arr);
-	new[i] = ft_strdup(str);
+	new[i] = m_ft_strdup(str);
 	return (new);
 }
 

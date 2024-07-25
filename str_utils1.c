@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:31:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 14:40:51 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:01:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_str_append(char *str1, char *str2)
 {
 	char	*res;
 
-	res = ft_strjoin(str1, str2);
+	res = m_ft_strjoin(str1, str2);
 	if (str1)
 		free(str1);
 	if (str2)

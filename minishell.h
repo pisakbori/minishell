@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:27:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:50:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>   //for strerror
@@ -95,6 +96,7 @@ void				close_redir(t_stage stage);
 // set errors
 int					error_code(int ext);
 void				set_path_error(char *path);
+void				malloc_fail(void);
 
 void				init_state(char **env);
 void				set_exit_code(int exit_code);

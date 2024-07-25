@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 16:39:27 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:32:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	replace_value(char *var_name, char *rule)
 		if (starts_with(s->env[i], var_name) && equal_in_right_place)
 		{
 			free(s->env[i]);
-			s->env[i] = ft_strdup(rule);
+			s->env[i] = m_ft_strdup(rule);
 		}
 	}
 }
@@ -53,8 +53,8 @@ void	set_env_variable(char *var_name, char *var_value)
 
 	if (str_equal(var_name, "_"))
 		set_last_arg(var_value);
-	temp = ft_strjoin(var_name, "=");
-	rule = ft_strjoin(temp, var_value);
+	temp = m_ft_strjoin(var_name, "=");
+	rule = m_ft_strjoin(temp, var_value);
 	if (!is_variable(var_name))
 		add_value(rule);
 	else
@@ -76,15 +76,15 @@ char	*get_env_variable(char *var_name)
 	name_len = ft_strlen(var_name);
 	env = state()->env;
 	if (str_equal(var_name, "~"))
-		return (ft_strdup(state()->home_backup));
+		return (m_ft_strdup(state()->home_backup));
 	while (env[++i])
 	{
-		clone = ft_strdup(env[i]);
+		clone = m_ft_strdup(env[i]);
 		if (clone[name_len] == '=')
 		{
 			clone[name_len] = 0;
 			if (str_equal(clone, var_name))
-				res = ft_strdup(clone + name_len + 1);
+				res = m_ft_strdup(clone + name_len + 1);
 		}
 		free(clone);
 	}
@@ -103,7 +103,7 @@ int	is_variable(char *var_name)
 	env = state()->env;
 	while (env[++i])
 	{
-		clone = ft_strdup(env[i]);
+		clone = m_ft_strdup(env[i]);
 		clone[name_len] = 0;
 		if (str_equal(clone, var_name) && env[i][name_len] == '=')
 		{

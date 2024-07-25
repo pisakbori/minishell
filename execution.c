@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/20 17:54:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	execute_multiple(int len)
 
 	pipeline = state()->pipeline;
 	i = -1;
-	pids = ft_calloc(len, sizeof(int));
+	pids = m_ft_calloc(len, sizeof(int));
 	while (pipeline[++i].argv)
 		pids[i] = execute_with_pipe(pipeline + i, i);
 	i = -1;
