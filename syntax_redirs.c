@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 14:02:48 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:37:24 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,28 @@ void	try_get_token(char *token, char *str, int *i)
 	}
 }
 
+static int	fail_on_unexpected_token(char *msg, char *token2, char *map)
+{
+	ft_memset(msg + 35, '`', 1);
+	ft_strlcpy(msg + 36, token2, ft_strlen(token2) + 1);
+	msg[ft_strlen(msg)] = '\'';
+	set_error("minishell", 2, msg);
+	free(map);
+	return (0);
+}
+
+void	look_for_neighbor_token(char *str, int *i, char *token2)
+{
+	while (str[*i] && ft_is_space(str[*i]))
+		*i = *i + 1;
+	if (!str[*i])
+		ft_strlcpy(token2, "newline", sizeof(token2));
+	else if (str[*i] == '|')
+		ft_strlcpy(token2, "|", sizeof(token2));
+	else
+		try_get_token(token2, str, i);
+}
+
 static int	valid_words(char *str, char *msg)
 {
 	int		i;
@@ -57,23 +79,9 @@ static int	valid_words(char *str, char *msg)
 		try_get_token(token1, str, &i);
 		if (token1[0])
 		{
-			while (str[i] && ft_is_space(str[i]))
-				i++;
-			if (!str[i])
-				ft_strlcpy(token2, "newline", sizeof(token2));
-			else if (str[i] == '|')
-				ft_strlcpy(token2, "|", sizeof(token2));
-			else
-				try_get_token(token2, str, &i);
+			look_for_neighbor_token(str, &i, token2);
 			if (token2[0] != 0)
-			{
-				ft_memset(msg + 35, '`', 1);
-				ft_strlcpy(msg + 36, token2, ft_strlen(token2) + 1);
-				msg[ft_strlen(msg)] = '\'';
-				set_error("minishell", 2, msg);
-				free(map);
-				return (0);
-			}
+				return (fail_on_unexpected_token(msg, token2, map));
 		}
 		else
 			i++;
