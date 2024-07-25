@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:52:40 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/18 13:13:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:56:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ typedef enum s_mode_io
 	DOUBLE,
 	SINGLE
 }	t_mode_io;
-
-typedef enum redir
-{
-	IN,
-	OUT
-}	t_redir_io;
 
 typedef enum operation
 {

@@ -6,38 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 13:25:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 10:37:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:10:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-void	try_get_token(char *token, char *str, int *i)
-{
-	ft_memset(token, 0, 8);
-	if (!str || !str[*i])
-		return ;
-	if (str[*i] == '>')
-	{
-		token[0] = '>';
-		*i = *i + 1;
-		if (str[*i] == '>')
-		{
-			token[1] = '>';
-			*i = *i + 1;
-		}
-	}
-	else if (str[*i] == '<')
-	{
-		token[0] = '<';
-		*i = *i + 1;
-		if (str[*i] == '<')
-		{
-			token[1] = '<';
-			*i = *i + 1;
-		}
-	}
-}
 
 static int	fail_on_unexpected_token(char *msg, char *token2, char *map)
 {

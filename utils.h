@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 17:22:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:05:17 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**append_to_str_arr(char **arr, char *str);
 void	ft_sort_alph(char **arr);
 void	print_array(char **arr);
 char	**clone_str_arr(char **arr);
-char	*str_join_all(char **arr, char *sepa);
 
 // str utils
 char	*ft_str_append(char *str1, char *str2);
@@ -32,7 +31,6 @@ int		str_has(char *str, char c);
 void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
 int		chars_freq(char *str, char *chars);
-int		char_freq(char *str, char c);
 void	replace_special_chars(char *str);
 void	protect_special_chars(char *str);
 char	*skip_until(char quote_type, char *s);
@@ -61,11 +59,8 @@ int		redirs_valid(char *str);
 // env
 char	*get_env_variable(char *var_name);
 void	set_env_variable(char *var_name, char *var_value);
-void	add_value(char *rule);
 
-void	arr_expand_variables(char **cmd_set);
 char	*remove_chars(char *str, char *skip);
-void	arr_remove_chars(char **cmd_set, char *skip);
 
 // expand utils
 char	*expand_variables(char *str, char *skip);
@@ -79,16 +74,10 @@ char	**str_split(char *s, char *delim, char *skip);
 
 // redir
 char	*handle_redirs(char *str, int index);
-int		is_unsplit_redir(char *str);
-int		is_redir_arg(char *str);
-int		is_bracket(char *str);
 void	add_i_redir(int index, int mode, char *filename);
 char	*get_filename(char *filename, int index);
-void	add_unsplit_redir(char *str, char *map, int j, int index);
-void	add_separated_redir(char *symbol, char *arg, char *map, int i);
 
 // parse
-void	parse_line(char **cmd_set);
 void	set_pipes(char **cmd_set);
 void	set_and_remove_redirs(char **cmd_set);
 void	set_pipeline_argvs(char **cmd_set);

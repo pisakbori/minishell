@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 11:08:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:06:55 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,5 @@ void				init_signals(void);
 void				default_signals(void);
 void				let_signals_through(void);
 void				handle_heredoc_ctrl_c(int signum);
-void				handle_ctrl_c(int signum);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 11:49:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 17:20:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:10:43 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,39 +32,29 @@ char	*get_filename(char *filename, int index)
 	return (fn);
 }
 
-int	is_bracket(char *str)
+void	try_get_token(char *token, char *str, int *i)
 {
-	int	res;
-
-	if (!str)
-		return (0);
-	res = 0;
-	res = res || str_equal(str, ">");
-	res = res || str_equal(str, ">>");
-	res = res || str_equal(str, "<");
-	res = res || str_equal(str, "<<");
-	return (res);
-}
-
-int	is_redir_arg(char *str)
-{
-	int	res;
-
-	if (!str || !*str)
-		return (0);
-	res = 1;
-	res = res && !starts_with(str, ">");
-	res = res && !starts_with(str, "<");
-	return (res);
-}
-
-int	is_unsplit_redir(char *str)
-{
-	int	res;
-
-	res = starts_with(str, ">>");
-	res += starts_with(str, "<");
-	res += starts_with(str, ">");
-	res *= !starts_with(str, "<<");
-	return (res);
+	ft_memset(token, 0, 8);
+	if (!str || !str[*i])
+		return ;
+	if (str[*i] == '>')
+	{
+		token[0] = '>';
+		*i = *i + 1;
+		if (str[*i] == '>')
+		{
+			token[1] = '>';
+			*i = *i + 1;
+		}
+	}
+	else if (str[*i] == '<')
+	{
+		token[0] = '<';
+		*i = *i + 1;
+		if (str[*i] == '<')
+		{
+			token[1] = '<';
+			*i = *i + 1;
+		}
+	}
 }

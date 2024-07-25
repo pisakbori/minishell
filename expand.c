@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 10:24:19 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:00:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,6 @@ char	*expand_variables(char *str, char *skip)
 	return (ft_str_append(res, buff));
 }
 
-void	arr_expand_variables(char **cmd_set)
-{
-	char	*temp;
-
-	if (!cmd_set)
-		return ;
-	while (*cmd_set)
-	{
-		temp = *cmd_set;
-		*cmd_set = expand_variables(*cmd_set, "\'\"");
-		free(temp);
-		cmd_set++;
-	}
-}
-
 char	*remove_chars(char *str, char *skip)
 {
 	char	*map;
@@ -86,19 +71,4 @@ char	*remove_chars(char *str, char *skip)
 	}
 	free(map);
 	return (res);
-}
-
-void	arr_remove_chars(char **cmd_set, char *skip)
-{
-	char	*temp;
-
-	if (!cmd_set)
-		return ;
-	while (*cmd_set)
-	{
-		temp = *cmd_set;
-		*cmd_set = remove_chars(*cmd_set, skip);
-		free(temp);
-		cmd_set++;
-	}
 }
