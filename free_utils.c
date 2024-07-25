@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 14:04:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:27:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,19 @@ void	free_and_exit(void)
 	int		exit_code;
 
 	s = state();
-	if (s)
-	{
-		remove_all_heredocs(state()->n_heredocs);
-		exit_code = s->exit_code;
-		if (s->cwd)
-			free(s->cwd);
-		if (s->oldcwd)
-			free(s->oldcwd);
-		if (s->last_arg)
-			free(s->last_arg);
-		free_pipeline();
-		free_split_arr(s->env);
-		free(s->home_backup);
-		free(s);
-		rl_free_line_state();
-		clear_history();
-	}
-	else
-		exit_code = 17;
-	// ft_printf(1, "exit\n");
+	exit_code = s->exit_code;
+	if (s->cwd)
+		free(s->cwd);
+	if (s->oldcwd)
+		free(s->oldcwd);
+	if (s->last_arg)
+		free(s->last_arg);
+	free_pipeline();
+	free_split_arr(s->env);
+	free(s->home_backup);
+	free(s);
+	rl_free_line_state();
+	clear_history();
+	ft_printf(1, "exit\n");
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:58:06 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:46:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ static void	set_redirs(char *token1, char *name, int index)
 {
 	char	*fn;
 
-	fn = get_filename(name, index);
-	if (str_equal(token1, "<"))
-		add_i_redir(index, SINGLE, fn);
-	else if (str_equal(token1, ">"))
-		add_o_redir(index, O_TRUNC, fn);
-	else if (str_equal(token1, ">>"))
-		add_o_redir(index, O_APPEND, fn);
+	if (!state()->pipeline[index].redir.invalid)
+	{
+		fn = get_filename(name, index);
+		if (str_equal(token1, "<"))
+			add_i_redir(index, SINGLE, fn);
+		else if (str_equal(token1, ">"))
+			add_o_redir(index, O_TRUNC, fn);
+		else if (str_equal(token1, ">>"))
+			add_o_redir(index, O_APPEND, fn);
+	}
 }
 
 void	set_redir_name(char *name, char *map, int *i, char *str)

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:27:06 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,27 @@ void	execute_line(char *line)
 		execute_commands(state()->pipeline);
 }
 
+// char	*read_debug(char *prompt)
+// {
+// 	char	*temp;
+// 	char	*hd_line;
+// 	hd_line = NULL;
+// 	if (isatty(fileno(stdin)))
+// 		hd_line = readline(prompt);
+// 	else
+// 	{
+// 		hd_line = get_next_line(fileno(stdin));
+// 		temp = hd_line;
+// 		hd_line = ft_strtrim(hd_line, "\n");
+// 		free(temp);
+// 	}
+// 	return (hd_line);
+// }
 char	*read_debug(char *prompt)
 {
-	char	*temp;
 	char	*hd_line;
 
-	hd_line = NULL;
-	if (isatty(fileno(stdin)))
-		hd_line = readline(prompt);
-	else
-	{
-		hd_line = get_next_line(fileno(stdin));
-		temp = hd_line;
-		hd_line = ft_strtrim(hd_line, "\n");
-		free(temp);
-	}
+	hd_line = readline(prompt);
 	return (hd_line);
 }
 

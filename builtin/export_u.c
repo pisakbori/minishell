@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:15:43 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 14:41:11 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:34:02 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ int	export_arg(char *env_line)
 	clone = m_ft_strdup(env_line);
 	set_plus_and_eq_ptr(&plus, &eq, clone);
 	name = m_ft_strdup(clone);
+	if (!is_valid_name(name))
+	{
+		free_vars(name, clone);
+		return (0);
+	}
 	if (!eq)
 		return (free_vars(name, clone));
-	if (!is_valid_name(name))
-		res = 0;
 	else if (plus)
 		return (append_to_env_variable(name, clone, eq + 1));
 	else
