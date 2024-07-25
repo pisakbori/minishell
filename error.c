@@ -6,11 +6,24 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:19:24 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:20:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:02:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	set_error(char *text, int err_code, char *msg)
+{
+	state()->exit_code = err_code;
+	ft_printf(2, "%s: %s\n", text, msg);
+	return (err_code);
+}
+
+int	set_mini_error(char *text, int err_code, char *msg)
+{
+	ft_printf(2, "minishell: ");
+	return (set_error(text, err_code, msg));
+}
 
 int	error_code(int ext)
 {
