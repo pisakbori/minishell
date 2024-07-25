@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:56:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ void	init_state(char **env)
 void	reset_state(void)
 {
 	remove_all_heredocs(state()->n_heredocs);
-	dup2(state()->backup_stdin, STDIN_FILENO);
-	dup2(state()->backup_stdout, STDOUT_FILENO);
+	m_dup2(state()->backup_stdin, STDIN_FILENO);
+	m_dup2(state()->backup_stdout, STDOUT_FILENO);
 	free_pipeline();
 	state()->path_status = IS_VALID;
 	state()->n_heredocs = 0;
+	init_signals();
 }

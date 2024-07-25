@@ -6,11 +6,18 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:30:04 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	pipe_fail(void)
+{
+	ft_printf(2, "Pipe fail.");
+	state()->exit_code = EPIPE;
+	free_and_exit(0);
+}
 
 void	set_pipes(char **cmd_set)
 {
@@ -27,7 +34,7 @@ void	set_pipes(char **cmd_set)
 		if (i)
 		{
 			if (pipe(fd) < 0)
-				set_error("pipe", 0, NULL);
+				pipe_fail();
 			p = (t_pipe){.read = fd[0], .write = fd[1]};
 			state()->pipes[i] = p;
 		}

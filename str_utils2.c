@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:53:54 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:32:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:14:35 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,6 @@ char	*skip_until(char c, char *s)
 		return (next);
 	}
 	return (s);
-}
-
-int	chars_freq(char *str, char *chars)
-{
-	int	freq;
-	int	i;
-
-	if (!str || !chars || !*str || !*chars)
-		return (0);
-	freq = 0;
-	i = -1;
-	while (str[++i])
-		if (str_has(chars, str[i]))
-			freq++;
-	return (freq);
 }
 
 char	*ft_path_join(char *path, char *bin_name)

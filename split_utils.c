@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 20:38:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:52:43 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**str_split(char *s, char *delim, char *skip)
 	{
 		if (is_word_start(map, i))
 		{
-			res[j++] = m_ft_strdup(clone + i);
+			res[j++] = ft_strdup(clone + i);
 			if (!res[j - 1])
 				return (split_fail_free(res, j, map, clone));
 		}

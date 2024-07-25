@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 15:27:19 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:36:10 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	**split_fail_free(char **res, int i, char *map, char *clone)
 		i--;
 	}
 	free(res);
+	malloc_fail();
 	return (NULL);
 }
 
@@ -89,7 +90,7 @@ void	free_pipeline(void)
 	state()->pipeline = NULL;
 }
 
-void	free_and_exit(void)
+void	free_and_exit(int mute)
 {
 	t_state	*s;
 	int		exit_code;
@@ -108,6 +109,8 @@ void	free_and_exit(void)
 	free(s);
 	rl_free_line_state();
 	clear_history();
-	ft_printf(1, "exit\n");
+	// if (!mute)
+	// 	ft_printf(1, "exit\n");
 	exit(exit_code);
+	(void)mute;
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:56:03 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	execute_with_pipe(t_stage *stage, int i)
 			exit(1);
 		default_signals();
 		if (i > 0 && !stage->redir.in)
-			dup2(stage->left_pipe->read, STDIN_FILENO);
+			m_dup2(stage->left_pipe->read, STDIN_FILENO);
 		if (!stage->redir.out && i != pipeline_len(state()->pipeline) - 1)
-			dup2(stage->right_pipe->write, STDOUT_FILENO);
+			m_dup2(stage->right_pipe->write, STDOUT_FILENO);
 		close_all_pipes();
 		close_all_redir();
 		execute_command(stage->argv);
@@ -89,9 +89,6 @@ void	execute_multiple(int len)
 		if (pids[i] != -1)
 			waitpid(pids[i], &exit_code, 0);
 	free(pids);
-	init_signals();
-	if (state()->should_stop)
-		free_and_exit();
 	set_exit_code(error_code(exit_code));
 }
 
@@ -110,10 +107,7 @@ void	execute_commands(t_stage *pipeline)
 		if (!pipeline[0].redir.invalid)
 			exec_builtin(pipeline[0].argv);
 		close_redir(pipeline[0]);
-		init_signals();
 	}
 	else
-	{
 		execute_multiple(len);
-	}
 }

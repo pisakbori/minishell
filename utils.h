@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 14:00:51 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:30:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		str_equal(char *str1, char *str2);
 int		str_has(char *str, char c);
 void	ft_replace_chars(char *str, char *map, int c);
 int		ends_with_char(char *str, char c);
-int		chars_freq(char *str, char *chars);
 void	replace_special_chars(char *str);
 void	protect_special_chars(char *str);
 char	*skip_until(char quote_type, char *s);
@@ -46,7 +45,7 @@ int		set_error(char *text, int err_code, char *msg);
 int		set_mini_error(char *text, int err_code, char *msg);
 
 // free_utils
-void	free_and_exit(void);
+void	free_and_exit(int mute);
 void	free_split_arr(char **res);
 char	**split_fail_free(char **res, int i, char *map, char *clone);
 void	free_pipeline(void);
@@ -90,10 +89,11 @@ char	**handle_heredocs(char **stages);
 void	create_heredoc(int index, char *key1);
 void	remove_all_heredocs(int max_index);
 
-// malloc protected utils
+// error protected utils
 char	*m_ft_strdup(const char *s1);
 char	*m_ft_strjoin(char const *s1, char const *s2);
 char	*m_ft_itoa(int n);
 void	*m_ft_calloc(size_t count, size_t size);
+int		m_dup2(int oldfd, int newfd);
 
 #endif

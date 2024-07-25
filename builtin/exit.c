@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 21:02:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:29:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	jump_sign(char **str)
 
 int	on_non_numeric_arg(char *str)
 {
+	ft_printf(2, "exit\n");
+	print_err_prompt();
 	ft_printf(2, "exit: %s: numeric argument required\n", str);
 	return (-1);
 }
@@ -74,15 +76,15 @@ void	on_exit_b(t_exec e)
 		{
 			set_exit_code(2);
 			state()->should_stop = 1;
-			return ;
+			free_and_exit(1);
 		}
 		else
 			set_exit_code(code);
 	}
 	if (e.argc > 2)
 	{
-		ft_printf(2, "exit: too many arguments\n");
-		set_exit_code(1);
+		ft_printf(2, "exit\n");
+		set_mini_error("exit", 1, "too many arguments");
 		return ;
 	}
 }
