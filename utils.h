@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:05:17 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:25:21 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		chars_freq(char *str, char *chars);
 void	replace_special_chars(char *str);
 void	protect_special_chars(char *str);
 char	*skip_until(char quote_type, char *s);
+char	*ft_path_join(char *path, char *bin_name);
 
 // path utils
 char	*ft_path_join(char *path, char *bin_name);
@@ -73,11 +74,13 @@ int		start_variable(char *str, char *map, int i);
 char	**str_split(char *s, char *delim, char *skip);
 
 // redir
-char	*handle_redirs(char *str, int index);
 void	add_i_redir(int index, int mode, char *filename);
+void	add_o_redir(int index, int mode, char *fn);
 char	*get_filename(char *filename, int index);
+void	try_get_token(char *token, char *str, int *i);
 
 // parse
+
 void	set_pipes(char **cmd_set);
 void	set_and_remove_redirs(char **cmd_set);
 void	set_pipeline_argvs(char **cmd_set);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:06:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:27:38 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ typedef struct s_state
 
 char				*read_debug(char *prompt);
 
-// execution
-void				try_get_token(char *token, char *str, int *i);
-void				add_o_redir(int index, int mode, char *fn);
-void				add_i_redir(int index, int mode, char *fn);
+// redirection
+char				*handle_redirs(char *str, int index);
 
+// execution
 void				execute_commands(t_stage *pipeline);
 void				close_pipe(t_pipe *p);
 int					pipeline_len(t_stage *pipeline);
@@ -93,7 +92,9 @@ void				close_all_redir(void);
 void				handle_redir(t_stage *s);
 void				close_redir(t_stage stage);
 
+// set errors
 int					error_code(int ext);
+void				set_path_error(char *path);
 
 void				init_state(char **env);
 void				set_exit_code(int exit_code);
@@ -102,7 +103,6 @@ void				set_last_arg(char *arg);
 void				set_cwd(char *cwd);
 void				reset_state(void);
 
-void				print_err_prompt(void);
 // signal
 void				init_signals(void);
 void				default_signals(void);

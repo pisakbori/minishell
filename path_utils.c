@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 09:52:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:21:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,6 @@ int	is_exec(char *path)
 	else if (!(stat(path, &sb) == 0 && sb.st_mode & S_IXUSR))
 		state()->path_status = PERMISSION_DENIED;
 	return (state()->path_status == IS_VALID);
-}
-
-char	*ft_path_join(char *path, char *bin_name)
-{
-	char	*temp;
-	char	*full_path;
-
-	if (!ends_with_char(path, '/') && (bin_name[0] != '/'))
-	{
-		temp = ft_strjoin(path, "/");
-		full_path = ft_strjoin(temp, bin_name);
-		free(temp);
-	}
-	else
-		full_path = ft_strjoin(path, bin_name);
-	return (full_path);
-}
-
-void	set_path_error(char *path)
-{
-	t_path_status	status;
-
-	status = state()->path_status;
-	if (status == IS_DIR)
-		set_error(path, 126, "Is a directory");
-	else if (status == PERMISSION_DENIED)
-		set_error(path, 126, "Permission denied");
-	else if (status == CMD_NOT_FOUND)
-		set_error(path, 127, "command not found");
-	else if (status == NOT_EXIST)
-		set_error(path, 127, " No such file or directory");
-	if (status != IS_VALID)
-		exit(state()->exit_code);
 }
 
 char	*bin_using_path(char *paths, char *bin_name)

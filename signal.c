@@ -6,25 +6,20 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:30:32 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 11:06:36 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:32:32 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_prompt(void)
-{
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
-}
-
 void	handle_ctrl_c(int signum)
 {
 	(void)signum;
 	set_exit_code(130);
-	reset_prompt();
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
 }
 
 void	handle_heredoc_ctrl_c(int signum)
@@ -34,7 +29,6 @@ void	handle_heredoc_ctrl_c(int signum)
 	close(0);
 }
 
-// TODO:
 void	init_signals(void)
 {
 	signal(SIGINT, handle_ctrl_c);
