@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 10:01:02 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:24:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,14 @@ char	*expand_variables(char *str, char *skip)
 	char	*buff;
 
 	map = operation_map(str, NULL, skip);
-	i = 0;
+	i = -1;
 	j = 0;
 	res = NULL;
 	buff = ft_calloc(1, ft_strlen(str) + 1);
-	while (map[i])
+	while (map[++i])
 	{
 		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '\\')
-		{
-			buff[j++] = str[i];
-			i++;
-		}
+			buff[j++] = str[i++];
 		else if (!escape_dollar(str, i, map) && start_variable(str, map, i))
 		{
 			j = 0;
@@ -49,11 +46,9 @@ char	*expand_variables(char *str, char *skip)
 		}
 		else if (!escape_dollar(str, i, map))
 			buff[j++] = str[i];
-		i++;
 	}
-	res = ft_str_append(res, buff);
 	free(map);
-	return (res);
+	return (ft_str_append(res, buff));
 }
 
 void	arr_expand_variables(char **cmd_set)
