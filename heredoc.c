@@ -6,64 +6,80 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 19:44:31 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_separated_heredoc(char *symbol, char *arg)
+void	try_get_heredoc_token(char *token, char *str, int *i)
 {
-	return (str_equal(symbol, "<<") && is_redir_arg(arg));
+	ft_memset(token, 0, 3);
+	if (!str || !str[*i] || !str[*i + 1])
+		return ;
+	if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		token[0] = '<';
+		token[1] = '<';
+		*i = *i + 2;
+	}
 }
 
-void	add_separated_heredoc(char *arg, char *map, int i)
+int	name_to_keep_char(char *str, int i, char *map)
 {
-	create_heredoc(i, arg);
-	*map = SKIP;
-	*(map + 1) = SKIP;
-	free(arg);
+	int	res;
+
+	if (!str[i])
+		return (0);
+	res = str[i] != '>' && str[i] != '<' && !ft_is_space(str[i]);
+	res = res || map[i] != KEEP;
+	return (res);
 }
 
-void	add_unsplit_heredoc(char *str, char *map, int j, int i)
+void	set_and_create_heredoc(char *str, int *i, char *map, int index)
 {
-	char	*arg;
+	char	name[500];
+	int		k;
 
-	arg = get_arg_name(str);
-	create_heredoc(i, arg);
-	free(arg);
-	map[j] = SKIP;
+	while (str[*i] && ft_is_space(str[*i]) && map[*i] == KEEP)
+		*i = *i + 1;
+	k = 0;
+	while (name_to_keep_char(str, *i, map))
+	{
+		name[k] = str[*i];
+		*i = *i + 1;
+		k++;
+	}
+	name[k] = 0;
+	create_heredoc(index, name);
 }
 
 char	*parse_heredoc(char *str, int index)
 {
-	char	*map;
-	char	**parts;
-	char	**res;
-	char	*joined;
 	int		i;
+	int		j;
+	char	token[3];
+	char	*map;
+	char	*to_keep;
 
-	i = -1;
-	parts = str_split(str, " \t", "\"\'");
-	map = ft_calloc(ft_arr_len(parts) + 1, 1);
-	while (parts[++i])
+	i = 0;
+	j = 0;
+	if (!str || *str == 0)
+		return (m_ft_strdup(str));
+	to_keep = m_ft_calloc(ft_strlen(str) + 1, 1);
+	map = operation_map(str, NULL, "\'\"");
+	while (map && str[i])
 	{
-		if (is_separated_heredoc(parts[i], parts[i + 1]))
-		{
-			add_separated_heredoc(parts[i + 1], map + i, index);
-			i++;
-		}
-		else if (starts_with(parts[i], "<<"))
-			add_unsplit_heredoc(parts[i], map, i, index);
+		while (map[i + 1] && map[i] != KEEP)
+			to_keep[j++] = str[i++];
+		try_get_heredoc_token(token, str, &i);
+		if (token[0])
+			set_and_create_heredoc(str, &i, map, index);
 		else
-			map[i] = KEEP;
+			to_keep[j++] = str[i++];
 	}
-	res = keep_marked_only(map, parts);
 	free(map);
-	free_split_arr(parts);
-	joined = str_join_all(res, " ");
-	free_split_arr(res);
-	return (joined);
+	return (to_keep);
 }
 
 char	**handle_heredocs(char **cmd_set)
@@ -71,7 +87,7 @@ char	**handle_heredocs(char **cmd_set)
 	int		i;
 	char	**without_hd;
 
-	without_hd = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char *));
+	without_hd = m_ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(char *));
 	i = -1;
 	while (cmd_set[++i])
 		without_hd[i] = parse_heredoc(cmd_set[i], i);

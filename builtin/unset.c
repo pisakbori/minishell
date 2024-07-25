@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/26 22:17:22 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:53:07 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,30 @@
 void	delete_value(char *var_name)
 {
 	char	**env;
+	int		size;
 	int		i;
 	int		j;
-	int		size;
+	int		is_same_var;
 
 	if (!is_variable(var_name))
 		return ;
 	env = clone_str_arr(state()->env);
-	free_split_arr(state()->env);
 	size = ft_arr_len(env) - 1;
-	i = -1;
-	state()->env = ft_calloc(size + 1, sizeof(char *));
-	if (!state()->env)
-		exit(EXIT_FAILURE);
+	free_split_arr(state()->env);
+	state()->env = m_ft_calloc(size + 1, sizeof(char *));
 	j = 0;
-	while (++i <= size)
+	i = -1;
+	while (++i < size)
 	{
-		if (!(starts_with(env[i], var_name)
-				&& env[i][ft_strlen(var_name)] == '='))
-			state()->env[j++] = env[i];
+		is_same_var = starts_with(env[i], var_name);
+		is_same_var = is_same_var && (env[i][ft_strlen(var_name)] == '=');
+		if (!is_same_var)
+		{
+			state()->env[j] = m_ft_strdup(env[i]);
+			j++;
+		}
 	}
+	free_split_arr(env);
 }
 
 void	on_unset(t_exec e)
@@ -44,19 +48,12 @@ void	on_unset(t_exec e)
 	i = 0;
 	set_exit_code(0);
 	if (e.argc == 1)
-	{
-		ft_printf(1, "\n");
 		return ;
-	}
 	while (e.argv[++i])
 	{
 		if (is_valid_name(e.argv[i]))
 			delete_value(e.argv[i]);
 		else
-		{
-			set_exit_code(1);
-			print_prompt();
-			ft_printf(2, "unset: `%s': not a valid identifier\n", e.argv[i]);
-		}
+			set_exit_code(0);
 	}
 }

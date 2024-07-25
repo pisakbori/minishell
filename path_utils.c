@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/27 14:53:13 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:26:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,6 @@ int	is_exec(char *path)
 	else if (!(stat(path, &sb) == 0 && sb.st_mode & S_IXUSR))
 		state()->path_status = PERMISSION_DENIED;
 	return (state()->path_status == IS_VALID);
-}
-
-char	*ft_path_join(char *path, char *bin_name)
-{
-	char	*temp;
-	char	*full_path;
-
-	if (!ends_with_char(path, '/'))
-	{
-		temp = ft_strjoin(path, "/");
-		full_path = ft_strjoin(temp, bin_name);
-		free(temp);
-	}
-	else
-		full_path = ft_strjoin(path, bin_name);
-	return (full_path);
-}
-
-void	set_path_error(char *path)
-{
-	t_path_status	status;
-
-	status = state()->path_status;
-	if (status == IS_DIR)
-		set_error(path, 126, "Is a directory");
-	else if (status == PERMISSION_DENIED)
-		set_error(path, 126, "Permission denied");
-	else if (status == CMD_NOT_FOUND)
-		set_error(path, 127, "command not found");
-	else if (status == NOT_EXIST)
-		set_error(path, 127, " No such file or directory");
-	if (status != IS_VALID)
-		exit(state()->exit_code);
 }
 
 char	*bin_using_path(char *paths, char *bin_name)
@@ -83,6 +50,19 @@ char	*bin_using_path(char *paths, char *bin_name)
 	return (res);
 }
 
+char	*path_as_cmd(char *paths, char *bin_name)
+{
+	char	*res;
+
+	res = bin_using_path(paths, bin_name);
+	if (!res)
+	{
+		state()->path_status = CMD_NOT_FOUND;
+		set_path_error(bin_name);
+	}
+	return (res);
+}
+
 // TODO: if path: check if executable/exists/isdir/permission
 // if not path and no paths: CMD_NOT_FOUND
 // if not path and paths, check for each $path/cmd if exists/executable
@@ -90,25 +70,26 @@ char	*get_cmd_path(char *bin_name)
 {
 	char	*paths;
 	char	*res;
+	char	*pth;
 
 	paths = get_env_variable("PATH");
+	if (!paths)
+		paths = m_ft_strdup("/bin/");
 	res = NULL;
-	if (ft_strchr(bin_name, '/'))
+	if (str_equal(bin_name, "~"))
+		pth = get_env_variable("HOME");
+	else
+		pth = m_ft_strdup(bin_name);
+	if (ft_strchr(pth, '/'))
 	{
-		if (is_exec(bin_name))
-			res = ft_strdup(bin_name);
+		if (is_exec(pth))
+			res = m_ft_strdup(pth);
 		else
-			set_path_error(bin_name);
+			set_path_error(pth);
 	}
 	else
-	{
-		res = bin_using_path(paths, bin_name);
-		if (!res)
-		{
-			state()->path_status = CMD_NOT_FOUND;
-			set_path_error(bin_name);
-		}
-	}
+		res = path_as_cmd(paths, bin_name);
 	free(paths);
+	free(pth);
 	return (res);
 }

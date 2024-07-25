@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:48:34 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/03/08 18:14:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:14:59 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 	char	*current;
 
+	if (!s1)
+		return (NULL);
+	if (!set)
+		return (ft_strdup(s1));
 	current = (char *)s1;
 	end = 0;
 	start = 0;

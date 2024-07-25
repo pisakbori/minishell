@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:38:07 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 16:47:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:02:54 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,13 @@ int	jump_sign(char **str)
 	return (sign);
 }
 
-unsigned char	ft_a_to_uchar(char *str)
+int	on_non_numeric_arg(char *str)
+{
+	ft_printf(2, "exit: %s: numeric argument required\n", str);
+	return (-1);
+}
+
+int	ft_a_to_uchar(char *str)
 {
 	unsigned long long	res;
 	int					i;
@@ -35,24 +41,20 @@ unsigned char	ft_a_to_uchar(char *str)
 
 	res = 0;
 	i = 0;
+	if (!ft_strlen(str))
+		return (on_non_numeric_arg(str));
 	if (str_equal(str, "-9223372036854775808"))
 		return (0);
 	sign = jump_sign(&str);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-		{
-			ft_printf(2, "exit: %s: numeric argument required\n", str);
-			return (2);
-		}
+			return (on_non_numeric_arg(str));
 		res = res * 10 - '0' + str[i];
 		i++;
 	}
 	if (i >= 19 && res < 776627963145224191)
-	{
-		ft_printf(2, "exit: %s: numeric argument required\n", str);
-		return (2);
-	}
+		return (on_non_numeric_arg(str));
 	if (sign > 0)
 		return ((unsigned char)res);
 	else
@@ -61,20 +63,26 @@ unsigned char	ft_a_to_uchar(char *str)
 
 void	on_exit_b(t_exec e)
 {
-	unsigned char	code;
+	int	code;
 
 	if (e.argc == 1)
 		state()->should_stop = 1;
-	else if (e.argc > 2)
+	else
+	{
+		code = ft_a_to_uchar(e.argv[1]);
+		if (code == -1)
+		{
+			set_exit_code(2);
+			state()->should_stop = 1;
+			return ;
+		}
+		else
+			set_exit_code(code);
+	}
+	if (e.argc > 2)
 	{
 		ft_printf(2, "exit: too many arguments\n");
 		set_exit_code(1);
 		return ;
 	}
-	else
-	{
-		code = ft_a_to_uchar(e.argv[1]);
-		set_exit_code(code);
-	}
-	state()->should_stop = 1;
 }

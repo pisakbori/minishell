@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:28:10 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,56 @@ t_state	*state(void)
 	return (*get_state_ptr());
 }
 
-void	init_state(int argc, char const *argv[], char **env)
+void	inc_shell_level(void)
+{
+	char	*str_shlvl;
+	int		shlvl;
+
+	str_shlvl = get_env_variable("SHLVL");
+	shlvl = 0;
+	if (str_shlvl)
+		shlvl = ft_atoi(str_shlvl);
+	free(str_shlvl);
+	shlvl++;
+	str_shlvl = m_ft_itoa(shlvl);
+	set_env_variable("SHLVL", str_shlvl);
+	free(str_shlvl);
+}
+
+void	init_state(char **env)
 {
 	t_state	*state;
 	char	cwd[4096];
+	char	basic_path[61];
 
-	(void)argc;
-	(void)argv;
-	state = ft_calloc(1, sizeof(t_state));
+	state = m_ft_calloc(1, sizeof(t_state));
+	state->n_heredocs = 0;
 	state->path_status = IS_VALID;
 	state->exit_code = 0;
 	state->env = clone_str_arr(env);
 	getcwd(cwd, 4096);
-	state->cwd = ft_strdup(cwd);
+	state->cwd = m_ft_strdup(cwd);
 	state->backup_stdin = dup(STDIN_FILENO);
 	state->backup_stdout = dup(STDOUT_FILENO);
 	state->should_stop = 0;
 	state->pipeline = NULL;
-	state->input_closed_on_ctrl_c = 0;
 	*get_state_ptr() = state;
-}
-
-void	reset_stdio(void)
-{
-	dup2(state()->backup_stdin, STDIN_FILENO);
-	dup2(state()->backup_stdout, STDOUT_FILENO);
+	state->home_backup = get_env_variable("HOME");
+	inc_shell_level();
+	if (!*env)
+	{
+		ft_strlcpy(basic_path, "/usr/local/sbin:/usr/local/bin:", 61);
+		ft_strlcpy(basic_path + 31, "/usr/sbin:/usr/bin:/sbin:/bin", 30);
+		set_env_variable("PATH", basic_path);
+	}
 }
 
 void	reset_state(void)
 {
-	reset_stdio();
+	remove_all_heredocs(state()->n_heredocs);
+	dup2(state()->backup_stdin, STDIN_FILENO);
+	dup2(state()->backup_stdout, STDOUT_FILENO);
 	free_pipeline();
 	state()->path_status = IS_VALID;
-	remove_all_heredocs();
+	state()->n_heredocs = 0;
 }

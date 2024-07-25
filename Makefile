@@ -1,19 +1,21 @@
-CC				= cc 
+CC				= cc
 CFLAGS			= -Wall -Werror -Wextra
 HDR_FLAGS		= -I./libft -I./structs -I./builtin -I./
 LFLAGS			= -Llibft -lreadline
 RM				= rm -rf
 NAME			= minishell
 LIBFT			= libft/libft.a
-BLTIN_NAMES		= builtin_exec exit utils export unset env echo cd_utils cd pwd  
+BLTIN_NAMES		= builtin_exec builtin_u exit export export_u unset env echo cd pwd
 BUILTINS		= $(patsubst %, builtin/%, $(BLTIN_NAMES))
-FILES			= utils state path_utils free_utils split_utils\
-					syntax1 syntax2 syntax3\
-					execution execute_utils1 execute_utils2 main env_utils expand\
-					str_utils1 str_utils2 str_utils3 state_utils \
-					str_arr_utils1 str_arr_utils2 expand_utils error\
-					redir redir_utils1 redir_utils2 heredoc heredoc_utils parse\
-					signal\
+FILES			=   main state execution signal parse\
+					path_utils free_utils split_utils\
+					syntax_redirs syntax_quotes syntax_pipes\
+					execute_utils1 execute_utils2 env_utils state_utils\
+					str_utils1 str_utils2 str_utils3 str_arr_utils1\
+					expand expand_utils error\
+					heredoc heredoc_utils\
+					redirection redir_utils2 redir_utils1\
+					malloc_safe_u\
 					$(BUILTINS)
 SRC				= $(patsubst %, %.c, $(FILES))
 OBJS			= $(patsubst %.c, %.o, $(SRC))
@@ -42,4 +44,4 @@ fclean: clean
 re: fclean
 	make all
 
-.PHONY: all clean bonus re fclean
+.PHONY: all clean re fclean

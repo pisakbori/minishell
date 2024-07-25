@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:14:37 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:50:14 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>   //for strerror
@@ -71,11 +72,17 @@ typedef struct s_state
 	char			*last_arg;
 	char			*oldcwd;
 	char			*cwd;
+	char			*home_backup;
 	t_redir			*redirs;
 	int				backup_stdin;
 	int				backup_stdout;
-	int				input_closed_on_ctrl_c;
+	int				n_heredocs;
 }					t_state;
+
+char				*read_debug(char *prompt);
+
+// redirection
+char				*handle_redirs(char *str, int index);
 
 // execution
 void				execute_commands(t_stage *pipeline);
@@ -86,22 +93,22 @@ void				close_all_redir(void);
 void				handle_redir(t_stage *s);
 void				close_redir(t_stage stage);
 
+// set errors
 int					error_code(int ext);
+void				set_path_error(char *path);
+void				malloc_fail(void);
 
-void				init_state(int argc, char const *argv[], char **env);
+void				init_state(char **env);
 void				set_exit_code(int exit_code);
 t_state				*state(void);
 void				set_last_arg(char *arg);
 void				set_cwd(char *cwd);
 void				reset_state(void);
-void				reset_stdio(void);
 
-void				print_prompt(void);
 // signal
 void				init_signals(void);
 void				default_signals(void);
 void				let_signals_through(void);
 void				handle_heredoc_ctrl_c(int signum);
-void				handle_ctrl_c(int signum);
 
 #endif

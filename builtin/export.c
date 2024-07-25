@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/24 11:53:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,44 +18,18 @@ t_env_var	*get_name_value(char *env_line)
 	t_env_var	*res;
 	char		*dup;
 
-	dup = ft_strdup(env_line);
+	dup = m_ft_strdup(env_line);
 	eq = ft_strchr(dup, '=');
 	if (eq)
 		*eq = 0;
-	res = ft_calloc(1, sizeof(t_env_var));
-	res->name = ft_strdup(dup);
+	res = m_ft_calloc(1, sizeof(t_env_var));
+	res->name = m_ft_strdup(dup);
 	if (!eq)
-		res->value = ft_strdup("");
+		res->value = m_ft_strdup("");
 	else
-		res->value = ft_strdup(eq + 1);
+		res->value = m_ft_strdup(eq + 1);
 	free(dup);
 	return (res);
-}
-
-int	export_arg(char *arg)
-{
-	t_env_var	*v;
-	int			res;
-
-	v = get_name_value(arg);
-	if (!is_valid_name(v->name))
-		res = 0;
-	else
-	{
-		set_env_variable(v->name, v->value);
-		res = 1;
-	}
-	free(v->name);
-	free(v->value);
-	free(v);
-	return (res);
-}
-
-void	free_env_var(t_env_var *v)
-{
-	free(v->name);
-	free(v->value);
-	free(v);
 }
 
 void	print_all_exported(void)
@@ -74,7 +48,9 @@ void	print_all_exported(void)
 	{
 		env_var = get_name_value(copy[i]);
 		ft_printf(1, "declare -x %s=\"%s\"\n", env_var->name, env_var->value);
-		free_env_var(env_var);
+		free(env_var->name);
+		free(env_var->value);
+		free(env_var);
 	}
 	free_split_arr(copy);
 }
@@ -97,7 +73,7 @@ void	on_export(t_exec e)
 	{
 		if (!export_arg(e.argv[i]))
 		{
-			print_prompt();
+			print_err_prompt();
 			ft_printf(2, "export: `%s': not a valid identifier\n", e.argv[i]);
 			all_correct = 0;
 		}

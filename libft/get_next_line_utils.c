@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 11:20:44 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/04/29 17:23:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:27:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strchr_dupe(char *s, char c)
 	i = 0;
 	while (s && s[i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == (char)c)
 			return (s + i);
 		i++;
 	}
@@ -51,6 +51,10 @@ char	*collect_garbage(char **result_str, char **buff)
 		free(*result_str);
 		*result_str = 0;
 	}
-	free(*buff);
+	if (*buff)
+	{
+		free(*buff);
+		*buff = 0;
+	}
 	return (NULL);
 }

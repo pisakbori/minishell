@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/22 14:58:01 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:30:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void	navigate_to_oldpwd(void)
 	char	*dest_path;
 
 	dest_path = get_env_variable("OLDPWD");
-	if (!dest_path[0])
+	if (!dest_path)
 		set_mini_error("cd", 1, "OLDPWD not set");
 	else
+	{
 		ft_printf(1, "%s\n", dest_path);
+		navigate_to_path(dest_path);
+	}
 	free(dest_path);
 }
 
@@ -40,22 +43,19 @@ void	navigate(char *dest_path)
 		navigate_to_path(dest_path);
 }
 
-void	navigate_relative_home(char *path, char *home)
+int	should_i_go_home(t_exec e)
 {
-	char	*dest_path;
+	int	a_h;
 
-	dest_path = ft_strdup(home);
-	if (ft_strlen(path) > 1)
-	{
-		free(dest_path);
-		dest_path = ft_path_join(home, path + 1);
-	}
-	navigate(dest_path);
+	a_h = 0;
+	a_h = e.argc == 2;
+	a_h = a_h && (str_equal(e.argv[1], "~") || str_equal(e.argv[1], "--"));
+	a_h = a_h || e.argc == 1;
+	return (a_h);
 }
 
 void	on_cd(t_exec e)
 {
-	char	*dest_path;
 	char	*home;
 
 	if (e.argc > 2)
@@ -64,26 +64,19 @@ void	on_cd(t_exec e)
 		return ;
 	}
 	home = get_env_variable("HOME");
-	dest_path = NULL;
-	if ((e.argc == 1 || str_equal(e.argv[0], "~")) && home)
-		navigate(home);
-	else if (e.argc == 1 && !home)
+	if (should_i_go_home(e))
 	{
-		set_mini_error("cd", 1, "HOME not set");
-		return ;
+		if (home)
+			navigate(home);
+		else
+		{
+			set_mini_error("cd", 1, "HOME not set");
+			return ;
+		}
 	}
-	else if (e.argv[1][0] == '~')
-	{
-		dest_path = ft_path_join(home, e.argv[1] + 1);
-		navigate(dest_path);
-	}
-	else if (e.argv[1][0] == SKIP && ft_strlen(e.argv[1]) == 1)
-		return (navigate_to_oldpwd());
+	else if (str_equal(e.argv[1], "-"))
+		navigate_to_oldpwd();
 	else
-	{
-		dest_path = ft_strdup(e.argv[1]);
-		navigate(dest_path);
-	}
-	free(dest_path);
+		navigate(e.argv[1]);
 	free(home);
 }

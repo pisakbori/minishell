@@ -6,16 +6,11 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 18:35:52 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:08 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_prompt(void)
-{
-	ft_printf(1, "minishell: ");
-}
 
 void	execute_line(char *line)
 {
@@ -24,7 +19,7 @@ void	execute_line(char *line)
 
 	cmd_set = str_split(line, "|", "\"\'");
 	temp = cmd_set;
-	state()->pipeline = ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
+	state()->pipeline = m_ft_calloc(ft_arr_len(cmd_set) + 1, sizeof(t_stage));
 	cmd_set = handle_heredocs(temp);
 	free_split_arr(temp);
 	set_pipes(cmd_set);
@@ -35,16 +30,37 @@ void	execute_line(char *line)
 		execute_commands(state()->pipeline);
 }
 
+char	*read_debug(char *prompt)
+{
+	char	*temp;
+	char	*hd_line;
+
+	hd_line = NULL;
+	if (isatty(fileno(stdin)))
+		hd_line = readline(prompt);
+	else
+	{
+		hd_line = get_next_line(fileno(stdin));
+		temp = hd_line;
+		hd_line = ft_strtrim(hd_line, "\n");
+		free(temp);
+	}
+	return (hd_line);
+}
+
 // ctrl-d exits minishell
 int	main(int argc, char const *argv[], char **env)
 {
 	char	*line;
 
+	(void)argc;
+	(void)argv;
+	init_state(env);
 	init_signals();
-	init_state(argc, argv, env);
 	while (!state()->should_stop)
 	{
-		line = readline("minishell$ ");
+		reset_state();
+		line = read_debug("minishell$ ");
 		if (line && *line)
 		{
 			let_signals_through();
@@ -55,7 +71,6 @@ int	main(int argc, char const *argv[], char **env)
 		else if (!line)
 			free_and_exit();
 		free(line);
-		reset_state();
 	}
 	free_and_exit();
 	return (0);

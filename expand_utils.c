@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/06/30 18:19:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*operation_map(char *str, char *delim, char *skip)
 	int		j;
 
 	i = -1;
-	res = ft_calloc(1, ft_strlen(str) + 1);
-	while (str[++i])
+	res = m_ft_calloc(1, ft_strlen(str) + 1);
+	while (str && str[++i])
 	{
 		if (ft_strchr(skip, str[i]))
 		{
@@ -40,7 +40,7 @@ char	*operation_map(char *str, char *delim, char *skip)
 				res[j] = *next;
 			res[j] = SKIP;
 		}
-		else if (!str_has(delim, str[i]))
+		else if (delim == NULL || !str_has(delim, str[i]))
 			res[i] = KEEP;
 		else
 			res[i] = DELIMITER;
@@ -56,12 +56,12 @@ char	*expand_env_var_name(char *until, char *str, int j)
 
 	temp = *until;
 	*until = 0;
-	var_name = ft_strdup(str + j);
+	var_name = m_ft_strdup(str + j);
 	*until = temp;
 	if (str_equal(var_name, "?"))
-		value = ft_strdup(ft_itoa(state()->exit_code));
+		value = m_ft_itoa(state()->exit_code);
 	else if (str_equal(var_name, "_"))
-		value = ft_strdup(state()->last_arg);
+		value = m_ft_strdup(state()->last_arg);
 	else
 	{
 		value = get_env_variable(var_name);
@@ -75,13 +75,26 @@ int	start_variable(char *str, char *map, int i)
 {
 	int	res;
 	int	is_variable_start;
+	int	dollar_before_quote;
+	int	j;
 
 	res = 1;
 	is_variable_start = 0;
 	res = res && map[i] != '\'';
 	res = res && str[i] == '$';
+	if (i > 0)
+	{
+		j = 1;
+		while (str[i - j] && str[i - j] == '\\')
+			j++;
+		res = res && (j % 2 != 0);
+	}
 	res = res && str[i + 1];
 	is_variable_start = is_variable_start || ft_isalnum(str[i + 1]);
+	dollar_before_quote = (str[i + 1] == '\'');
+	dollar_before_quote = dollar_before_quote || (str[i + 1] == '"');
+	dollar_before_quote = dollar_before_quote && map[i] != '"';
+	is_variable_start = is_variable_start || dollar_before_quote;
 	is_variable_start = is_variable_start || str_has("_?", str[i + 1]);
 	res = res && is_variable_start;
 	return (res);
@@ -89,6 +102,8 @@ int	start_variable(char *str, char *map, int i)
 
 char	*end_variable_name(char *str)
 {
+	if ((*str == '"') || (*str == '\''))
+		return (str);
 	if (ft_isdigit(*str) || (*str == '?'))
 		return (str + 1);
 	else
@@ -101,7 +116,7 @@ int	append_variable_value(char **res, char **buff, char *str, int *i)
 	char	*until;
 
 	*res = ft_str_append(*res, *buff);
-	*buff = ft_calloc(1, ft_strlen(str) + 1);
+	*buff = m_ft_calloc(1, ft_strlen(str) + 1);
 	until = end_variable_name(str + *i + 1);
 	value = NULL;
 	if (until)
