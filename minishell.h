@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 10:45:34 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:08:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_state
 	int				backup_stdout;
 	int				n_heredocs;
 }					t_state;
+
+char				*read_debug(char *prompt);
 
 // execution
 void				try_get_token(char *token, char *str, int *i);

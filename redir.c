@@ -35,6 +35,12 @@ void	add_i_redir(int index, int mode, char *fn)
 	free(fn);
 }
 
+void	set_invalid_redir(int code, int index, char *msg)
+{
+	set_error("minishell", code, msg);
+	state()->pipeline[index].redir.invalid = 1;
+}
+
 void	add_o_redir(int index, int mode, char *fn)
 {
 	int		fd;
@@ -42,10 +48,7 @@ void	add_o_redir(int index, int mode, char *fn)
 
 	rights = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	if (!access(fn, F_OK) && access(fn, W_OK))
-	{
-		set_error("minishell", 1, "Permission denied");
-		state()->pipeline[index].redir.invalid = 1;
-	}
+		set_invalid_redir(1, index, "Permission denied");
 	else
 	{
 		fd = open(fn, O_CREAT | O_WRONLY | mode, rights);

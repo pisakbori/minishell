@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 11:02:11 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:08:23 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ static int	put_heredoc_line(char *hd_line, char *key, char *key1, int fd)
 	return (1);
 }
 
-char	*read_debug(void)
-{
-	char	*temp;
-	char	*hd_line;
-
-	hd_line = NULL;
-	if (isatty(fileno(stdin)))
-		hd_line = readline("> ");
-	else
-	{
-		hd_line = get_next_line(fileno(stdin));
-		temp = hd_line;
-		hd_line = ft_strtrim(hd_line, "\n");
-		free(temp);
-	}
-	return (hd_line);
-}
-
 void	create_heredoc(int index, char *key1)
 {
 	char	*key;
@@ -81,7 +63,7 @@ void	create_heredoc(int index, char *key1)
 	signal(SIGINT, handle_heredoc_ctrl_c);
 	while (1)
 	{
-		hd_line = read_debug();
+		hd_line = read_debug("> ");
 		if (!put_heredoc_line(hd_line, key, key1, fd))
 			break ;
 	}

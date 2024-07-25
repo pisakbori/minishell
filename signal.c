@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:30:32 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/21 17:48:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:06:36 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	reset_prompt(void)
 	rl_replace_line("", 1);
 	rl_redisplay();
 }
+
 void	handle_ctrl_c(int signum)
 {
 	(void)signum;
