@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:08:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 09:26:38 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:46:51 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	try_get_heredoc_token(char *token, char *str, int *i)
 {
-	ft_memset(token, 0, 8);
+	ft_memset(token, 0, 3);
 	if (!str || !str[*i] || !str[*i + 1])
 		return ;
 	if (str[*i] == '<' && str[*i + 1] == '<')
@@ -25,13 +25,40 @@ void	try_get_heredoc_token(char *token, char *str, int *i)
 	}
 }
 
+int	name_to_keep_char(char *str, int i, char *map)
+{
+	int	res;
+
+	if (!str[i])
+		return (0);
+	res = str[i] != '>' && str[i] != '<' && !ft_is_space(str[i]);
+	res = res || map[i] != KEEP;
+	return (res);
+}
+
+void	set_and_create_heredoc(char *str, int *i, char *map, int index)
+{
+	char	name[500];
+	int		k;
+
+	while (str[*i] && ft_is_space(str[*i]) && map[*i] == KEEP)
+		*i = *i + 1;
+	k = 0;
+	while (name_to_keep_char(str, *i, map))
+	{
+		name[k] = str[*i];
+		*i = *i + 1;
+		k++;
+	}
+	name[k] = 0;
+	create_heredoc(index, name);
+}
+
 char	*parse_heredoc(char *str, int index)
 {
 	int		i;
 	int		j;
-	int		k;
-	char	token1[8];
-	char	name[500];
+	char	token[3];
 	char	*map;
 	char	*to_keep;
 
@@ -44,33 +71,13 @@ char	*parse_heredoc(char *str, int index)
 	while (map && str[i])
 	{
 		while (map[i + 1] && map[i] != KEEP)
-		{
-			to_keep[j++] = str[i];
-			i++;
-		}
-		try_get_heredoc_token(token1, str, &i);
-		if (token1[0] && str_equal(token1, "<<"))
-		{
-			while (str[i] && ft_is_space(str[i]) && map[i] == KEEP)
-				i++;
-			k = 0;
-			while (str[i] && (map[i] != KEEP || (str[i] != '>' && str[i] != '<'
-						&& !ft_is_space(str[i]))))
-			{
-				name[k] = str[i];
-				i++;
-				k++;
-			}
-			name[k] = 0;
-			create_heredoc(index, name);
-		}
+			to_keep[j++] = str[i++];
+		try_get_heredoc_token(token, str, &i);
+		if (token[0])
+			set_and_create_heredoc(str, &i, map, index);
 		else
-		{
-			to_keep[j++] = str[i];
-			i++;
-		}
+			to_keep[j++] = str[i++];
 	}
-	to_keep[j] = 0;
 	free(map);
 	return (to_keep);
 }
