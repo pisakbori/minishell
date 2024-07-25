@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 14:35:44 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:08:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_state
 	int				n_heredocs;
 }					t_state;
 
+char				*read_debug(char *prompt);
+
 // execution
 void				try_get_token(char *token, char *str, int *i);
 void				add_o_redir(int index, int mode, char *fn);
@@ -93,13 +95,12 @@ void				close_redir(t_stage stage);
 
 int					error_code(int ext);
 
-void				init_state(int argc, char const *argv[], char **env);
+void				init_state(char **env);
 void				set_exit_code(int exit_code);
 t_state				*state(void);
 void				set_last_arg(char *arg);
 void				set_cwd(char *cwd);
 void				reset_state(void);
-void				reset_stdio(void);
 
 void				print_err_prompt(void);
 // signal

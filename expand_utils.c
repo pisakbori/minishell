@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:08:41 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 20:42:39 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:05:28 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ char	*operation_map(char *str, char *delim, char *skip)
 	int		j;
 
 	i = -1;
-	if (!str)
-		return (NULL);
 	res = ft_calloc(1, ft_strlen(str) + 1);
-	while (str[++i])
+	while (str && str[++i])
 	{
 		if (ft_strchr(skip, str[i]))
 		{

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:59:46 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 13:40:04 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:43:57 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	handle_redir(t_stage *s)
 	mode_t	rights;
 
 	rights = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	reset_stdio();
+	dup2(state()->backup_stdin, STDIN_FILENO);
+	dup2(state()->backup_stdout, STDOUT_FILENO);
 	if (s->redir.invalid)
 		return ;
 	if (s->redir.in)

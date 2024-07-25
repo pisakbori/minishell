@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 17:36:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:52:12 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,19 @@ char	*bin_using_path(char *paths, char *bin_name)
 	return (res);
 }
 
+char	*path_as_cmd(char *paths, char *bin_name)
+{
+	char	*res;
+
+	res = bin_using_path(paths, bin_name);
+	if (!res)
+	{
+		state()->path_status = CMD_NOT_FOUND;
+		set_path_error(bin_name);
+	}
+	return (res);
+}
+
 // TODO: if path: check if executable/exists/isdir/permission
 // if not path and no paths: CMD_NOT_FOUND
 // if not path and paths, check for each $path/cmd if exists/executable
@@ -108,14 +121,7 @@ char	*get_cmd_path(char *bin_name)
 			set_path_error(pth);
 	}
 	else
-	{
-		res = bin_using_path(paths, bin_name);
-		if (!res)
-		{
-			state()->path_status = CMD_NOT_FOUND;
-			set_path_error(bin_name);
-		}
-	}
+		res = path_as_cmd(paths, bin_name);
 	free(paths);
 	free(pth);
 	return (res);

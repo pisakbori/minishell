@@ -6,11 +6,21 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/23 20:33:59 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:24:19 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	escape_dollar(char *str, int i, char *map)
+{
+	int	res;
+
+	if (!str[i])
+		return (0);
+	res = map[i] != '\'' && str[i] == '\\' && str[i + 1] == '$';
+	return (res);
+}
 
 char	*expand_variables(char *str, char *skip)
 {
@@ -21,35 +31,24 @@ char	*expand_variables(char *str, char *skip)
 	char	*buff;
 
 	map = operation_map(str, NULL, skip);
-	i = 0;
+	i = -1;
 	j = 0;
 	res = NULL;
 	buff = ft_calloc(1, ft_strlen(str) + 1);
-	while (map[i])
+	while (map[++i])
 	{
 		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '\\')
-		{
-			buff[j++] = str[i];
-			i += 2;
-			continue ;
-		}
-		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '$')
-		{
-			i++;
-			continue ;
-		}
-		else if (start_variable(str, map, i))
+			buff[j++] = str[i++];
+		else if (!escape_dollar(str, i, map) && start_variable(str, map, i))
 		{
 			j = 0;
 			append_variable_value(&res, &buff, str, &i);
 		}
-		else
+		else if (!escape_dollar(str, i, map))
 			buff[j++] = str[i];
-		i++;
 	}
-	res = ft_str_append(res, buff);
 	free(map);
-	return (res);
+	return (ft_str_append(res, buff));
 }
 
 void	arr_expand_variables(char **cmd_set)
