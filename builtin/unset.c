@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:40:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 12:04:55 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:32:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ void	on_unset(t_exec e)
 		if (is_valid_name(e.argv[i]))
 			delete_value(e.argv[i]);
 		else
-		{
 			set_exit_code(0);
-			// print_err_prompt();
-			// ft_printf(2, "unset: `%s': not a valid identifier\n", e.argv[i]);
-		}
 	}
 }
