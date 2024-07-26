@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 10:25:04 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 16:14:43 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:41:01 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	escape_dollar(char *str, int i, char *map)
 	return (res);
 }
 
-char	*expand_variables(char *str, char *skip)
+char	*expand_variables(char *s, char *skip)
 {
 	char	*map;
 	char	*res;
@@ -30,22 +30,22 @@ char	*expand_variables(char *str, char *skip)
 	int		j;
 	char	*buff;
 
-	map = operation_map(str, NULL, skip);
+	map = operation_map(s, NULL, skip);
 	i = -1;
 	j = 0;
 	res = NULL;
-	buff = m_ft_calloc(1, ft_strlen(str) + 1);
+	buff = m_ft_calloc(1, ft_strlen(s) + 1);
 	while (map[++i])
 	{
-		if (str[i] && map[i] != '\'' && str[i] == '\\' && str[i + 1] == '\\')
-			buff[j++] = str[i++];
-		else if (!escape_dollar(str, i, map) && start_variable(str, map, i))
+		if (s[i] && map[i] != '\'' && s[i] == '\\' && s[i + 1] == '\\')
+			buff[j++] = s[i++];
+		else if (!escape_dollar(s, i, map) && start_variable(s, map, i))
 		{
 			j = 0;
-			append_variable_value(&res, &buff, str, &i);
+			append_variable_value(&res, &buff, s, &i);
 		}
-		else if (!escape_dollar(str, i, map))
-			buff[j++] = str[i];
+		else if (!escape_dollar(s, i, map))
+			buff[j++] = s[i];
 	}
 	free(map);
 	return (ft_str_append(res, buff));
