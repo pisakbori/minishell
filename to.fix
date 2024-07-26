@@ -1,29 +1,7 @@
 export  (sort no _)
 
 
-/bin/env | grep "_="
+/bin/env | grep "_=" update _ only in main process
 
 
-mkdir tmp_path_test1 tmp_path_test2
-printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c
-gcc tmp_path_test1/test1.c -o tmp_path_test1/a.out
-printf '#include <unistd.h>\nint main(){write(1, \"2\\n\", 2);}' > tmp_path_test2/test2.c
-gcc tmp_path_test2/test2.c -o tmp_path_test2/a.out
-export PATH=tmp_path_test1:tmp_path_test2
-a.out
-export PATH=tmp_path_test2:tmp_path_test1
-a.out
-/bin/rm -rf tmp_path_test1 tmp_path_test2
-
-env -i ./minishell
-cd /bin/
-ls
-
-echo "env | /usr/bin/wc -l" | env -i $MINISHELL_PATH"/"$EXECUTABLE
-echo $?
-
-echo "ls" | env -i $MINISHELL_PATH"/"$EXECUTABLE
-echo $?
-
-echo "unset PATH" | env -i $MINISHELL_PATH"/"$EXECUTABLE
-echo $?
+env -i ./minishell    dont have PATH

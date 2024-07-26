@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:40:15 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:50:14 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:10:28 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int					pipeline_len(t_stage *pipeline);
 t_pipe				invalid_pipe(void);
 void				close_all_redir(void);
 void				handle_redir(t_stage *s);
+int					set_redir_out(t_stage *s);
+int					set_redir_in(t_stage *s);
 void				close_redir(t_stage stage);
 
 // set errors
