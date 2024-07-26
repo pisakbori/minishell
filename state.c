@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 16:56:03 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 10:46:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	init_state(char **env)
 {
 	t_state	*state;
 	char	cwd[4096];
-	char	basic_path[61];
 
 	state = m_ft_calloc(1, sizeof(t_state));
 	state->n_heredocs = 0;
@@ -60,12 +59,6 @@ void	init_state(char **env)
 	*get_state_ptr() = state;
 	state->home_backup = get_env_variable("HOME");
 	inc_shell_level();
-	if (!*env)
-	{
-		ft_strlcpy(basic_path, "/usr/local/sbin:/usr/local/bin:", 61);
-		ft_strlcpy(basic_path + 31, "/usr/sbin:/usr/bin:/sbin:/bin", 30);
-		set_env_variable("PATH", basic_path);
-	}
 }
 
 void	reset_state(void)

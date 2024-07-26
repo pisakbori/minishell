@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:03:11 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:26:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_all_exported(void)
 	char		**env;
 	char		**copy;
 	int			i;
-	t_env_var	*env_var;
+	t_env_var	*en;
 
 	env = state()->env;
 	i = -1;
@@ -46,11 +46,12 @@ void	print_all_exported(void)
 	i = -1;
 	while (copy[++i])
 	{
-		env_var = get_name_value(copy[i]);
-		ft_printf(1, "declare -x %s=\"%s\"\n", env_var->name, env_var->value);
-		free(env_var->name);
-		free(env_var->value);
-		free(env_var);
+		en = get_name_value(copy[i]);
+		if (!str_equal(en->name, "_"))
+			ft_printf(1, "declare -x %s=\"%s\"\n", en->name, en->value);
+		free(en->name);
+		free(en->value);
+		free(en);
 	}
 	free_split_arr(copy);
 }

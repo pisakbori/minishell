@@ -5,3 +5,6 @@ export  (sort no _)
 
 
 env -i ./minishell    dont have PATH
+
+
+/bin/env | grep "_="

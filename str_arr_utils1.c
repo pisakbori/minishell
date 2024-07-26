@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:41:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:46:08 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:21:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void	print_array(char **arr)
 		ft_printf(1, "%s\n", arr[i]);
 }
 
-void	swap(char *s1, char *s2)
+void	swap(char **s1, char **s2)
 {
 	char	*temp;
 
-	temp = s1;
-	s1 = s2;
-	s2 = temp;
+	temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
 }
 
 void	ft_sort_alph(char **arr)
@@ -79,12 +79,9 @@ void	ft_sort_alph(char **arr)
 	len = ft_arr_len(arr);
 	while (++i < len - 1)
 	{
-		j = 0;
-		while (j < i - 1)
-		{
-			if (ft_strncmp(arr[j], arr[j + 1], ft_strlen(arr[i]) + 1) > 0)
-				swap(arr[j], arr[j + 1]);
-			j++;
-		}
+		j = -1;
+		while (++j < len - i - 1)
+			if (ft_strncmp(arr[j], arr[j + 1], ft_strlen(arr[j]) + 1) > 0)
+				swap(&arr[j], &arr[j + 1]);
 	}
 }

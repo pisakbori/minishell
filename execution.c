@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 22:11:23 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:51:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,9 @@ int	execute_with_pipe(t_stage *stage, int i)
 	pid1 = fork();
 	if (!pid1)
 	{
-		m_dup2(state()->backup_stdin, STDIN_FILENO);
-		m_dup2(state()->backup_stdout, STDOUT_FILENO);
 		if (stage->redir.invalid)
 			exit(1);
 		default_signals();
-		// ft_printf(2, "before %s\n", stage->argv[0]);
 		if (!set_redir_in(stage) && i > 0)
 			m_dup2(stage->left_pipe->read, STDIN_FILENO);
 		if (!set_redir_out(stage) && (i != pipeline_len(state()->pipeline) - 1))
@@ -101,12 +98,10 @@ void	execute_commands(t_stage *pipeline)
 
 	len = pipeline_len(pipeline);
 	last_arg_index = ft_arr_len(pipeline[len - 1].argv);
-	if (last_arg_index)
+	if (len == 1 && last_arg_index)
 		set_last_arg(pipeline[len - 1].argv[last_arg_index - 1]);
 	if (len == 1 && is_builtin(pipeline[0].argv[0]))
 	{
-		m_dup2(state()->backup_stdin, STDIN_FILENO);
-		m_dup2(state()->backup_stdout, STDOUT_FILENO);
 		set_redir_in(pipeline);
 		set_redir_out(pipeline);
 		if (!pipeline[0].redir.invalid)
