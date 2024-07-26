@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 11:58:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:28:33 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,4 @@ void	free_and_exit(int mute)
 	if (!mute)
 		ft_printf(1, "exit\n");
 	exit(exit_code);
-	(void)mute;
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 10:46:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:22:11 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	init_state(char **env)
 	state->pipeline = NULL;
 	*get_state_ptr() = state;
 	state->home_backup = get_env_variable("HOME");
+	set_env_variable("PWD", state->cwd);
 	inc_shell_level();
 }
 
