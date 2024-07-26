@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 13:28:33 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:49:15 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void	free_and_exit(int mute)
 	free_split_arr(s->env);
 	free(s->home_backup);
 	free(s);
-	rl_free_line_state();
 	clear_history();
+	rl_replace_line("", 1);
 	if (!mute)
 		ft_printf(1, "exit\n");
 	exit(exit_code);

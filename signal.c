@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:30:32 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 12:32:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:19:39 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	handle_heredoc_ctrl_c(int signum)
 {
 	(void)signum;
 	set_exit_code(130);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	state()->heredocs_ok = 0;
 	close(0);
 }
 
