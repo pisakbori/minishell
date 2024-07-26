@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 10:57:54 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:00:58 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,21 @@ char	*path_as_cmd(char *paths, char *bin_name)
 	return (res);
 }
 
+char	*handle_cmd_no_env(char *bin_name)
+{
+	char	*pth;
+	char	*res;
+
+	res = NULL;
+	pth = ft_path_join("./", bin_name);
+	if (is_exec(pth))
+		res = m_ft_strdup(pth);
+	else
+		set_path_error(pth);
+	free(pth);
+	return (res);
+}
+
 // TODO: if path: check if executable/exists/isdir/permission
 // if not path and no paths: CMD_NOT_FOUND
 // if not path and paths, check for each $path/cmd if exists/executable
@@ -74,8 +89,9 @@ char	*get_cmd_path(char *bin_name)
 
 	paths = get_env_variable("PATH");
 	if (!paths && !strchr(bin_name, '/'))
-		paths = m_ft_strdup("./");
+		return (handle_cmd_no_env(bin_name));
 	res = NULL;
+	pth = NULL;
 	if (str_equal(bin_name, "~"))
 		pth = get_env_variable("HOME");
 	else

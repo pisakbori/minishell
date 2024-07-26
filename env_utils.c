@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:32:07 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:59:27 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	replace_value(char *var_name, char *rule)
 {
 	t_state	*s;
 	int		i;
-	char	equal_in_right_place;
+	char	length_ok;
+	int		len;
 
 	if (!is_variable(var_name))
 		return ;
@@ -37,8 +38,10 @@ void	replace_value(char *var_name, char *rule)
 	i = -1;
 	while (s->env[++i])
 	{
-		equal_in_right_place = s->env[i][ft_strlen(var_name)] == '=';
-		if (starts_with(s->env[i], var_name) && equal_in_right_place)
+		len = ft_strlen(var_name);
+		length_ok = (ft_strlen(s->env[i]) - len > 0);
+		length_ok = length_ok && s->env[i][len] == '=';
+		if (starts_with(s->env[i], var_name) && length_ok)
 		{
 			free(s->env[i]);
 			s->env[i] = m_ft_strdup(rule);

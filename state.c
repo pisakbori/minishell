@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:47:59 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 15:03:24 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:44:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	init_state(char **env)
 	*get_state_ptr() = state;
 	state->home_backup = get_env_variable("HOME");
 	state->heredocs_ok = 1;
-	set_env_variable("PWD", state->cwd);
+	set_env_variable("PWD", cwd);
 	inc_shell_level();
 }
 
