@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:22:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 11:51:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:03:41 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,14 @@ void	execute_multiple(int len)
 	close_all_pipes();
 	close_all_redir();
 	while (pipeline[++i].argv)
+	{
 		if (pids[i] != -1)
+		{
 			waitpid(pids[i], &exit_code, 0);
+			if (error_code(exit_code) == 131)
+				ft_printf(1, "Quit: 3\n");
+		}
+	}
 	free(pids);
 	set_exit_code(error_code(exit_code));
 }
@@ -102,11 +108,13 @@ void	execute_commands(t_stage *pipeline)
 		set_last_arg(pipeline[len - 1].argv[last_arg_index - 1]);
 	if (len == 1 && is_builtin(pipeline[0].argv[0]))
 	{
-		set_redir_in(pipeline);
-		set_redir_out(pipeline);
 		if (!pipeline[0].redir.invalid)
+		{
+			set_redir_in(pipeline);
+			set_redir_out(pipeline);
 			exec_builtin(pipeline[0].argv);
-		close_redir(pipeline[0]);
+			close_redir(pipeline[0]);
+		}
 	}
 	else
 		execute_multiple(len);

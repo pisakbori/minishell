@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:19:24 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 19:30:21 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:23:53 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	set_path_error(char *path)
 
 	status = state()->path_status;
 	if (status == IS_DIR)
-		set_error(path, 126, "Is a directory");
+		set_mini_error(path, 126, "Is a directory");
 	else if (status == PERMISSION_DENIED)
-		set_error(path, 126, "Permission denied");
+		set_mini_error(path, 126, "Permission denied");
 	else if (status == CMD_NOT_FOUND)
-		set_error(path, 127, "command not found");
+		set_mini_error(path, 127, "command not found");
 	else if (status == NOT_EXIST)
-		set_error(path, 127, " No such file or directory");
+		set_mini_error(path, 127, "No such file or directory");
 	if (status != IS_VALID)
 		exit(state()->exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:18:57 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/29 12:41:30 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:53:26 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*handle_cmd_no_env(char *bin_name)
 	if (is_exec(pth))
 		res = m_ft_strdup(pth);
 	else
-		set_path_error(pth);
+		set_path_error(bin_name);
 	free(pth);
 	return (res);
 }
@@ -88,7 +88,7 @@ char	*get_cmd_path(char *bin_name)
 	char	*pth;
 
 	paths = get_env_variable("PATH");
-	if (!paths && !strchr(bin_name, '/') && ft_strlen(bin_name))
+	if (!paths && !strchr(bin_name, '/'))
 		return (handle_cmd_no_env(bin_name));
 	res = NULL;
 	pth = NULL;
