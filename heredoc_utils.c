@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:01:03 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/29 11:11:16 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:34:25 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,7 @@ void	create_heredoc(int index, char *key1)
 	let_signals_through();
 	close(fd);
 	m_dup2(state()->backup_stdin, STDIN_FILENO);
-	if (state()->heredocs_ok)
-		add_i_redir(index, DOUBLE, heredoc_name);
-	else
-		free(heredoc_name);
+	add_i_redir(index, DOUBLE, heredoc_name);
 }
 
 void	remove_all_heredocs(int max_index)
