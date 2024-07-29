@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:05:00 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/24 21:30:09 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:26:05 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ void	navigate_to_path(char *path)
 {
 	char	cwd[4096];
 
-	chdir(path);
-	getcwd(cwd, 4096);
-	set_cwd(cwd);
-	set_exit_code(0);
+	if (!chdir(path))
+	{
+		getcwd(cwd, 4096);
+		set_cwd(cwd);
+		set_exit_code(0);
+	}
 }
 
 void	navigate_to_oldpwd(void)

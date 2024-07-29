@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:39:08 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 13:26:41 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:48:58 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,21 @@ void	set_exit_code(int exit_code)
 
 void	set_oldpwd(char *oldcwd)
 {
-	set_env_variable("OLDPWD", oldcwd);
+	char	*path_copy;
+
+	path_copy = m_ft_strdup(oldcwd);
+	set_env_variable("OLDPWD", path_copy);
 	free(state()->oldcwd);
-	state()->oldcwd = m_ft_strdup(oldcwd);
+	state()->oldcwd = path_copy;
 }
 
 void	set_cwd(char *cwd)
 {
+	char	*path_copy;
+
+	path_copy = m_ft_strdup(cwd);
 	set_oldpwd(state()->cwd);
 	free(state()->cwd);
-	state()->cwd = m_ft_strdup(cwd);
-	set_env_variable("PWD", cwd);
+	state()->cwd = path_copy;
+	set_env_variable("PWD", path_copy);
 }

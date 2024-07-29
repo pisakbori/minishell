@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:28:42 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 17:59:27 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 10:45:52 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ void	replace_value(char *var_name, char *rule)
 		return ;
 	s = state();
 	i = -1;
+	len = ft_strlen(var_name);
 	while (s->env[++i])
 	{
-		len = ft_strlen(var_name);
 		length_ok = (ft_strlen(s->env[i]) - len > 0);
 		length_ok = length_ok && s->env[i][len] == '=';
 		if (starts_with(s->env[i], var_name) && length_ok)
 		{
 			free(s->env[i]);
 			s->env[i] = m_ft_strdup(rule);
+			return ;
 		}
 	}
 }
