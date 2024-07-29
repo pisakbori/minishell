@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:18:30 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 19:30:32 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:20:38 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		set_error(char *text, int err_code, char *msg);
 int		set_mini_error(char *text, int err_code, char *msg);
 
 // free_utils
-void	free_and_exit(int mute);
+void	free_and_exit(void);
 void	free_split_arr(char **res);
 char	**split_fail_free(char **res, int i, char *map, char *clone);
 void	free_pipeline(void);

@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:20:52 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/29 16:13:12 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:21:08 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_pipeline(void)
 	state()->pipeline = NULL;
 }
 
-void	free_and_exit(int mute)
+void	free_and_exit(void)
 {
 	t_state	*s;
 	int		exit_code;
@@ -109,7 +109,9 @@ void	free_and_exit(int mute)
 	free(s);
 	clear_history();
 	rl_replace_line("", 1);
-	if (!mute)
+	if (!exit_code)
 		ft_printf(1, "exit\n");
+	else
+		ft_printf(2, "exit\n");
 	exit(exit_code);
 }

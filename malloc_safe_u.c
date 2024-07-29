@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 13:21:33 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 19:30:10 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:20:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	m_dup2(int oldfd, int newfd)
 	{
 		ft_printf(2, "dup2 failed: %d\n", errno);
 		set_exit_code(errno);
-		free_and_exit(1);
+		free_and_exit();
 	}
 	return (res);
 }

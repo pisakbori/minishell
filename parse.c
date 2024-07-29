@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:58:49 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/25 19:30:04 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:20:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	pipe_fail(void)
 {
 	ft_printf(2, "Pipe fail.");
 	state()->exit_code = EPIPE;
-	free_and_exit(0);
+	free_and_exit();
 }
 
 void	set_pipes(char **cmd_set)

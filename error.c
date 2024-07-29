@@ -6,7 +6,7 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:19:24 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/29 16:23:53 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:20:29 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ void	malloc_fail(void)
 {
 	ft_printf(2, "Malloc fail.");
 	state()->exit_code = ENOMEM;
-	free_and_exit(1);
+	free_and_exit();
 }
