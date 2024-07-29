@@ -6,11 +6,24 @@
 /*   By: bpisak-l <bpisak-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:25:14 by bpisak-l          #+#    #+#             */
-/*   Updated: 2024/07/26 15:11:18 by bpisak-l         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:29:37 by bpisak-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_leftovers(char **cmd_set)
+{
+	int	i;
+
+	i = -1;
+	while (cmd_set[++i])
+	{
+		free(cmd_set[i]);
+		free(state()->pipeline[i].redir.in);
+	}
+	free(cmd_set);
+}
 
 void	execute_line(char *line)
 {
@@ -32,7 +45,7 @@ void	execute_line(char *line)
 			execute_commands(state()->pipeline);
 	}
 	else
-		free_split_arr(cmd_set);
+		free_leftovers(cmd_set);
 }
 
 char	*read_debug(char *prompt)
